@@ -1,0 +1,168 @@
+/* 1. VARIABILE ȘI RESET */
+:root {
+    --verde: #4caf50;
+    --portocaliu: #ff9800;
+    --rosu: #f44336;
+    --albastru: #2196f3;
+    --fundal: #f8f9fa;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--fundal);
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 2. ECRANELE FULL-SCREEN (Login & Rol) */
+.overlay-full {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--fundal);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.ascuns {
+    display: none !important;
+}
+
+.card-login, .card-selectie {
+    background: white;
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+}
+
+/* 3. INPUTS ȘI BUTOANE */
+input {
+    display: block;
+    width: 100%;
+    margin: 15px 0;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 15px;
+    outline: none;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: var(--albastru);
+}
+
+button {
+    background-color: var(--portocaliu);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+button:hover {
+    background-color: #e68a00;
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+}
+
+/* 4. SELECȚIE ROL (Elev/Profesor) */
+.optiuni {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.rol-box {
+    padding: 30px;
+    border: 2px solid #eee;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    flex: 1;
+    background: white;
+}
+
+.rol-box:hover {
+    border-color: var(--verde);
+    background-color: #f8fff8;
+    transform: translateY(-5px);
+}
+
+/* 5. GRID-UL DE CLASE ȘI MATERII */
+#grid-principal {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 60px auto; /* Spațiu pentru eventualul header */
+}
+
+.clasa-card {
+    background: white;
+    border-radius: 25px;
+    padding: 40px 20px;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.clasa-card:hover {
+    transform: scale(1.05);
+}
+
+.verde { background-color: #e8f5e9; border-bottom: 8px solid var(--verde); }
+.portocaliu { background-color: #fff3e0; border-bottom: 8px solid var(--portocaliu); }
+.rosu { background-color: #ffebee; border-bottom: 8px solid var(--rosu); }
+.albastru { background-color: #e3f2fd; border-bottom: 8px solid var(--albastru); }
+
+/* 6. CONTAINER QUIZ */
+#quiz-container {
+    background: white;
+    margin: 100px auto;
+    padding: 40px;
+    border-radius: 30px;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+#optiuni {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#status {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    font-weight: bold;
+    z-index: 1001;
+}

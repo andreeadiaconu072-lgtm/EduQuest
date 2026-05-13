@@ -1,0 +1,43 @@
+<body>
+    <link rel="stylesheet" href="style.css">
+    <div id="ecran-login" class="overlay-full">
+        <div class="card-login">
+            <h2>EduQuest Login</h2>
+            <input type="text" placeholder="Utilizator">
+            <input type="password" placeholder="Parolă">
+            <button onclick="arataSelectieRol()">Intră în cont</button>
+        </div>
+    </div>
+
+    <div id="ecran-rol" class="overlay-full ascuns">
+        <div class="card-selectie">
+            <h1>Cine ești?</h1>
+            <div class="optiuni">
+                <div class="rol-box" onclick="setRol('elev')">Sunt Elev</div>
+                <div class="rol-box" onclick="setRol('profesor')">Sunt Profesor</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="interfata-principala" class="ascuns">
+        <div id="app">
+            <h1 id="titlu">EduQuest</h1>
+            
+            <div id="grid-principal"></div>
+
+            <div id="quiz-container" class="ascuns">
+                <p id="intrebare-text">Se încarcă întrebarea...</p>
+                <div id="optiuni"></div>
+            </div>
+
+            <div id="mascota-container">
+                <div id="bula-text" class="ascuns"></div>
+                <img id="cat-img" src="pisiuc_neutru.png" alt="Mascota Pisiuc">
+            </div>
+
+            <div id="status">🔥 Streak: <span id="streak">0</span></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>

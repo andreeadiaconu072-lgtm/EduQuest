@@ -1,0 +1,14 @@
+{
+    "materii":
+    {
+        "Matematica":
+        [
+          {
+            "intrebare": "Se considera numarul 364 = 100 x 3 + 10 x a + 4. Care este valoarea lui a?",
+            "optiuni": ["a) 5", "b) 4", "c) 3", "d) 6"],
+            "corect": 3,
+            "explicatie": "364 = 300 + 60 + 4, deci a = 6."
+         }
+        ]
+    }
+}
