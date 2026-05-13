@@ -1,14 +1,90 @@
 {
-    "materii":
-    {
-        "Matematica":
-        [
+  "materii": {
+    "Matematica": [
+      {
+        "intrebare": "Se considera numarul 364 = 100 x 3 + 10 x a + 4. Care este valoarea lui a?",
+        "optiuni": ["a) 5", "b) 4", "c) 3", "d) 6"],
+        "corect": 3,
+        "explicatie": "364 = 300 + 60 + 4, deci a = 6."
+      },
+      {
+        "intrebare": "Dacă ai 3 mere și mai primești încă 2, câte mere ai în total?",
+        "optiuni": ["a) 3", "b) 4", "c) 5", "d) 6"],
+        "corect": 2,
+        "explicatie": "3 + 2 = 5 mere."
+      },
+      {
+        "intrebare": "Care număr este mai mare?",
+        "optiuni": ["a) 2", "b) 7", "c) 4", "d) 1"],
+        "corect": 1,
+        "explicatie": "Dintre toate variantele, 7 reprezintă cantitatea cea mai mare."
+      },
+      {
+        "intrebare": "Ce formă geometrică are o roată de mașină?",
+        "optiuni": ["a) Pătrat", "b) Triunghi", "c) Cerc", "d) Dreptunghi"],
+        "corect": 2,
+        "explicatie": "Roata are formă rotundă, deci este un cerc."
+      },
+      {
+        "intrebare": "Câte degete are o mână?",
+        "optiuni": ["a) 10", "b) 5", "c) 4", "d) 2"],
+        "corect": 1,
+        "explicatie": "O mână obișnuită are 5 degete."
+      },
+      {
+        "intrebare": "Calculează rezultatul: 5 + 3 - 7 + 2 + 4 - 6 = ?",
+        "tip": "input",
+        "raspuns_corect": "1",
+        "explicatie": "5+3=8, 8-7=1, 1+2=3, 3+4=7, 7-6=1."
+      },
+      {
+        "intrebare": "Calculează rezultatul: 2 + 2 + 2 + 2 = ?",
+        "tip": "input",
+        "raspuns_corect": "8",
+        "explicatie": "Adunăm numărul 2 de patru ori și obținem 8."
+      },
+      {
+        "intrebare": "Calculează rezultatul: 10 - 5 - 2 = ?",
+        "tip": "input",
+        "raspuns_corect": "3",
+        "explicatie": "10-5=5, iar 5-2=3."
+      },
+      {
+        "intrebare": "Calculează rezultatul: 1 + 9 - 4 + 3 = ?",
+        "tip": "input",
+        "raspuns_corect": "9",
+        "explicatie": "1+9=10, 10-4=6, 6+3=9."
+      }
+    ],
+    "Stiinte": [
+      {
+        "id": "parti_planta_capsuna",
+        "imagine": "Planta_Capsuna.jpg",
+        "tip": "matching_label",
+        "piese": [
           {
-            "intrebare": "Se considera numarul 364 = 100 x 3 + 10 x a + 4. Care este valoarea lui a?",
-            "optiuni": ["a) 5", "b) 4", "c) 3", "d) 6"],
-            "corect": 3,
-            "explicatie": "364 = 300 + 60 + 4, deci a = 6."
-         }
-        ]
-    }
+            "nume": "Rădăcina",
+            "mesaj_pisiuc": "Rădăcina: Fixează planta bine în pământ și absoarbe apa și substanțele hrănitoare de care aceasta are nevoie."
+          },
+          {
+            "nume": "Tulpina",
+            "mesaj_pisiuc": "Tulpina: Susține frunzele și florile și ajută apa să circule de la rădăcină spre restul plantei."
+          },
+          {
+            "nume": "Frunza",
+            "mesaj_pisiuc": "Frunza: Folosește lumina soarelui pentru a prepara hrana plantei și o ajută pe aceasta să respire."
+          },
+          {
+            "nume": "Floarea",
+            "mesaj_pisiuc": "Floarea: Are culori vii pentru a atrage insectele și este partea care ajută planta să producă semințe."
+          },
+          {
+            "nume": "Fructul",
+            "mesaj_pisiuc": "Fructul: Crește în locul florii și are rolul de a proteja semințele până când acestea sunt gata să fie plantate."
+          }
+        ],
+        "eroare_pisiuc": "Off, mai încearcă!"
+      }
+    ]
+  }
 }

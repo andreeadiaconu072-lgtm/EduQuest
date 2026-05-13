@@ -1,11 +1,27 @@
-// 1. SELECTARE ELEMENTE GLOBALE
+// ELEMENTE GLOBALE
 const catImg = document.getElementById('cat-img');
 const bulaText = document.getElementById('bula-text');
 const gridPrincipal = document.getElementById('grid-principal');
 const quizContainer = document.getElementById('quiz-container');
 const containerPlanta = document.getElementById('exercitiu-vizual-container');
 
-// 2. NAVIGARE (LOGIN -> ROL -> INTERFAȚĂ)
+let indexIntrebareCurenta = 0;
+let dateQuiz = [];
+let dateProiect = { materii: { Matematica: [], Stiinte: [] } };
+
+// ÎNCĂRCARE DATE DIN JSON
+async function incarcaDate() {
+    try {
+        const raspuns = await fetch('materii.json');
+        dateProiect = await raspuns.json();
+        console.log("Date încărcate cu succes!");
+    } catch (err) {
+        console.error("Eroare la încărcarea fișierului JSON:", err);
+    }
+}
+incarcaDate();
+
+// NAVIGARE
 function arataSelectieRol() {
     document.getElementById('ecran-login').classList.add('ascuns');
     document.getElementById('ecran-rol').classList.remove('ascuns');
@@ -23,7 +39,6 @@ function setRol(rol) {
     }
 }
 
-// 3. GENERARE CARDURI CLASE (Inspirat din 4307.jpg)
 function afiseazaSelectieClase() {
     gridPrincipal.classList.remove('ascuns');
     quizContainer.classList.add('ascuns');
@@ -46,7 +61,6 @@ function afiseazaSelectieClase() {
     });
 }
 
-// 4. GENERARE MATERII
 function afiseazaMateriile(numeClasa) {
     gridPrincipal.innerHTML = '';
     const materii = [
@@ -59,49 +73,89 @@ function afiseazaMateriile(numeClasa) {
         card.className = `clasa-card ${m.clasaCSS}`;
         card.innerHTML = `<h3>${m.nume}</h3>`;
         card.onclick = () => {
-            gridPrincipal.classList.add('ascuns');
             if (numeClasa === 'Clasa 0' && m.nume === 'Stiinte') {
+                gridPrincipal.classList.add('ascuns');
                 containerPlanta.classList.remove('ascuns');
                 schimbaStareMascota('vesel', 'Uită-te la plantă! Poți numi părțile ei?');
             } else {
-                quizContainer.classList.remove('ascuns');
-                afiseazaIntrebarea();
+                pornesteQuiz(m.nume); 
             }
         };
         gridPrincipal.appendChild(card);
     });
 }
 
-// 5. LOGICĂ QUIZ (MATE)
-async function afiseazaIntrebarea() {
-    try {
-        const raspuns = await fetch('materii.json');
-        const date = await raspuns.json();
-        const q = date.materii.Matematica[0];
-
-        document.getElementById('intrebare-text').innerText = q.intrebare;
-        const divOptiuni = document.getElementById('optiuni');
-        divOptiuni.innerHTML = '';
-
-        q.optiuni.forEach((text, index) => {
-            const btn = document.createElement('button'); 
-            btn.innerText = text;
-            btn.onclick = () => {
-                if(index === q.corect) {
-                    schimbaStareMascota('vesel', `Bravo! ${q.explicatie}`);
-                } else {
-                    schimbaStareMascota('trist', 'Off... mai încearcă!');
-                }
-            };
-            divOptiuni.appendChild(btn); 
-        });
-    } catch (e) { console.error("Eroare JSON:", e); }
+// LOGICĂ QUIZ
+function pornesteQuiz(materie) {
+    gridPrincipal.classList.add('ascuns');
+    quizContainer.classList.remove('ascuns');
+    
+    indexIntrebareCurenta = 0;
+    // Accesăm direct categoria din obiectul "materii"
+    dateQuiz = dateProiect.materii[materie] || [];
+    
+    if (dateQuiz.length > 0) {
+        afiseazaIntrebare();
+    } else {
+        document.getElementById('intrebare-text').innerText = "Ups! Nu am găsit întrebări pentru " + materie;
+        document.getElementById('optiuni').innerHTML = '';
+    }
 }
 
-// 6. MASCOTA PISIUC (Animație și Mesaje)
-function schimbaStareMascota(stare, mesaj) {
+function afiseazaIntrebare() {
+    const data = dateQuiz[indexIntrebareCurenta]; 
+    const containerText = document.getElementById('intrebare-text');
+    const containerOptiuni = document.getElementById('optiuni');
+    
+    containerText.innerText = data.intrebare; 
+    containerOptiuni.innerHTML = ''; 
+
+    // Verificăm tipul de întrebare (Grilă sau Input)
+    if (data.optiuni) {
+        data.optiuni.forEach((varianta, index) => {
+            const buton = document.createElement('button');
+            buton.innerText = varianta;
+            buton.onclick = () => verificareRaspuns(index === data.corect, data.explicatie); 
+            containerOptiuni.appendChild(buton);
+        });
+    } else if (data.tip === "input") {
+        const inputDiv = document.createElement('div');
+        inputDiv.className = "input-container";
+        inputDiv.innerHTML = `
+            <input type="text" id="raspuns-utilizator" placeholder="Scrie rezultatul...">
+            <button id="btn-verifica">Trimite</button>
+        `;
+        containerOptiuni.appendChild(inputDiv);
+
+        document.getElementById('btn-verifica').onclick = () => {
+            const valoare = document.getElementById('raspuns-utilizator').value.trim();
+            verificareRaspuns(valoare === data.raspuns_corect, data.explicatie);
+        };
+    }
+}
+
+function verificareRaspuns(isCorect, explicatie) {
+    if (isCorect) {
+        schimbaStareMascota('vesel', "Bravo! " + explicatie);
+        setTimeout(() => {
+            indexIntrebareCurenta++;
+            if (indexIntrebareCurenta < dateQuiz.length) {
+                afiseazaIntrebare();
+            } else {
+                document.getElementById('intrebare-text').innerText = "Ai terminat toate întrebările!";
+                document.getElementById('optiuni').innerHTML = '<button onclick="resetInterfata()">Înapoi la meniu</button>';
+            }
+        }, 3500);
+    } else {
+        schimbaStareMascota('trist', "Mai încearcă! Uită-te cu atenție.");
+    }
+}
+
+// PISIUC
+function schimbaStareMascota(stare, mesaj = "Să învățăm împreună!") {
     if (stare === 'vesel') catImg.src = 'pisiuc_vesel.png';
     else if (stare === 'trist') catImg.src = 'pisiuc_trist.png';
+    else catImg.src = 'pisiuc_neutru.png';
 
     if(bulaText) {
         bulaText.innerText = mesaj;
@@ -109,7 +163,17 @@ function schimbaStareMascota(stare, mesaj) {
     }
 
     setTimeout(() => {
-        catImg.src = 'pisiuc_neutru.png';
         if(bulaText) bulaText.classList.add('ascuns');
-    }, 3000); 
+        catImg.src = 'pisiuc_neutru.png';
+    }, 4000); 
+}
+
+// RESETARE
+function resetInterfata() {
+    quizContainer.classList.add('ascuns');
+    if(containerPlanta) containerPlanta.classList.add('ascuns');
+    gridPrincipal.classList.remove('ascuns');
+    if(bulaText) bulaText.classList.add('ascuns');
+    schimbaStareMascota('neutru');
+    afiseazaSelectieClase();
 }

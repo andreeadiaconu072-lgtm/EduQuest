@@ -166,3 +166,95 @@ button:hover {
     font-weight: bold;
     z-index: 1001;
 }
+
+/* 7. MASCOTA PISIUC (Stânga, fără umbră și mic) */
+#cat-img {
+    width: 200px; /* Dublat de la 100px */
+    height: auto;
+    pointer-events: auto;
+    filter: none;
+    transition: transform 0.3s ease; /* Mică animație la apariție */
+}
+
+#mascota-container {
+    position: fixed; 
+    bottom: 30px; /* Puțin mai sus ca să nu fie lipit de margine */
+    left: 30px;      
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+#bula-text {
+    background: white;
+    border: 2px solid var(--portocaliu);
+    border-radius: 20px;
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    max-width: 200px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    pointer-events: auto;
+}
+
+/* Triunghiul bulei - îl mutăm și pe el să arate spre stânga */
+#bula-text::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 20%;      /* Mutat de la 50% spre stânga */
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid var(--portocaliu);
+}
+
+/* 8. AJUSTĂRI PENTRU EXERCIȚIUL VIZUAL (ȘTIINȚE) */
+#exercitiu-vizual-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+#image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#image-wrapper img {
+    width: 100%;
+    max-width: 600px; /* Sau cât de mare vrei să fie planta */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.game-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+.drop-zone {
+    position: absolute;
+    width: 65px; 
+    height: 65px;
+    border: 3px dashed var(--albastru);
+    border-radius: 50%;
+    background: rgba(33, 150, 243, 0.1);
+    transform: translate(-50%, -50%); /* Centrează zona pe coordonatele top/left */
+    transition: 0.3s;
+}
+
+.drop-zone.correct {
+    border: 3px solid var(--verde);
+    background: rgba(76, 175, 80, 0.2);
+}
