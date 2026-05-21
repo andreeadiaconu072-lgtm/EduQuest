@@ -75,6 +75,25 @@
         <div id="app">
             
             <div id="grid-principal"></div>
+            <div id="sub-meniuri-matematica" class="ascuns" style="flex-direction: column; gap: 20px; align-items: center; margin-top: 30px; width: 100%;">
+                
+                <div class="math-section-container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <button class="btn-math-main" onclick="toggleSubMath('sub-algebra')">Algebră</button>
+                    <div id="sub-algebra" class="math-sub-container" style="display: none; gap: 15px;">
+                        <button class="btn-math-sub" onclick="incarcaContinut('algebra', 'teorie')">Teorie</button>
+                        <button class="btn-math-sub" onclick="incarcaContinut('algebra', 'exercitii')">Exerciții</button>
+                    </div>
+                </div>
+
+                <div class="math-section-container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <button class="btn-math-main" onclick="toggleSubMath('sub-geometrie')">Geometrie</button>
+                    <div id="sub-geometrie" class="math-sub-container" style="display: none; gap: 15px;">
+                        <button class="btn-math-sub" onclick="incarcaContinut('geometrie', 'teorie')">Teorie</button>
+                        <button class="btn-math-sub" onclick="incarcaContinut('geometrie', 'exercitii')">Exerciții</button>
+                    </div>
+                </div>
+
+            </div>
 
             <div id="quiz-container" class="ascuns">
                 <div id="intrebare-card">
