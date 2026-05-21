@@ -55,7 +55,6 @@ body {
     gap: 20px;
 }
 
-/* Insigna Utilizator (Dreapta Sus) */
 .user-badge {
     display: flex;
     align-items: center;
@@ -78,7 +77,6 @@ body {
     font-size: 16px;
 }
 
-/* Container pentru Streak în Header */
 .streak-container {
     background: white;
     padding: 8px 15px;
@@ -88,7 +86,6 @@ body {
     color: var(--text-inchis);
 }
 
-/* Zona Butonului Acasă Coborât */
 .nav-actions {
     padding: 0 30px;
     margin-bottom: 10px;
@@ -138,7 +135,6 @@ body {
     width: 90%;
 }
 
-/* Inputs de Login */
 input {
     display: block;
     width: 100%;
@@ -155,7 +151,6 @@ input:focus {
     border-color: var(--albastru);
 }
 
-/* Buton General (Login / Trimitere) */
 .card-login button, .input-container button {
     background-color: var(--portocaliu);
     color: white;
@@ -175,7 +170,6 @@ input:focus {
     box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
 }
 
-/* Stil pentru linkul de comutare Login / Register */
 .schimba-ecran {
     margin-top: 20px;
     font-size: 0.95rem;
@@ -192,7 +186,6 @@ input:focus {
     text-decoration: underline;
 }
 
-/* Selecție Rol Boxuri */
 .optiuni-roluri {
     display: flex;
     gap: 20px;
@@ -217,31 +210,32 @@ input:focus {
 }
 
 /* ==========================================================================
-   4. INTERFAȚĂ PRINCIPALĂ (GRID DE CLASE ȘI MATERII)
+   4. INTERFAȚĂ PRINCIPALĂ (GRID AUTO-RESPONSIVE CLASE 0-12)
    ========================================================================== */
 #grid-principal {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
-    padding: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 30px;
     max-width: 1200px;
-    margin: 20px auto; 
+    margin: 0 auto;
 }
 
 .clasa-card {
     background: white;
     border-radius: 25px;
-    padding: 40px 20px;
+    padding: 35px 20px;
     text-align: center;
     color: var(--text-inchis);
     font-weight: bold;
     box-shadow: 0 8px 15px rgba(0,0,0,0.05);
     cursor: pointer;
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .clasa-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .verde { background-color: #e8f5e9; border-bottom: 8px solid var(--verde); }
@@ -269,7 +263,6 @@ input:focus {
     margin-bottom: 25px;
 }
 
-/* Opțiunile de tip Butoane Grilă */
 #optiuni {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -277,19 +270,6 @@ input:focus {
     margin-top: 20px;
 }
 
-#optiuni button {
-    background-color: white;
-    color: var(--text-inchis);
-    border: 2px solid #eee;
-    padding: 15px 20px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.2s ease;
-}
-
-/* Specificitate ridicată pentru butoanele de opțiuni din interiorul Quiz-ului */
 #optiuni .btn-optiune-quiz {
     background-color: white !important;
     color: var(--text-inchis) !important;
@@ -317,7 +297,6 @@ input:focus {
     transform: none !important;
 }
 
-/* Bara de Navigare de la Baza Chestionarului */
 .quiz-nav-baza {
     display: flex;
     justify-content: space-between;
@@ -546,9 +525,20 @@ input:focus {
     background: rgba(33, 150, 243, 0.1);
     transform: translate(-50%, -50%); 
     transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--text-inchis);
+    text-align: center;
 }
 
 .drop-zone.correct {
     border: 3px solid var(--verde);
     background: rgba(76, 175, 80, 0.2);
+    width: auto; /* Permite extinderea cercului dacă textul e mai lung */
+    height: auto;
+    padding: 8px 12px;
+    border-radius: 12px;
 }
