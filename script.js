@@ -331,3 +331,87 @@ function resetInterfata() {
     schimbaStareMascota('neutru');
     afiseazaSelectieClase();
 }
+
+
+// ==========================================
+// 6. LOGICĂ DRAG AND DROP (EXERCIȚIU VIZUAL)
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    initDragAndDrop();
+});
+
+function initDragAndDrop() {
+    const draggables = document.querySelectorAll(".draggable");
+    const dropZones = document.querySelectorAll(".drop-zone");
+
+    // 1. Evenimente pentru etichetele care pot fi trase (Draggable)
+    draggables.forEach(draggable => {
+        draggable.addEventListener("dragstart", (e) => {
+            // Salvăm tipul componentei trase (ex: "radacina", "tulpina")
+            e.dataTransfer.setData("text/plain", draggable.dataset.part);
+            draggable.classList.add("dragging");
+        });
+
+        draggable.addEventListener("dragend", () => {
+            draggable.classList.remove("dragging");
+        });
+    });
+
+    // 2. Evenimente pentru zonele de plasare (Drop Zones)
+    dropZones.forEach(zone => {
+        // Obligatoriu: prevenim comportamentul default pentru a permite drop-ul
+        zone.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            zone.classList.add("hovered");
+        });
+
+        zone.addEventListener("dragleave", () => {
+            zone.classList.remove("hovered");
+        });
+
+        zone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            zone.classList.remove("hovered");
+
+            // Preluăm piesa care a fost aruncată aici
+            const dataPart = e.dataTransfer.getData("text/plain");
+            const expectedPart = zone.dataset.accept;
+
+            // Verificăm dacă piesa se potrivește cu zona corectă
+            if (dataPart === expectedPart) {
+                // Găsim elementul HTML tras ca să-l mutăm fizic în zonă
+                const originalElement = document.querySelector(`.draggable[data-part="${dataPart}"]`);
+                
+                if (originalElement) {
+                    // Schimbăm stilul zonei pentru a arăta că e completată corect
+                    zone.innerText = originalElement.innerText;
+                    zone.classList.add("corect");
+                    
+                    // Ascundem eticheta originală din listă deoarece a fost plasată cu succes
+                    originalElement.style.visibility = "hidden";
+                    
+                    // Recompensă vizuală de la Pisiuc!
+                    schimbaStareMascota('vesel', `Ai plasat corect componenta: ${originalElement.innerText}! ✨`);
+                    
+                    // Verificăm dacă jocul s-a terminat
+                    verificaFinalizareJoc();
+                }
+            } else {
+                // Greșeală - Pisiuc te atenționează
+                schimbaStareMascota('trist', "Nu e locul potrivit! Mai încearcă.");
+            }
+        });
+    });
+}
+
+function verificaFinalizareJoc() {
+    const toateZonele = document.querySelectorAll(".drop-zone");
+    const zoneCorecte = document.querySelectorAll(".drop-zone.corect");
+    
+    // Dacă numărul de zone completate corect este egal cu numărul total de zone
+    if (toateZonele.length === zoneCorecte.length) {
+        setTimeout(() => {
+            schimbaStareMascota('vesel', "Felicitări! Ai identificat toate părțile plantei! 🍓🎉");
+        }, 1500);
+    }
+}
