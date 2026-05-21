@@ -26,7 +26,6 @@ async function incarcaDate() {
     try {
         const raspuns = await fetch('materii.json');
         dateProiect = await raspuns.json();
-        console.log("Datele din JSON au fost încărcate cu succes!");
     } catch (err) {
         console.error("Eroare la încărcarea fișierului JSON:", err);
     }
@@ -76,15 +75,10 @@ function proceseazaLogin() {
 
     if (gasit) {
         utilizatorLogat = userInjected;
-        const headerName = document.getElementById('header-username');
-        const profileBadge = document.getElementById('user-profile-badge');
-        const ecranLogin = document.getElementById('ecran-login');
-        const ecranRol = document.getElementById('ecran-rol');
-        
-        if (headerName) headerName.innerText = userInjected;
-        if (profileBadge) profileBadge.classList.remove('ascuns');
-        if (ecranLogin) ecranLogin.classList.add('ascuns');
-        if (ecranRol) ecranRol.classList.remove('ascuns');
+        document.getElementById('header-username').innerText = userInjected;
+        document.getElementById('user-profile-badge').classList.remove('ascuns');
+        document.getElementById('ecran-login').classList.add('ascuns');
+        document.getElementById('ecran-rol').classList.remove('ascuns');
     } else { 
         alert("Nume utilizator sau parolă incorectă!"); 
     }
@@ -92,35 +86,24 @@ function proceseazaLogin() {
 
 function deschideModalCont() {
     if (!utilizatorLogat) return;
-    const mUser = document.getElementById('modal-username');
-    const mRol = document.getElementById('modal-rol');
-    const mCont = document.getElementById('modal-cont');
-    
-    if (mUser) mUser.innerText = utilizatorLogat;
-    if (mRol) mRol.innerText = rolLogat === 'profesor' ? "Profesor Coordonator 🎓" : "Elev Explorator 🚀";
-    if (mCont) mCont.classList.remove('ascuns');
+    document.getElementById('modal-username').innerText = utilizatorLogat;
+    document.getElementById('modal-rol').innerText = rolLogat === 'profesor' ? "Profesor Coordonator 🎓" : "Elev Explorator 🚀";
+    document.getElementById('modal-cont').classList.remove('ascuns');
 }
 
-function inchideModalCont() { 
-    const mCont = document.getElementById('modal-cont');
-    if (mCont) mCont.classList.add('ascuns'); 
-}
+function inchideModalCont() { document.getElementById('modal-cont').classList.add('ascuns'); }
 
 // ==========================================
 // 3. NAVIGARE PRINCIPALĂ & CLASE
 // ==========================================
 function setRol(rol) {
     rolLogat = rol;
-    const ecranRol = document.getElementById('ecran-rol');
-    const interfataPr = document.getElementById('interfata-principala');
-    
-    if (ecranRol) ecranRol.classList.add('ascuns');
-    if (interfataPr) interfataPr.classList.remove('ascuns');
+    document.getElementById('ecran-rol').classList.add('ascuns');
+    document.getElementById('interfata-principala').classList.remove('ascuns');
     
     if (rol === 'profesor') {
         schimbaStareMascota('vesel', 'Bun venit, domnule Profesor!');
-        const dashProf = document.getElementById('dashboard-profesor');
-        if (dashProf) dashProf.classList.remove('ascuns');
+        document.getElementById('dashboard-profesor').classList.remove('ascuns');
         afiseazaClaseProfesor();
     } else {
         schimbaStareMascota('vesel', 'Salut, micule explorator! Alege o clasă.');
@@ -205,10 +188,11 @@ function afiseazaMateriile(numeClasa) {
                 const meniuMath = document.getElementById('sub-meniuri-matematica');
                 if (meniuMath) {
                     const btnMainB = meniuMath.querySelector('.math-section-container:nth-child(2) .btn-math-main');
-                    const btnTeorieAlgebra = meniuMath.querySelector('#sub-algebra .btn-math-sub:nth-child(1)');
-                    const btnTeorieGeometrie = meniuMath.querySelector('#sub-geometrie .btn-math-sub:nth-child(1)');
-                    const btnExercitiiAlgebra = meniuMath.querySelector('#sub-algebra .btn-math-sub:nth-child(2)');
-                    const btnExercitiiGeometrie = meniuMath.querySelector('#sub-geometrie .btn-math-sub:nth-child(2)');
+                    
+                    const btnTeorieAlgebra = document.getElementById('btn-teorie-alg');
+                    const btnTeorieGeometrie = document.getElementById('btn-teorie-geom');
+                    const btnExercitiiAlgebra = document.getElementById('btn-ex-alg');
+                    const btnExercitiiGeometrie = document.getElementById('btn-ex-geom');
 
                     if (btnExercitiiAlgebra) btnExercitiiAlgebra.onclick = () => {
                         meniuMath.classList.add("ascuns"); meniuMath.style.display = 'none'; pornesteQuiz(`clasa_${clasaNumar}_algebra_exercitii`);
@@ -365,7 +349,6 @@ function resetInterfata() {
 // 5. DRAG AND DROP / MENIURI INITIALIZATION
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    // Configurare Drag and Drop
     document.querySelectorAll(".draggable").forEach(d => {
         d.addEventListener("dragstart", e => { e.dataTransfer.setData("text/plain", d.dataset.part); d.classList.add("dragging"); });
         d.addEventListener("dragend", () => d.classList.remove("dragging"));
@@ -387,7 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function toggleSubMath(id) { ['sub-algebra', 'sub-geometrie'].forEach(i => { let el=document.getElementById(i); if(el) el.style.display='none'; }); if(document.getElementById(id)) document.getElementById(id).style.display = 'flex'; }
-function incarcaContinut(r, t) { schimbaStareMascota('vesel', `Ai ales ${r} - ${t}.`); }
 
 // ==========================================
 // 6. SISTEMUL DE MANAGEMENT PENTRU PROFESORI ȘI ELEVI
