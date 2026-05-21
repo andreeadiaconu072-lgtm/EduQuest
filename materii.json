@@ -30,6 +30,78 @@
         "eroare_pisiuc": "Off, mai încearcă!"
       }
     ],
+    "clasa_1_4_matematica": [
+      { "intrebare": "Cât este rezultatul înmulțirii: 4 × 5?", "optiuni": ["a) 9", "b) 20", "c) 16", "d) 25"], "corect": 1, "explicatie": "4 adunat de 5 ori este 20." },
+      { "intrebare": "Dacă din 100 de lei cheltuiți 35 de lei, câți lei vă rămân?", "optiuni": ["a) 75 lei", "b) 55 lei", "c) 65 lei", "d) 45 lei"], "corect": 2, "explicatie": "100 - 35 = 65." },
+      { "intrebare": "Care este numărul cu 12 mai mare decât 48?", "optiuni": ["a) 60", "b) 50", "c) 58", "d) 56"], "corect": 0, "explicatie": "48 + 12 = 60." },
+      { "intrebare": "Câte minute are o oră întreagă?", "optiuni": ["a) 50", "b) 24", "c) 60", "d) 100"], "corect": 2, "explicatie": "O oră este formată din 60 de minute." },
+      { "intrebare": "Cât face 24 împărțit la 3?", "optiuni": ["a) 6", "b) 7", "c) 8", "d) 9"], "corect": 2, "explicatie": "Deoarece 3 × 8 = 24." },
+      { "intrebare": "Alegeți numărul par dintre următoarele variante:", "optiuni": ["a) 13", "b) 27", "c) 42", "d) 55"], "corect": 2, "explicatie": "Numerele pare se termină în 0, 2, 4, 6, 8. 42 este par." },
+      { "intrebare": "Un triunghi are toate cele 3 laturi egale cu 6 cm. Perimetrul său este:", "optiuni": ["a) 12 cm", "b) 18 cm", "c) 24 cm", "d) 16 cm"], "corect": 1, "explicatie": "6 + 6 + 6 = 18 cm." },
+      { "intrebare": "Care este predecesorul numărului 300?", "optiuni": ["a) 301", "b) 290", "c) 299", "d) 200"], "corect": 2, "explicatie": "Predecesorul este numărul imediat mai mic: 300 - 1 = 299." },
+      { "intrebare": "Cât este sfertul numărului 40?", "optiuni": ["a) 20", "b) 10", "c) 5", "d) 15"], "corect": 1, "explicatie": "Sfertul înseamnă împărțirea la 4: 40 : 4 = 10." },
+      { "intrebare": "Rezultatul calculului 7 × 8 este:", "optiuni": ["a) 54", "b) 56", "c) 64", "d) 49"], "corect": 1, "explicatie": "Conform tablei înmulțirii, 7 × 8 = 56." }
+    ],
+    "clasa_1_4_stiinte": [
+      { "intrebare": "Care este cea mai apropiată stea de planeta Pământ?", "optiuni": ["a) Luna", "b) Soarele", "c) Marte", "d) Polară"], "corect": 1, "explicatie": "Soarele este steaua aflată în centrul sistemului nostru solar." },
+      { "intrebare": "În ce stare de agregare se află gheața?", "optiuni": ["a) Lichidă", "b) Gazoasă", "c) Solidă", "d) Plasmă"], "corect": 2, "explicatie": "Prin înghețare, apa lichidă devine solidă." },
+      { "intrebare": "Ce organ folosesc peștii pentru a respira sub apă?", "optiuni": ["a) Plămâni", "b) Branhii", "c) Pielea", "d) Înotătoarele"], "corect": 1, "explicatie": "Branhiile extrag oxigenul direct din apă." },
+      { "intrebare": "Câte anotimpuri are un an calendaristic?", "optiuni": ["a) 2", "b) 12", "c) 4", "d) 6"], "corect": 2, "explicatie": "Primăvara, vara, toamna și iarna." },
+      { "intrebare": "Care dintre următoarele animale este mamifer?", "optiuni": ["a) Șarpele", "b) Balena", "c) Vulturul", "d) Broasca"], "corect": 1, "explicatie": "Balena dă naștere puii vii și îi hrănește cu lapte." },
+      { "intrebare": "Din ce cauză se produce succesiunea zi-noapte?", "optiuni": ["a) Mișcarea Pământului în jurul Soarelui", "b) Mișcarea de rotație a Pământului în jurul axei sale", "c) Mișcarea Lunii", "d) Norii"], "corect": 1, "explicatie": "Rotația completă durează 24h." },
+      { "intrebare": "Ce substanță verde din frunze ajută la realizarea fotosintezei?", "optiuni": ["a) Apă", "b) Oxigen", "c) Clorofilă", "d) Sânge"], "corect": 2, "explicatie": "Clorofila captează razele solare." },
+      { "intrebare": "Care este singurul satelit natural al Pământului?", "optiuni": ["a) Luna", "b) Soarele", "c) Jupiter", "d) Stația Spațială"], "corect": 0, "explicatie": "Luna orbitează în jurul Pământului." },
+      { "intrebare": "Ce gaz eliminat de plante este esențial pentru respirația oamenilor?", "optiuni": ["a) Dioxid de carbon", "b) Oxigen", "c) Azot", "d) Hidrogen"], "corect": 1, "explicatie": "Plantele produc oxigen prin fotosinteză." },
+      { "intrebare": "Sunetul se propagă cel mai greu sau deloc în:", "optiuni": ["a) Aer", "b) Apă", "c) Vid (spațiu gol)", "d) Fier"], "corect": 2, "explicatie": "Sunetul are nevoie de materie pentru a circula." }
+    ],
+    "clasa_5_romana_exercitii": [
+      { "intrebare": "În propoziția 'Pisica doarme.', cuvântul 'pisica' este ca parte de vorbire:", "optiuni": ["a) Verb", "b) Substantiv", "c) Pronume", "d) Adjectiv"], "corect": 1, "explicatie": "Denumește un animal, deci este substantiv." },
+      { "intrebare": "Care dintre următoarele este un substantiv propriu?", "optiuni": ["a) bucurești", "b) Timișoara", "c) munte", "d) băiat"], "corect": 1, "explicatie": "Numele de orașe se scriu cu literă mare." },
+      { "intrebare": "Alegeți adjectivul din enunțul: 'Cartea interesantă este pe masă.'", "optiuni": ["a) cartea", "b) este", "c) interesantă", "d) masă"], "corect": 2, "explicatie": "Arată o însușire a substantivului carte." },
+      { "intrebare": "Care este sinonimul cuvântului 'frecvent'?", "optiuni": ["a) rar", "b) des", "c) uneori", "d) niciodată"], "corect": 1, "explicatie": "Frecvent înseamnă de des întâlnit sau repetat." },
+      { "intrebare": "Identificați numărul de silabe al cuvântului 'matematică':", "optiuni": ["a) 4", "b) 5", "c) 6", "d) 3"], "corect": 1, "explicatie": "ma-te-ma-ti-că (5 silabe)." },
+      { "intrebare": "Antonimul cuvântului 'generos' este:", "optiuni": ["a) bun", "b) zgârcit", "c) darnic", "d) vesel"], "corect": 1, "explicatie": "Antonimul înseamnă cuvânt cu sens opus." },
+      { "intrebare": "Cuvintele 'bancă' (instituție) și 'bancă' (obiect de șezut) sunt:", "optiuni": ["a) Sinonime", "b) Antonime", "c) Omonime", "d) Paronime"], "corect": 2, "explicatie": "Se scriu și se pronunță la fel, dar au înțelesuri complet diferite." },
+      { "intrebare": "Care este pluralul corect al substantivului 'chibris'?", "optiuni": ["a) chibrituri", "b) chibrite", "c) chibriți", "d) chibrit"], "corect": 0, "explicatie": "Forma corectă de plural este chibrituri." },
+      { "intrebare": "În propoziția 'Ei aleargă.', cuvântul 'Ei' este:", "optiuni": ["a) Substantiv", "b) Pronume personal", "c) Adjectiv", "d) Numeral"], "corect": 1, "explicatie": "Înlocuiește numele unor persoane la persoana a III-a, plural." },
+      { "intrebare": "Care din următoarele cuvinte conține un diftong?", "optiuni": ["a) ac", "b) seară", "c) liceu (triftong)", "d) frig"], "corect": 1, "explicatie": "'ea' din 'seară' este un diftong." }
+    ],
+    "clasa_6_romana_exercitii": [
+      { "intrebare": "Care este modul verbului în propoziția: 'Citește lecția!'?", "optiuni": ["a) Indicativ", "b) Imperativ", "c) Conjunctiv", "d) Infinitiv"], "corect": 1, "explicatie": "Exprimă un ordin sau un îndemn, deci este mod imperativ." },
+      { "intrebare": "Pronumele personal din enunțul 'Mie mi-a plăcut cartea.' este la cazul:", "optiuni": ["a) Nominativ", "b) Acuzativ", "c) Dativ", "d) Genitiv"], "corect": 2, "explicatie": "Răspunde la întrebarea 'Cui?'. Cucul Dativ." },
+      { "intrebare": "Care este funcția sintactică a cuvântului subliniat: 'Băiatul <u>scrie</u>.'?", "optiuni": ["a) Subiect", "b) Predicat verbal", "c) Atribut", "d) Complement"], "corect": 1, "explicatie": "Arată acțiunea făcută de subiect." },
+      { "intrebare": "În propoziția 'Casa <u>bunicului</u> e mare.', cuvântul subliniat este în cazul:", "optiuni": ["a) Nominativ", "b) Acuzativ", "c) Dativ", "d) Genitiv"], "corect": 3, "explicatie": "Exprimă posesia (A cui casă?), specific cazului Genitiv." },
+      { "intrebare": "Alegeți forma scrisă corect:", "optiuni": ["a) noștrii", "b) copiii", "c) miniștrii", "d) b și c sunt corecte"], "corect": 3, "explicatie": "'Copiii' și 'miniștrii' se scriu cu doi 'i' în aceste forme articulate." },
+      { "intrebare": "Verbele la modul infinitiv se recunosc după prepoziția specifică:", "optiuni": ["a) să", "b) a", "c) de", "d) pentru"], "corect": 1, "explicatie": "Exemplu: a citi, a scrie, a învăța." },
+      { "intrebare": "Ce funcție sintactică are cuvântul format din substantiv în: 'Oamenii muncesc.'?", "optiuni": ["a) Predicat", "b) Subiect", "c) Atribut", "d) Complement"], "corect": 1, "explicatie": "Arată cine face acțiunea." },
+      { "intrebare": "Care este adjectivul posesiv corect în combinația: 'cărțile ... (ale mele)'?", "optiuni": ["a) mele", "b) mei", "c) meu", "d) noastre"], "corect": 0, "explicatie": "Acordul se face în gen, număr și caz: cărțile mele." },
+      { "intrebare": "În propoziția 'Ea este <u>inteligentă</u>.', cuvântul subliniat face parte dintr-un:", "optiuni": ["a) Predicat verbal", "b) Predicat nominal (nume predicativ)", "c) Atribut", "d) Subiect"], "corect": 1, "explicatie": "Verbul 'este' e copulativ, iar 'inteligentă' e nume predicativ." },
+      { "intrebare": "Identificați numeralul cardinal din opțiuni:", "optiuni": ["a) primul", "b) trei", "c) dublu", "d) amândoi"], "corect": 1, "explicatie": "Exprimă un număr abstract: trei." }
+    ],
+    "clasa_7_romana_exercitii": [
+      { "intrebare": "Partea secundară de propoziție care determină un substantiv se numește:", "optiuni": ["a) Complement", "b) Atribut", "c) Subiect", "d) Predicat"], "corect": 1, "explicatie": "Atributul determină un substantiv sau un înlocuitor al acestuia." },
+      { "intrebare": "În propoziția 'L-am văzut <u>pe Andrei</u>.', funcția sintactică a cuvântului subliniat este:", "optiuni": ["a) Complement direct", "b) Complement indirect", "c) Atribut", "d) Subiect"], "corect": 0, "explicatie": "Răspunde la întrebarea 'Pe cine am văzut?'." },
+      { "intrebare": "Care dintre următoarele moduri este nepersonal (nepredicativ)?", "optiuni": ["a) Indicativ", "b) Gerunziu", "c) Imperativ", "d) Conjunctiv"], "corect": 1, "explicatie": "Gerunziul nu se conjugă pe persoane și nu are funcție de predicat." },
+      { "intrebare": "Propoziția formată doar din subiect și predicat se numește:", "optiuni": ["a) Dezvoltată", "b) Simplă", "c) Compusă", "d) Principală"], "corect": 1, "explicatie": "Definiția propoziției simple." },
+      { "intrebare": "În enunțul 'Merg <u>la școală</u>.', structura subliniată este un:", "optiuni": ["a) Complement circumstanțial de loc", "b) Complement circumstanțial de timp", "c) Atribut", "d) Subiect"], "corect": 0, "explicatie": "Răspunde la întrebarea 'Unde merg?'." },
+      { "intrebare": "Identificați conjuncția coordonatoare adversativă:", "optiuni": ["a) și", "b) dar", "c) sau", "d) deci"], "corect": 1, "explicatie": "Conjuncțiile adversative exprimă opoziția: dar, însă, ci, dar." },
+      { "intrebare": "Alegeți propoziția în care există un complement circumstanțial de timp:", "optiuni": ["a) El locuiește aici.", "b) Am plecat ieri la munte.", "c) Scrie frumos.", "d) Cartea e nouă."], "corect": 1, "explicatie": "'ieri' arată timpul desfășurării acțiunii." },
+      { "intrebare": "Cuvântul 'frumos' în 'Cântă <u>frumos</u>.' funcționează ca:", "optiuni": ["a) Atribut adjectival", "b) Complement circumstanțial de mod", "c) Subiect", "d) Nume predicativ"], "corect": 1, "explicatie": "Determină un verb și răspunde la întrebarea 'Cum?'." },
+      { "intrebare": "Care este cazul substantivului precedat de prepoziția 'contra'?", "optiuni": ["a) Acuzativ", "b) Dativ", "c) Genitiv", "d) Vocativ"], "corect": 2, "explicatie": "Prepoziția 'contra' cere în mod obligatoriu cazul Genitiv." },
+      { "intrebare": "Forma corectă a verbului 'a vrea' la indicativ prezent, persoana I, plural este:", "optiuni": ["a) vrem", "b) vroim", "c) voim", "d) variantele a și c sunt acceptate"], "corect": 3, "explicatie": "Formele corecte literare sunt noi vrem sau noi voim. 'Vroim' este greșit." }
+    ],
+    "clasa_8_romana_exercitii": [
+      { "intrebare": "Fraza este o unitate sintactică alcătuită din cel puțin:", "optiuni": ["a) Două substantive", "b) Două propoziții", "c) Un subiect", "d) Trei atribute"], "corect": 1, "explicatie": "Fraza conține obligatoriu două sau mai multe predicate/propoziții." },
+      { "intrebare": "Propoziția subordonată care îndeplinește în frază rolul unui subiect se numește:", "optiuni": ["a) Predicativă", "b) Subiectivă", "c) Atributivă", "d) Completivă"], "corect": 1, "explicatie": "Subordonata subiectivă (SB) ține locul subiectului din regentă." },
+      { "intrebare": "În fraza 'Știu ¹/ <u>că vei reuși</u>.²/ ', propoziția a doua (2) este:", "optiuni": ["a) Subiectivă", "b) Completivă directă", "c) Atributivă", "d) Completivă indirectă"], "corect": 1, "explicatie": "Răspunde la întrebarea 'Ce știu?' pusă verbului din regenta (1)." },
+      { "intrebare": "Ce fel de subordonată este introdusă prin pronumele relativ în: 'Omul ¹/ <u>care m-a salutat</u> ²/ este unchiul meu.'?", "optiuni": ["a) Completivă", "b) Atributivă", "c) Locală", "d) Subiectivă"], "corect": 1, "explicatie": "Determină substantivul 'Omul' din propoziția regentă." },
+      { "intrebare": "Raportul dintre două propoziții independente de același fel este de:", "optiuni": ["a) Subordonare", "b) Coordonare", "c) Incluziune", "d) Derivare"], "corect": 1, "explicatie": "Propozițiile de același rang se coordonează între ele." },
+      { "intrebare": "Propoziția subordonată introdusă prin 'deoarece' sau 'fiindcă' este de obicei:", "optiuni": ["a) Condițională", "b) Cauzală", "c) Finală", "d) Concesivă"], "corect": 1, "explicatie": "Arată cauza sau motivul pentru care se desfășoară acțiunea din regentă." },
+      { "intrebare": "În fraza 'Dacă plouă, ¹/ nu mai mergem.²/ ', prima propoziție este o subordonată:", "optiuni": ["a) Temporală", "b) Condițională", "c) Modala", "d) Scop"], "corect": 1, "explicatie": "Exprimă o condiție (reprezintă o propoziție condițională)." },
+      { "intrebare": "Identificați elementul de relație subordonator:", "optiuni": ["a) dar", "b) pentru că", "c) sau", "d) iar"], "corect": 1, "explicatie": "'Pentru că' este o locuțiune conjuncțională subordonatoare." },
+      { "intrebare": "Ce întrebare determină o propoziție completivă indirectă?", "optiuni": ["a) Pe cine?", "b) Cui? / La ce?", "c) Unde?", "d) Când?"], "corect": 1, "explicatie": "Preia întrebările specifice complementului indirect." },
+      { "intrebare": "Propoziția regentă este propoziția care:", "optiuni": ["a) Depinde de altă propoziție", "b) Controlează sau subordonează o altă propoziție", "c) Nu are predicat", "d) Se află mereu la sfârșitul frazei"], "corect": 1, "explicatie": "Regenta este cea de care depinde propoziția subordonată." }
+    ],
     "clasa_5_algebra_exercitii": [
       { "intrebare": "Care este rezultatul calculului: 2 + 3 × 4?", "optiuni": ["a) 20", "b) 14", "c) 9", "d) 24"], "corect": 1, "explicatie": "Înmulțirea are prioritate: 3 × 4 = 12, apoi 2 + 12 = 14." },
       { "intrebare": "Cât este 5³?", "optiuni": ["a) 15", "b) 25", "c) 125", "d) 75"], "corect": 2, "explicatie": "5 × 5 × 5 = 125." },
@@ -70,7 +142,7 @@
       { "intrebare": "Suma măsurilor unghiurilor unui triunghi este:", "optiuni": ["a) 90°", "b) 360°", "c) 180°", "d) 270°"], "corect": 2, "explicatie": "În orice triunghi, suma este de 180°." },
       { "intrebare": "Două unghiuri se numesc complementare dacă suma lor este:", "optiuni": ["a) 180°", "b) 360°", "c) 90°", "d) 100°"], "corect": 2, "explicatie": "Complementare = 90°, Suplementare = 180°." },
       { "intrebare": "Segmentul care unește un vârf al triunghiului cu mijlocul laturii opuse se numește:", "optiuni": ["a) Înălțime", "b) Bisectoare", "c) Mediană", "d) Mediatoare"], "corect": 2, "explicatie": "Mediana împarte latura în două segmente congruente." },
-      { "intrebare": "Un triunghi isoscel are:", "optiuni": ["a) Toate laturile inegale", "b) Două laturi egale", "c) Trei laturi egale", "d) Un unghi de 90°"], "corect": 1, "explicatie": "Triunghiul cu două laturi congruente se numește isoscel." },
+      { "intrebare": "Un triunghi isoscel are:", "optiuni": ["a) Toate laturile inegale", "b) Două laturi egale", "c) Trein laturi egale", "d) Un unghi de 90°"], "corect": 1, "explicatie": "Triunghiul cu două laturi congruente se numește isoscel." },
       { "intrebare": "Dacă două unghiuri sunt opuse la vârf, atunci ele sunt:", "optiuni": ["a) Complementare", "b) Suplementare", "c) Congruente", "d) Inegale"], "corect": 2, "explicatie": "Unghiurile opuse la vârf sunt mereu egale în măsură." },
       { "intrebare": "Punctul de intersecție al înălțimilor unui triunghi se numește:", "optiuni": ["a) Centru de greutate", "b) Ortocentru", "c) Centrul cercului înscris", "d) Centrul cercului circumscris"], "corect": 1, "explicatie": "Ortocentrul (notat cu H) este intersecția înălțimilor." },
       { "intrebare": "Câte grade are un unghi alungit?", "optiuni": ["a) 90°", "b) 180°", "c) 360°", "d) 0°"], "corect": 1, "explicatie": "Unghiul alungit are laturile în prelungire, măsurând 180°." },
@@ -135,7 +207,7 @@
       { "intrebare": "Vârful V(x, y) al parabolei y = ax² + bx + c are coordonata x egală cu:", "optiuni": ["a) -Δ/4a", "b) -b/2a", "c) b/2a", "d) -c/a"], "corect": 1, "explicatie": "Abscisa vârfului este -b/(2a)." },
       { "intrebare": "Ce formă are graficul funcției de gradul 2?", "optiuni": ["a) O dreaptă", "b) Un cerc", "c) O parabolă", "d) O elipsă"], "corect": 2, "explicatie": "Reprezentarea geometrică este o parabolă." },
       { "intrebare": "Semnul funcției f(x) = ax² + bx + c între rădăcini este:", "optiuni": ["a) Semnul lui a", "b) Semn contrar lui a", "c) Mereu pozitiv", "d) Mereu negativ"], "corect": 1, "explicatie": "Între rădăcini, funcția are semn opus coeficientului 'a'." },
-      { "intrebare": "Dacă a < 0, parabola asociată:", "optiuni": ["a) Este convexă (ține apa)", "b) E concavă (ramuri în jos)", "c) Nu are rădăcini", "d) Trece prin origine"], "corect": 1, "explicatie": "Dacă 'a' e negativ, ramurile parabolei se îndreaptă spre -infinit." },
+      { "intrebare": "Dacă a < 0, parabola asociată:", "optiuni": ["a) Esre convexă (ține apa)", "b) E concavă (ramuri în jos)", "c) Nu are rădăcini", "d) Trece prin origine"], "corect": 1, "explicatie": "Dacă 'a' e negativ, ramurile parabolei se îndreaptă spre -infinit." },
       { "intrebare": "Dacă b1=3 și q=2, cât este termenul b3 al progresiei geometrice?", "optiuni": ["a) 6", "b) 9", "c) 12", "d) 24"], "corect": 2, "explicatie": "b3 = b1 × q² = 3 × 4 = 12." }
     ],
     "clasa_9_geometrie_exercitii": [
@@ -145,7 +217,7 @@
       { "intrebare": "Teorema cosinusului într-un triunghi oarecare stipulează:", "optiuni": ["a) a² = b² + c² - 2bc cosA", "b) a/sinA = 2R", "c) Aria = ab sinC / 2", "d) a² = b² + c²"], "corect": 0, "explicatie": "Este generalizarea Teoremei lui Pitagora pentru unghiuri oarecare." },
       { "intrebare": "Valoarea lui sin 30° este:", "optiuni": ["a) 1", "b) √2/2", "c) √3/2", "d) 1/2"], "corect": 3, "explicatie": "Sinusul de 30 de grade este 0,5." },
       { "intrebare": "Relația lui Sylvester pentru centrul de greutate G spune că:", "optiuni": ["a) GA + GB + GC = 0", "b) GA = GB = GC", "c) rG = rA+rB", "d) 3G = A+B+C"], "corect": 0, "explicatie": "Suma vectorilor duși din G spre vârfuri este vectorul nul." },
-      { "intrebare": "Produsul a doi vectori opuși AB și BA este un vector:", "optiuni": ["a) Unitari", "b) Nul (în sumă, nu produs)", "c) Ei nu se pot aduna", "d) Întrebare capcană, suma lor e nulă: AB+BA=0"], "corect": 3, "explicatie": "AB = -BA. Prin adunare, AB + BA = 0." },
+      { "intrebare": "Produsul a doi vectori opuși AB și BA este un vector:", "optiuni": ["a) Unitari", "b) Nul", "c) Ei nu se pot aduna", "d) Întrebare capcană, suma lor e nulă: AB+BA=0"], "corect": 3, "explicatie": "AB = -BA. Prin adunare, AB + BA = 0." },
       { "intrebare": "Cât este sin²x + cos²x ?", "optiuni": ["a) 0", "b) 1", "c) 2", "d) tg x"], "corect": 1, "explicatie": "Formula fundamentală a trigonometriei." },
       { "intrebare": "Care este raza cercului circumscris (din T. Sinusurilor)?", "optiuni": ["a) a/(2sinA) = R", "b) a/sinA = R", "c) 2R = b×c", "d) R = p×r"], "corect": 0, "explicatie": "a / sinA = 2R => R = a / (2sinA)." },
       { "intrebare": "Vectorul care are lungimea 1 se numește:", "optiuni": ["a) Vector nul", "b) Versor", "c) Vector director", "d) Modul"], "corect": 1, "explicatie": "Versorul indică direcția și are modulul 1." }
@@ -188,7 +260,7 @@
     ],
     "clasa_11_analiza_exercitii": [
       { "intrebare": "Care dintre următoarele NU este un caz de exceptare (nedeterminare)?", "optiuni": ["a) 0 / 0", "b) ∞ - ∞", "c) ∞ / 0", "d) 1^∞"], "corect": 2, "explicatie": "O cantitate infinită împărțită la ceva foarte apropiat de 0 tinde spre infinit. Nu este o nedeterminare." },
-      { "intrebare": "Limita remarcabilă lim(x->0) (sin x) / x este egală cu:", "optiuni": ["a) 0", "b) ∞", "c) 1", "d) e"], "corect": 2, "explicatie": "Este o limită fundamentală folosită pentru rezolvarea nedeterminărilor trigonometrice." },
+      { "intrebare": "Limita remarcabilă lim(x->0) (sin x) / x este egală cu:", "optiuni": ["a) 0", "b) ∞", "c) 1", "d) e"], "corect": 2, "explicatie": "Este o limită fundamentală folosită pentru rezolvareer nedeterminărilor trigonometrice." },
       { "intrebare": "Limita care definește numărul e este: lim(x->0) (1+x)^(...)", "optiuni": ["a) x", "b) 1/x", "c) e", "d) x²"], "corect": 1, "explicatie": "(1+x)^(1/x) tinde spre 'e' când x tinde la 0." },
       { "intrebare": "O funcție este continuă într-un punct dacă:", "optiuni": ["a) Ls = Ld", "b) Are limită infinită", "c) Ls = Ld = f(x0)", "d) Derivata e zero"], "corect": 2, "explicatie": "Limita la stânga trebuie să egaleze limita la dreapta și valoarea funcției în acel punct." },
       { "intrebare": "Teorema lui Weierstrass afirmă că o funcție continuă pe un interval închis este:", "optiuni": ["a) Mereu crescătoare", "b) Mărginită", "c) Derivabilă", "d) Inversabilă"], "corect": 1, "explicatie": "Funcția își atinge marginile (minimul și maximul absolut)." },
