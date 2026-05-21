@@ -28,7 +28,6 @@ incarcaDate();
 // 2. LOGICĂ DE AUTENTIFICARE & CONT
 // ==========================================
 
-// Comutare vizuală între login și înregistrare
 function comutaEcraneAutentificare(tip) {
     if (tip === 'register') {
         document.getElementById('form-login').classList.add('ascuns');
@@ -39,7 +38,6 @@ function comutaEcraneAutentificare(tip) {
     }
 }
 
-// Înregistrare din interfață (Salvare în localStorage)
 function proceseazaInregistrare() {
     const user = document.getElementById('register-user').value.trim();
     const pass = document.getElementById('register-pass').value.trim();
@@ -61,13 +59,11 @@ function proceseazaInregistrare() {
     localStorage.setItem('baza_date_utilizatori', JSON.stringify(utilizatori));
     alert("Cont creat cu succes! Acum te poți loga.");
     
-    // Resetare inputuri și întoarcere la login
     document.getElementById('register-user').value = "";
     document.getElementById('register-pass').value = "";
     comutaEcraneAutentificare('login');
 }
 
-// Login unificat (Verifică atât JSON-ul static cât și localStorage)
 function proceseazaLogin() {
     const userInjected = document.getElementById('login-user').value.trim();
     const passInjected = document.getElementById('login-pass').value.trim();
@@ -85,20 +81,16 @@ function proceseazaLogin() {
 
     if (utilizatorGasit) {
         utilizatorLogat = userInjected;
-        
-        // Afișare elemente header profil dacă există în HTML
         const headerUser = document.getElementById('header-username');
         const userBadge = document.getElementById('user-profile-badge');
         if(headerUser) headerUser.innerText = userInjected;
         if(userBadge) userBadge.classList.remove('ascuns');
-        
         arataSelectieRol(); 
     } else {
         alert("Username sau parolă incorectă!");
     }
 }
 
-// Ferestre Modal Profil
 function deschideModalCont() {
     if (!utilizatorLogat) return;
     document.getElementById('modal-username').innerText = utilizatorLogat;
@@ -140,13 +132,11 @@ function afiseazaSelectieClase() {
     
     gridPrincipal.innerHTML = '';
 
-    // Generăm automat toate clasele de la 0 la 12
     for (let i = 0; i <= 12; i++) {
         let numeClasa = i === 0 ? 'Clasa 0' : `Clasa a ${i}-a`;
         let descriere = '';
         let culoareCSS = '';
 
-        // Determinăm categoria și culoarea în funcție de intervalul clasei
         if (i === 0) {
             descriere = 'Pregătitoare';
             culoareCSS = 'verde';
@@ -165,7 +155,6 @@ function afiseazaSelectieClase() {
         card.className = `clasa-card ${culoareCSS}`;
         card.innerHTML = `<h3>${numeClasa}</h3><p>${descriere}</p>`;
         
-        // Păstrăm funcționalitatea: la click, deschide materiile pentru clasa selectată
         card.onclick = () => afiseazaMateriile(numeClasa);
         gridPrincipal.appendChild(card);
     }
@@ -181,20 +170,56 @@ function afiseazaMateriile(numeClasa) {
         { nume: 'Stiinte', clasaCSS: 'verde' }
     ];
 
+    // Extragere număr clasă (ex: "Clasa a 6-a" devine 6)
+    const clasaNumar = parseInt(numeClasa.replace(/[^0-9]/g, ''), 10) || 0;
+
     materii.forEach(m => {
         const card = document.createElement('div');
         card.className = `clasa-card ${m.clasaCSS}`;
         card.innerHTML = `<h3>${m.nume}</h3>`;
         card.onclick = () => {
-            // VERIFICARE SPECIALĂ PENTRU MATEMATICĂ CLASA A 5-A
-            if (numeClasa === 'Clasa a 5-a' && m.nume === 'Matematica') {
+            
+            // VERIFICARE SPECIALĂ PENTRU MATEMATICĂ (CLASELE 5-11)
+            if (m.nume === 'Matematica' && clasaNumar >= 5 && clasaNumar <= 11) {
                 gridPrincipal.innerHTML = ''; 
                 const meniuMath = document.getElementById('sub-meniuri-matematica');
+                
                 if (meniuMath) {
+                    // Luăm butoanele principale din HTML ca să le adaptăm textul
+                    const btnMainA = meniuMath.querySelector('.math-section-container:nth-child(1) .btn-math-main');
+                    const btnMainB = meniuMath.querySelector('.math-section-container:nth-child(2) .btn-math-main');
+                    
+                    // Luăm butoanele de Teorie din HTML pentru a le schimba link-ul din mers
+                    const linkTeorieAlgebra = meniuMath.querySelector('#sub-algebra .btn-math-sub');
+                    const btnTeorieGeometrie = meniuMath.querySelector('#sub-geometrie .btn-math-sub');
+
+                    // Setăm PDF-ul dinamic pentru Algebră (Teorie_Algebra_Clasa_5.pdf, Teorie_Algebra_Clasa_6.pdf etc.)
+                    if (linkTeorieAlgebra) {
+                        linkTeorieAlgebra.outerHTML = `<a href="Teorie_Algebra_Clasa_${clasaNumar}.pdf" target="_blank" class="btn-math-sub" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">Teorie</a>`;
+                    }
+
+                    // Verificăm dacă e clasa a 11-a sau una mai mică (5-10)
+                    if (clasaNumar === 11) {
+                        if (btnMainB) btnMainB.innerText = "Analiză Matematică";
+                        
+                        // Schimbăm butonul de sub Geometrie să deschidă Analiza
+                        if (btnTeorieGeometrie) {
+                            btnTeorieGeometrie.outerHTML = `<a href="Teorie_Analiza_Clasa_11.pdf" target="_blank" class="btn-math-sub" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">Teorie</a>`;
+                        }
+                        schimbaStareMascota('neutru', `Ai ales Matematica pentru clasa a XI-a! Ce facem azi, Algebră sau Analiză Matematică?`);
+                    } else {
+                        if (btnMainB) btnMainB.innerText = "Geometrie";
+                        
+                        // Setăm PDF-ul dinamic pentru Geometrie (Teorie_Geometrie_Clasa_5.pdf, Teorie_Geometrie_Clasa_6.pdf etc.)
+                        if (btnTeorieGeometrie) {
+                            btnTeorieGeometrie.outerHTML = `<a href="Teorie_Geometrie_Clasa_${clasaNumar}.pdf" target="_blank" class="btn-math-sub" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">Teorie</a>`;
+                        }
+                        schimbaStareMascota('neutru', `Ai ales Matematica pentru clasa a ${clasaNumar}-a! Ce facem azi, Algebră sau Geometrie?`);
+                    }
+
                     meniuMath.classList.remove("ascuns");
                     meniuMath.style.display = 'flex';
                 }
-                schimbaStareMascota('neutru', "Ai ales Matematica pentru clasa a V-a! Ce facem azi, Algebră sau Geometrie?");
             } else if (numeClasa === 'Clasa 0' && m.nume === 'Stiinte') {
                 gridPrincipal.classList.add('ascuns');
                 containerPlanta.classList.remove('ascuns');
@@ -239,9 +264,8 @@ function afiseazaIntrebare() {
     const btnPrev = document.getElementById('btn-prev');
     const btnNext = document.getElementById('btn-next');
     if(btnPrev) btnPrev.disabled = (indexIntrebareCurenta === 0);
-    if(btnNext) btnNext.disabled = true; // Forțăm utilizatorul să rezolve înainte de a da înainte
+    if(btnNext) btnNext.disabled = true;
 
-    // Afișare opțiuni Grilă
     if (data.optiuni) {
         data.optiuni.forEach((varianta, index) => {
             const buton = document.createElement('button');
@@ -251,7 +275,6 @@ function afiseazaIntrebare() {
             containerOptiuni.appendChild(buton);
         });
     } 
-    // Afișare opțiuni Input direct
     else if (data.tip === "input") {
         const inputDiv = document.createElement('div');
         inputDiv.className = "input-container";
@@ -272,12 +295,9 @@ function verificaRaspunsInput() {
 function verificareRaspuns(isCorect, explicatie) {
     if (isCorect) {
         schimbaStareMascota('vesel', "Bravo! " + explicatie);
-        
-        // Blocăm opțiunile curente ca să nu poată re-da click
         const butoaneOptiuni = document.querySelectorAll('#optiuni button, #optiuni input');
         butoaneOptiuni.forEach(el => el.disabled = true);
         
-        // Deblocăm butonul de Next
         const btnNext = document.getElementById('btn-next');
         if(btnNext) btnNext.disabled = false;
     } else {
@@ -285,6 +305,9 @@ function verificareRaspuns(isCorect, explicatie) {
     }
 }
 
+// ==========================================
+// 5. MODULUL MASCOTA PISIUC & RESET
+// ==========================================
 function urmatoareaIntrebare() {
     indexIntrebareCurenta++;
     if (indexIntrebareCurenta < dateQuiz.length) {
@@ -308,9 +331,6 @@ function intrebarePrecedenta() {
     }
 }
 
-// ==========================================
-// 5. MODULUL MASCOTA PISIUC & RESET
-// ==========================================
 function schimbaStareMascota(stare, mesaj = "Să învățăm împreună!") {
     if (stare === 'vesel') catImg.src = 'pisiuc_vesel.png';
     else if (stare === 'trist') catImg.src = 'pisiuc_trist.png';
@@ -321,7 +341,6 @@ function schimbaStareMascota(stare, mesaj = "Să învățăm împreună!") {
         bulaText.classList.remove('ascuns');
     }
 
-    // Mesajul rămâne vizibil 5 secunde pentru o lectură relaxată
     setTimeout(() => {
         if(bulaText) bulaText.classList.add('ascuns');
         catImg.src = 'pisiuc_neutru.png';
@@ -337,7 +356,6 @@ function resetInterfata() {
     const btnAcasa = document.getElementById('btn-acasa-nou');
     if(btnAcasa) btnAcasa.classList.add('ascuns');
     
-    // Ascundem meniul portocaliu când ne întoarcem la ecranul principal
     const meniuMath = document.getElementById('sub-meniuri-matematica');
     if (meniuMath) {
         meniuMath.classList.add("ascuns");
@@ -347,7 +365,6 @@ function resetInterfata() {
     schimbaStareMascota('neutru');
     afiseazaSelectieClase();
 }
-
 
 // ==========================================
 // 6. LOGICĂ DRAG AND DROP (EXERCIȚIU VIZUAL)
@@ -360,10 +377,8 @@ function initDragAndDrop() {
     const draggables = document.querySelectorAll(".draggable");
     const dropZones = document.querySelectorAll(".drop-zone");
 
-    // 1. Evenimente pentru etichetele care pot fi trase (Draggable)
     draggables.forEach(draggable => {
         draggable.addEventListener("dragstart", (e) => {
-            // Salvăm tipul componentei trase (ex: "radacina", "tulpina")
             e.dataTransfer.setData("text/plain", draggable.dataset.part);
             draggable.classList.add("dragging");
         });
@@ -373,9 +388,7 @@ function initDragAndDrop() {
         });
     });
 
-    // 2. Evenimente pentru zonele de plasare (Drop Zones)
     dropZones.forEach(zone => {
-        // Obligatoriu: prevenim comportamentul default pentru a permite drop-ul
         zone.addEventListener("dragover", (e) => {
             e.preventDefault();
             zone.classList.add("hovered");
@@ -389,31 +402,20 @@ function initDragAndDrop() {
             e.preventDefault();
             zone.classList.remove("hovered");
 
-            // Preluăm piesa care a fost aruncată aici
             const dataPart = e.dataTransfer.getData("text/plain");
             const expectedPart = zone.dataset.accept;
 
-            // Verificăm dacă piesa se potrivește cu zona corectă
             if (dataPart === expectedPart) {
-                // Găsim elementul HTML tras ca să-l mutăm fizic în zonă
                 const originalElement = document.querySelector(`.draggable[data-part="${dataPart}"]`);
                 
                 if (originalElement) {
-                    // Schimbăm stilul zonei pentru a arăta că e completată corect
                     zone.innerText = originalElement.innerText;
                     zone.classList.add("corect");
-                    
-                    // Ascundem eticheta originală din listă deoarece a fost plasată cu succes
                     originalElement.style.visibility = "hidden";
-                    
-                    // Recompensă vizuală de la Pisiuc!
                     schimbaStareMascota('vesel', `Ai plasat corect componenta: ${originalElement.innerText}! ✨`);
-                    
-                    // Verificăm dacă jocul s-a terminat
                     verificaFinalizareJoc();
                 }
             } else {
-                // Greșeală - Pisiuc te atenționează
                 schimbaStareMascota('trist', "Nu e locul potrivit! Mai încearcă.");
             }
         });
@@ -424,7 +426,6 @@ function verificaFinalizareJoc() {
     const toateZonele = document.querySelectorAll(".drop-zone");
     const zoneCorecte = document.querySelectorAll(".drop-zone.corect");
     
-    // Dacă numărul de zone completate corect este egal cu numărul total de zone
     if (toateZonele.length === zoneCorecte.length) {
         setTimeout(() => {
             schimbaStareMascota('vesel', "Felicitări! Ai identificat toate părțile plantei! 🍓🎉");
@@ -436,22 +437,27 @@ function verificaFinalizareJoc() {
 // 7. CONTROL SUB-MENIURI MATEMATICĂ
 // ==========================================
 function toggleSubMath(id) {
-    // Ascunde sub-butoanele deschise anterior ca să nu se suprapună
     const subAlgebra = document.getElementById('sub-algebra');
     const subGeometrie = document.getElementById('sub-geometrie');
     
     if (subAlgebra) subAlgebra.style.display = 'none';
     if (subGeometrie) subGeometrie.style.display = 'none';
 
-    // Afișează doar sub-butoanele pentru secțiunea selectată
     const containerCurent = document.getElementById(id);
     if (containerCurent) {
         containerCurent.style.display = 'flex';
     }
 }
 
+// Acest mic artificiu ne ajută să putem închide sub-meniul și când el e transformat în link de Analiză (clasa 11)
+document.addEventListener('click', function(e) {
+    if(e.target && e.target.innerText === 'Analiză Matematică') {
+        const subGeometrie = document.getElementById('sub-geometrie');
+        if(subGeometrie) subGeometrie.style.display = subGeometrie.style.display === 'none' ? 'flex' : 'none';
+    }
+});
+
 function incarcaContinut(ramura, tip) {
     console.log("S-a selectat din " + ramura + ": " + tip);
-    // Folosim funcția ta nativă ca să o facem pe pisică să vorbească
     schimbaStareMascota('vesel', `Super! Ai ales ${ramura} - ${tip}. Să începem!`);
 }
