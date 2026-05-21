@@ -610,3 +610,20 @@ input:focus {
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+.card-material {
+    background: #fffaf5;
+    border-left: 5px solid #e67e22;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: left;
+}
+.card-material h3 { color: #d35400; margin-top: 0; margin-bottom: 8px; }
+.card-material p { color: #4a2e1b; margin: 0; font-size: 14px; }
+.card-material .data-postare { font-size: 11px; color: #999; margin-top: 10px; display: block; }
+
+.cod-badge {
+    background: #fdebd0; color: #d35400; padding: 5px 10px;
+    border-radius: 5px; font-weight: bold; letter-spacing: 1px; font-family: monospace;
+}
