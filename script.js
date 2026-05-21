@@ -14,450 +14,466 @@ let utilizatorLogat = "";
 
 // ÎNCĂRCARE DATE DIN JSON
 async function incarcaDate() {
-    try {
-        const raspuns = await fetch('materii.json');
-        dateProiect = await raspuns.json();
-        console.log("Date încărcate cu succes!");
-    } catch (err) {
-        console.error("Eroare la încărcarea fișierului JSON:", err);
-    }
+    try {
+        const raspuns = await fetch('materii.json');
+        dateProiect = await raspuns.json();
+        console.log("Date încărcate cu succes!");
+    } catch (err) {
+        console.error("Eroare la încărcarea fișierului JSON:", err);
+    }
 }
 incarcaDate();
 
 // ==========================================
 // 2. LOGICĂ DE AUTENTIFICARE & CONT
 // ==========================================
-
 function comutaEcraneAutentificare(tip) {
-    if (tip === 'register') {
-        document.getElementById('form-login').classList.add('ascuns');
-        document.getElementById('form-register').classList.remove('ascuns');
-    } else {
-        document.getElementById('form-register').classList.add('ascuns');
-        document.getElementById('form-login').classList.remove('ascuns');
-    }
+    if (tip === 'register') {
+        document.getElementById('form-login').classList.add('ascuns');
+        document.getElementById('form-register').classList.remove('ascuns');
+    } else {
+        document.getElementById('form-register').classList.add('ascuns');
+        document.getElementById('form-login').classList.remove('ascuns');
+    }
 }
 
 function proceseazaInregistrare() {
-    const user = document.getElementById('register-user').value.trim();
-    const pass = document.getElementById('register-pass').value.trim();
+    const user = document.getElementById('register-user').value.trim();
+    const pass = document.getElementById('register-pass').value.trim();
 
-    if (!user || !pass) {
-        alert("Te rugăm să completezi ambele câmpuri!");
-        return;
-    }
+    if (!user || !pass) {
+        alert("Te rugăm să completezi ambele câmpuri!");
+        return;
+    }
 
-    let utilizatori = JSON.parse(localStorage.getItem('baza_date_utilizatori')) || [];
-    const existaDeja = utilizatori.find(u => u.username.toLowerCase() === user.toLowerCase());
-    
-    if (existaDeja) {
-        alert("Acest utilizator există deja!");
-        return;
-    }
-    
-    utilizatori.push({ username: user, parola: pass });
-    localStorage.setItem('baza_date_utilizatori', JSON.stringify(utilizatori));
-    alert("Cont creat cu succes! Acum te poți loga.");
-    
-    document.getElementById('register-user').value = "";
-    document.getElementById('register-pass').value = "";
-    comutaEcraneAutentificare('login');
+    let utilizatori = JSON.parse(localStorage.getItem('baza_date_utilizatori')) || [];
+    const existaDeja = utilizatori.find(u => u.username.toLowerCase() === user.toLowerCase());
+    
+    if (existaDeja) {
+        alert("Acest utilizator există deja!");
+        return;
+    }
+    
+    utilizatori.push({ username: user, parola: pass });
+    localStorage.setItem('baza_date_utilizatori', JSON.stringify(utilizatori));
+    alert("Cont creat cu succes! Acum te poți loga.");
+    
+    document.getElementById('register-user').value = "";
+    document.getElementById('register-pass').value = "";
+    comutaEcraneAutentificare('login');
 }
 
 function proceseazaLogin() {
-    const userInjected = document.getElementById('login-user').value.trim();
-    const passInjected = document.getElementById('login-pass').value.trim();
+    const userInjected = document.getElementById('login-user').value.trim();
+    const passInjected = document.getElementById('login-pass').value.trim();
 
-    if (!userInjected || !passInjected) {
-        alert("Te rugăm să completezi ambele câmpuri!");
-        return;
-    }
+    if (!userInjected || !passInjected) {
+        alert("Te rugăm să completezi ambele câmpuri!");
+        return;
+    }
 
-    let utilizatoriJSON = dateProiect.utilizatori || [];
-    let utilizatoriLocal = JSON.parse(localStorage.getItem('baza_date_utilizatori')) || [];
-    let totiUtilizatorii = [...utilizatoriJSON, ...utilizatoriLocal.map(u => ({ user: u.username, parola: u.parola }))];
+    let utilizatoriJSON = dateProiect.utilizatori || [];
+    let utilizatoriLocal = JSON.parse(localStorage.getItem('baza_date_utilizatori')) || [];
+    let totiUtilizatorii = [...utilizatoriJSON, ...utilizatoriLocal.map(u => ({ user: u.username, parola: u.parola }))];
 
-    const utilizatorGasit = totiUtilizatorii.find(u => u.user === userInjected && u.parola === passInjected);
+    const utilizatorGasit = totiUtilizatorii.find(u => u.user === userInjected && u.parola === passInjected);
 
-    if (utilizatorGasit) {
-        utilizatorLogat = userInjected;
-        const headerUser = document.getElementById('header-username');
-        const userBadge = document.getElementById('user-profile-badge');
-        if(headerUser) headerUser.innerText = userInjected;
-        if(userBadge) userBadge.classList.remove('ascuns');
-        arataSelectieRol(); 
-    } else {
-        alert("Username sau parolă incorectă!");
-    }
+    if (utilizatorGasit) {
+        utilizatorLogat = userInjected;
+        const headerUser = document.getElementById('header-username');
+        const userBadge = document.getElementById('user-profile-badge');
+        if(headerUser) headerUser.innerText = userInjected;
+        if(userBadge) userBadge.classList.remove('ascuns');
+        arataSelectieRol(); 
+    } else {
+        alert("Username sau parolă incorectă!");
+    }
 }
 
 function deschideModalCont() {
-    if (!utilizatorLogat) return;
-    document.getElementById('modal-username').innerText = utilizatorLogat;
-    document.getElementById('modal-rol').innerText = utilizatorLogat.toLowerCase().includes('profesor') ? "Profesor Coordonator" : "Elev Explorator";
-    document.getElementById('modal-cont').classList.remove('ascuns');
+    if (!utilizatorLogat) return;
+    document.getElementById('modal-username').innerText = utilizatorLogat;
+    document.getElementById('modal-rol').innerText = utilizatorLogat.toLowerCase().includes('profesor') ? "Profesor Coordonator" : "Elev Explorator";
+    document.getElementById('modal-cont').classList.remove('ascuns');
 }
 
 function inchideModalCont() {
-    document.getElementById('modal-cont').classList.add('ascuns');
+    document.getElementById('modal-cont').classList.add('ascuns');
 }
 
 // ==========================================
 // 3. NAVIGARE ȘI INTERFAȚĂ MENIURI
 // ==========================================
 function arataSelectieRol() {
-    document.getElementById('ecran-login').classList.add('ascuns');
-    document.getElementById('ecran-rol').classList.remove('ascuns');
+    document.getElementById('ecran-login').classList.add('ascuns');
+    document.getElementById('ecran-rol').classList.remove('ascuns');
 }
 
 function setRol(rol) {
-    document.getElementById('ecran-rol').classList.add('ascuns');
-    document.getElementById('interfata-principala').classList.remove('ascuns');
-    
-    if(rol === 'elev') {
-        schimbaStareMascota('vesel', 'Salut, micule explorator! Alege o clasă.');
-        afiseazaSelectieClase();
-    } else {
-        alert("Modul Profesor va fi disponibil curând!");
-    }
+    document.getElementById('ecran-rol').classList.add('ascuns');
+    document.getElementById('interfata-principala').classList.remove('ascuns');
+    
+    if(rol === 'elev') {
+        schimbaStareMascota('vesel', 'Salut, micule explorator! Alege o clasă.');
+        afiseazaSelectieClase();
+    } else {
+        alert("Modul Profesor va fi disponibil curând!");
+    }
 }
 
 function afiseazaSelectieClase() {
-    gridPrincipal.classList.remove('ascuns');
-    quizContainer.classList.add('ascuns');
-    if(containerPlanta) containerPlanta.classList.add('ascuns');
-    
-    const btnAcasa = document.getElementById('btn-acasa-nou');
-    if(btnAcasa) btnAcasa.classList.add('ascuns');
-    
-    gridPrincipal.innerHTML = '';
+    gridPrincipal.classList.remove('ascuns');
+    quizContainer.classList.add('ascuns');
+    if(containerPlanta) containerPlanta.classList.add('ascuns');
+    
+    const btnAcasa = document.getElementById('btn-acasa-nou');
+    if(btnAcasa) btnAcasa.classList.add('ascuns');
+    
+    gridPrincipal.innerHTML = '';
 
-    for (let i = 0; i <= 12; i++) {
-        let numeClasa = i === 0 ? 'Clasa 0' : `Clasa a ${i}-a`;
-        let descriere = '';
-        let culoareCSS = '';
+    for (let i = 0; i <= 12; i++) {
+        let numeClasa = i === 0 ? 'Clasa 0' : `Clasa a ${i}-a`;
+        let descriere = '';
+        let culoareCSS = '';
 
-        if (i === 0) {
-            descriere = 'Pregătitoare';
-            culoareCSS = 'verde';
-        } else if (i >= 1 && i <= 4) {
-            descriere = 'Învățământ Primar';
-            culoareCSS = 'verde';
-        } else if (i >= 5 && i <= 8) {
-            descriere = 'Gimnaziu';
-            culoareCSS = 'portocaliu';
-        } else if (i >= 9 && i <= 12) {
-            descriere = 'Liceu';
-            culoareCSS = 'albastru';
-        }
+        if (i === 0) {
+            descriere = 'Pregătitoare';
+            warnaCSS = 'verde';
+            culoareCSS = 'verde';
+        } else if (i >= 1 && i <= 4) {
+            descriere = 'Învățământ Primar';
+            culoareCSS = 'verde';
+        } else if (i >= 5 && i <= 8) {
+            descriere = 'Gimnaziu';
+            culoareCSS = 'portocaliu';
+        } else if (i >= 9 && i <= 12) {
+            descriere = 'Liceu';
+            culoareCSS = 'albastru';
+        }
 
-        const card = document.createElement('div');
-        card.className = `clasa-card ${culoareCSS}`;
-        card.innerHTML = `<h3>${numeClasa}</h3><p>${descriere}</p>`;
-        
-        card.onclick = () => afiseazaMateriile(numeClasa);
-        gridPrincipal.appendChild(card);
-    }
+        const card = document.createElement('div');
+        card.className = `clasa-card ${culoareCSS}`;
+        card.innerHTML = `<h3>${numeClasa}</h3><p>${descriere}</p>`;
+        
+        card.onclick = () => afiseazaMateriile(numeClasa);
+        gridPrincipal.appendChild(card);
+    }
 }
 
 function afiseazaMateriile(numeClasa) {
-    gridPrincipal.innerHTML = '';
-    const btnAcasa = document.getElementById('btn-acasa-nou');
-    if(btnAcasa) btnAcasa.classList.remove('ascuns');
+    gridPrincipal.innerHTML = '';
+    const btnAcasa = document.getElementById('btn-acasa-nou');
+    if(btnAcasa) btnAcasa.classList.remove('ascuns');
 
-    const materii = [
-        { nume: 'Matematica', clasaCSS: 'albastru' },
-        { nume: 'Stiinte', clasaCSS: 'verde' }
-    ];
+    const mteriileMat = [
+        { nume: 'Matematica', clasaCSS: 'albastru' },
+        { nume: 'Stiinte', clasaCSS: 'verde' }
+    ];
 
-    // Extragere număr clasă (ex: "Clasa a 6-a" devine 6)
-    const clasaNumar = parseInt(numeClasa.replace(/[^0-9]/g, ''), 10) || 0;
+    const clasaNumar = parseInt(numeClasa.replace(/[^0-9]/g, ''), 10) || 0;
 
-    materii.forEach(m => {
-        const card = document.createElement('div');
-        card.className = `clasa-card ${m.clasaCSS}`;
-        card.innerHTML = `<h3>${m.nume}</h3>`;
-        card.onclick = () => {
-            
-            // VERIFICARE SPECIALĂ PENTRU MATEMATICĂ (CLASELE 5-11)
-            if (m.nume === 'Matematica' && clasaNumar >= 5 && clasaNumar <= 11) {
-                gridPrincipal.innerHTML = ''; 
-                const meniuMath = document.getElementById('sub-meniuri-matematica');
-                
-                if (meniuMath) {
-                    // Luăm butoanele principale din HTML ca să le adaptăm textul
-                    const btnMainA = meniuMath.querySelector('.math-section-container:nth-child(1) .btn-math-main');
-                    const btnMainB = meniuMath.querySelector('.math-section-container:nth-child(2) .btn-math-main');
-                    
-                    // Luăm butoanele de Teorie din HTML pentru a le schimba link-ul din mers
-                    const linkTeorieAlgebra = meniuMath.querySelector('#sub-algebra .btn-math-sub');
-                    const btnTeorieGeometrie = meniuMath.querySelector('#sub-geometrie .btn-math-sub');
+    mteriileMat.forEach(m => {
+        const card = document.createElement('div');
+        card.className = `clasa-card ${m.clasaCSS}`;
+        card.innerHTML = `<h3>${m.nume}</h3>`;
+        card.onclick = () => {
+            
+            // VERIFICARE SPECIALĂ PENTRU MATEMATICĂ (CLASELE 5-11)
+            if (m.nume === 'Matematica' && clasaNumar >= 5 && clasaNumar <= 11) {
+                gridPrincipal.innerHTML = ''; 
+                const meniuMath = document.getElementById('sub-meniuri-matematica');
+                
+                if (meniuMath) {
+                    const btnMainA = meniuMath.querySelector('.math-section-container:nth-child(1) .btn-math-main');
+                    const btnMainB = meniuMath.querySelector('.math-section-container:nth-child(2) .btn-math-main');
+                    
+                    const btnTeorieAlgebra = meniuMath.querySelector('#sub-algebra .btn-math-sub:nth-child(1)');
+                    const btnTeorieGeometrie = meniuMath.querySelector('#sub-geometrie .btn-math-sub:nth-child(1)');
 
-                    // Setăm PDF-ul dinamic pentru Algebră (Teorie_Algebra_Clasa_5.pdf, Teorie_Algebra_Clasa_6.pdf etc.)
-                    if (linkTeorieAlgebra) {
-                        linkTeorieAlgebra.outerHTML = `<a href="Teorie_Algebra_Clasa_${clasaNumar}.pdf" target="_blank" class="btn-math-sub" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">Teorie</a>`;
-                    }
+                    // Setăm acțiunea de click pe butoanele de Teorie pentru a deschide PDF-ul corect de pe GitHub
+                    if (btnTeorieAlgebra) {
+                        btnTeorieAlgebra.onclick = () => {
+                            let fisierAlg = (clasaNumar >= 9) ? `Teorie_Algebra_Clasa_${clasaNumar}_Portocaliu.pdf` : `Teorie_Algebra_Clasa_${clasaNumar}.pdf`;
+                            window.open(fisierAlg, '_blank');
+                        };
+                    }
 
-                    // Verificăm dacă e clasa a 11-a sau una mai mică (5-10)
-                    if (clasaNumar === 11) {
-                        if (btnMainB) btnMainB.innerText = "Analiză Matematică";
-                        
-                        // Schimbăm butonul de sub Geometrie să deschidă Analiza
-                        if (btnTeorieGeometrie) {
-                            btnTeorieGeometrie.outerHTML = `<a href="Teorie_Analiza_Clasa_11.pdf" target="_blank" class="btn-math-sub" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">Teorie</a>`;
-                        }
-                        schimbaStareMascota('neutru', `Ai ales Matematica pentru clasa a XI-a! Ce facem azi, Algebră sau Analiză Matematică?`);
-                    } else {
-                        if (btnMainB) btnMainB.innerText = "Geometrie";
-                        
-                        // Setăm PDF-ul dinamic pentru Geometrie (Teorie_Geometrie_Clasa_5.pdf, Teorie_Geometrie_Clasa_6.pdf etc.)
-                        if (btnTeorieGeometrie) {
-                            btnTeorieGeometrie.outerHTML = `<a href="Teorie_Geometrie_Clasa_${clasaNumar}.pdf" target="_blank" class="btn-math-sub" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center;">Teorie</a>`;
-                        }
-                        schimbaStareMascota('neutru', `Ai ales Matematica pentru clasa a ${clasaNumar}-a! Ce facem azi, Algebră sau Geometrie?`);
-                    }
+                    if (clasaNumar === 11) {
+                        if (btnMainB) btnMainB.innerText = "Analiză Matematică";
+                        if (btnTeorieGeometrie) {
+                            btnTeorieGeometrie.onclick = () => {
+                                window.open("Teorie_Analiza_Matematica_Clasa_11.pdf", '_blank');
+                            };
+                        }
+                        schimbaStareMascota('neutru', `Ai ales Matematica pentru clasa a XI-a! Ce facem azi, Algebră sau Analiză Matematică?`);
+                    } else {
+                        if (clasaNumar === 9) {
+                            if (btnMainB) btnMainB.innerText = "Geometrie Vectorială";
+                        } else if (clasaNumar === 10) {
+                            if (btnMainB) btnMainB.innerText = "Geometrie Analitică";
+                        } else {
+                            if (btnMainB) btnMainB.innerText = "Geometrie";
+                        }
 
-                    meniuMath.classList.remove("ascuns");
-                    meniuMath.style.display = 'flex';
-                }
-            } else if (numeClasa === 'Clasa 0' && m.nume === 'Stiinte') {
-                gridPrincipal.classList.add('ascuns');
-                containerPlanta.classList.remove('ascuns');
-                schimbaStareMascota('vesel', 'Uită-te la plantă! Poți numi părțile ei?');
-            } else {
-                pornesteQuiz(m.nume); 
-            }
-        };
-        gridPrincipal.appendChild(card);
-    });
+                        if (btnTeorieGeometrie) {
+                            btnTeorieGeometrie.onclick = () => {
+                                let fisierGeom = "";
+                                if (clasaNumar === 5) {
+                                    fisierGeom = "Teorie_Geometrie_Clasa_5_Portocaliu.pdf";
+                                } else if (clasaNumar === 9) {
+                                    fisierGeom = "Teorie_Geometrie_Vectoriala_Clasa_9.pdf";
+                                } else if (clasaNumar === 10) {
+                                    fisierGeom = "Teorie_Geometrie_Analitica_Clasa_10.pdf";
+                                } else {
+                                    fisierGeom = `Teorie_Geometrie_Clasa_${clasaNumar}.pdf`;
+                                }
+                                window.open(fisierGeom, '_blank');
+                            };
+                        }
+                        schimbaStareMascota('neutru', `Ai ales Matematica pentru clasa a ${clasaNumar}-a! Ce facem azi?`);
+                    }
+
+                    meniuMath.classList.remove("ascuns");
+                    meniuMath.style.display = 'flex';
+                }
+            } else if (numeClasa === 'Clasa 0' && m.nume === 'Stiinte') {
+                gridPrincipal.classList.add('ascuns');
+                containerPlanta.classList.remove('ascuns');
+                schimbaStareMascota('vesel', 'Uită-te la plantă! Poți numi părțile ei?');
+            } else {
+                pornesteQuiz(m.nume); 
+            }
+        };
+        gridPrincipal.appendChild(card);
+    });
 }
 
 // ==========================================
 // 4. LOGICĂ SISTEM QUIZ (CU NAVIGARE MANUALĂ)
 // ==========================================
 function pornesteQuiz(materie) {
-    gridPrincipal.classList.add('ascuns');
-    quizContainer.classList.remove('ascuns');
-    
-    indexIntrebareCurenta = 0;
-    dateQuiz = dateProiect.materii[materie] || [];
-    
-    if (dateQuiz.length > 0) {
-        afiseazaIntrebare();
-    } else {
-        document.getElementById('intrebare-text').innerText = "Momentan nu avem întrebări pentru această materie.";
-        document.getElementById('optiuni').innerHTML = '';
-    }
+    gridPrincipal.classList.add('ascuns');
+    quizContainer.classList.remove('ascuns');
+    
+    indexIntrebareCurenta = 0;
+    dateQuiz = dateProiect.materii[materie] || [];
+    
+    if (dateQuiz.length > 0) {
+        afiseazaIntrebare();
+    } else {
+        document.getElementById('intrebare-text').innerText = "Momentan nu avem întrebări pentru această materie.";
+        document.getElementById('optiuni').innerHTML = '';
+    }
 }
 
 function afiseazaIntrebare() {
-    const data = dateQuiz[indexIntrebareCurenta]; 
-    const containerText = document.getElementById('intrebare-text');
-    const containerOptiuni = document.getElementById('optiuni');
-    
-    containerText.innerText = data.intrebare; 
-    containerOptiuni.innerHTML = ''; 
+    const data = dateQuiz[indexIntrebareCurenta]; 
+    const containerText = document.getElementById('intrebare-text');
+    const containerOptiuni = document.getElementById('optiuni');
+    
+    containerText.innerText = data.intrebare; 
+    containerOptiuni.innerHTML = ''; 
 
-    const progres = document.getElementById('quiz-progres');
-    if(progres) progres.innerText = `${indexIntrebareCurenta + 1} / ${dateQuiz.length}`;
-    
-    const btnPrev = document.getElementById('btn-prev');
-    const btnNext = document.getElementById('btn-next');
-    if(btnPrev) btnPrev.disabled = (indexIntrebareCurenta === 0);
-    if(btnNext) btnNext.disabled = true;
+    const progres = document.getElementById('quiz-progres');
+    if(progres) progres.innerText = `${indexIntrebareCurenta + 1} / ${dateQuiz.length}`;
+    
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    if(btnPrev) btnPrev.disabled = (indexIntrebareCurenta === 0);
+    if(btnNext) btnNext.disabled = true;
 
-    if (data.optiuni) {
-        data.optiuni.forEach((varianta, index) => {
-            const buton = document.createElement('button');
-            buton.className = "btn-optiune-quiz"; 
-            buton.innerText = varianta;
-            buton.onclick = () => verificareRaspuns(index === data.corect, data.explicatie); 
-            containerOptiuni.appendChild(buton);
-        });
-    } 
-    else if (data.tip === "input") {
-        const inputDiv = document.createElement('div');
-        inputDiv.className = "input-container";
-        inputDiv.innerHTML = `
-            <input type="text" id="raspuns-utilizator" placeholder="Scrie rezultatul...">
-            <button id="btn-verifica" onclick="verificaRaspunsInput()">Trimite</button>
-        `;
-        containerOptiuni.appendChild(inputDiv);
-    }
+    if (data.optiuni) {
+        data.optiuni.forEach((varianta, index) => {
+            const buton = document.createElement('button');
+            buton.className = "btn-optiune-quiz"; 
+            buton.innerText = varianta;
+            buton.onclick = () => verificareRaspuns(index === data.corect, data.explicatie); 
+            containerOptiuni.appendChild(buton);
+        });
+    } 
+    else if (data.tip === "input") {
+        const inputDiv = document.createElement('div');
+        inputDiv.className = "input-container";
+        inputDiv.innerHTML = `
+            <input type="text" id="raspuns-utilizator" placeholder="Scrie rezultatul...">
+            <button id="btn-verifica" onclick="verificaRaspunsInput()">Trimite</button>
+        `;
+        containerOptiuni.appendChild(inputDiv);
+    }
 }
 
 function verificaRaspunsInput() {
-    const data = dateQuiz[indexIntrebareCurenta];
-    const valoare = document.getElementById('raspuns-utilizator').value.trim();
-    verificareRaspuns(valoare === data.raspuns_corect, data.explicatie);
+    const data = dateQuiz[indexIntrebareCurenta];
+    const valoare = document.getElementById('raspuns-utilizator').value.trim();
+    verificareRaspuns(valoare === data.raspuns_corect, data.explicatie);
 }
 
 function verificareRaspuns(isCorect, explicatie) {
-    if (isCorect) {
-        schimbaStareMascota('vesel', "Bravo! " + explicatie);
-        const butoaneOptiuni = document.querySelectorAll('#optiuni button, #optiuni input');
-        butoaneOptiuni.forEach(el => el.disabled = true);
-        
-        const btnNext = document.getElementById('btn-next');
-        if(btnNext) btnNext.disabled = false;
-    } else {
-        schimbaStareMascota('trist', "Mai încearcă! Uită-te cu atenție.");
-    }
+    if (isCorect) {
+        schimbaStareMascota('vesel', "Bravo! " + explicatie);
+        const butoaneOptiuni = document.querySelectorAll('#optiuni button, #optiuni input');
+        butoaneOptiuni.forEach(el => el.disabled = true);
+        
+        const btnNext = document.getElementById('btn-next');
+        if(btnNext) btnNext.disabled = false;
+    } else {
+        schimbaStareMascota('trist', "Mai încearcă! Uită-te cu atenție.");
+    }
 }
 
 // ==========================================
 // 5. MODULUL MASCOTA PISIUC & RESET
 // ==========================================
 function urmatoareaIntrebare() {
-    indexIntrebareCurenta++;
-    if (indexIntrebareCurenta < dateQuiz.length) {
-        afiseazaIntrebare();
-    } else {
-        document.getElementById('intrebare-text').innerText = "Felicitări! Ai terminat toate întrebările! 🎉";
-        document.getElementById('optiuni').innerHTML = '<button class="btn-acasa" onclick="resetInterfata()">Înapoi la meniu</button>';
-        
-        const btnPrev = document.getElementById('btn-prev');
-        const btnNext = document.getElementById('btn-next');
-        if(btnPrev) btnPrev.disabled = true;
-        if(btnNext) btnNext.disabled = true;
-        if(document.getElementById('quiz-progres')) document.getElementById('quiz-progres').innerText = "Sfârșit!";
-    }
+    indexIntrebareCurenta++;
+    if (indexIntrebareCurenta < dateQuiz.length) {
+        afiseazaIntrebare();
+    } else {
+        document.getElementById('intrebare-text').innerText = "Felicitări! Ai terminat toate întrebările! 🎉";
+        document.getElementById('optiuni').innerHTML = '<button class="btn-acasa" onclick="resetInterfata()">Înapoi la meniu</button>';
+        
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        if(btnPrev) btnPrev.disabled = true;
+        if(btnNext) btnNext.disabled = true;
+        if(document.getElementById('quiz-progres')) document.getElementById('quiz-progres').innerText = "Sfârșit!";
+    }
 }
 
 function intrebarePrecedenta() {
-    if (indexIntrebareCurenta > 0) {
-        indexIntrebareCurenta--;
-        afiseazaIntrebare();
-    }
+    if (indexIntrebareCurenta > 0) {
+        indexIntrebareCurenta--;
+        afiseazaIntrebare();
+    }
 }
 
 function schimbaStareMascota(stare, mesaj = "Să învățăm împreună!") {
-    if (stare === 'vesel') catImg.src = 'pisiuc_vesel.png';
-    else if (stare === 'trist') catImg.src = 'pisiuc_trist.png';
-    else catImg.src = 'pisiuc_neutru.png';
+    if (!catImg) return;
+    if (stare === 'vesel') catImg.src = 'pisiuc_vesel.png';
+    else if (stare === 'trist') catImg.src = 'pisiuc_trist.png';
+    else catImg.src = 'pisiuc_neutru.png';
 
-    if(bulaText) {
-        bulaText.innerText = mesaj;
-        bulaText.classList.remove('ascuns');
-    }
+    if(bulaText) {
+        bulaText.innerText = mesaj;
+        bulaText.classList.remove('ascuns');
+    }
 
-    setTimeout(() => {
-        if(bulaText) bulaText.classList.add('ascuns');
-        catImg.src = 'pisiuc_neutru.png';
-    }, 5000); 
+    setTimeout(() => {
+        if(bulaText) bulaText.classList.add('ascuns');
+        if(catImg) catImg.src = 'pisiuc_neutru.png';
+    }, 5000); 
 }
 
 function resetInterfata() {
-    quizContainer.classList.add('ascuns');
-    if(containerPlanta) containerPlanta.classList.add('ascuns');
-    gridPrincipal.classList.remove('ascuns');
-    if(bulaText) bulaText.classList.add('ascuns');
-    
-    const btnAcasa = document.getElementById('btn-acasa-nou');
-    if(btnAcasa) btnAcasa.classList.add('ascuns');
-    
-    const meniuMath = document.getElementById('sub-meniuri-matematica');
-    if (meniuMath) {
-        meniuMath.classList.add("ascuns");
-        meniuMath.style.display = 'none';
-    }
-    
-    schimbaStareMascota('neutru');
-    afiseazaSelectieClase();
+    quizContainer.classList.add('ascuns');
+    if(containerPlanta) containerPlanta.classList.add('ascuns');
+    gridPrincipal.classList.remove('ascuns');
+    if(bulaText) bulaText.classList.add('ascuns');
+    
+    const btnAcasa = document.getElementById('btn-acasa-nou');
+    if(btnAcasa) btnAcasa.classList.add('ascuns');
+    
+    const meniuMath = document.getElementById('sub-meniuri-matematica');
+    if (meniuMath) {
+        meniuMath.classList.add("ascuns");
+        meniuMath.style.display = 'none';
+    }
+    
+    schimbaStareMascota('neutru');
+    afiseazaSelectieClase();
 }
 
 // ==========================================
 // 6. LOGICĂ DRAG AND DROP (EXERCIȚIU VIZUAL)
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    initDragAndDrop();
+    initDragAndDrop();
 });
 
 function initDragAndDrop() {
-    const draggables = document.querySelectorAll(".draggable");
-    const dropZones = document.querySelectorAll(".drop-zone");
+    const draggables = document.querySelectorAll(".draggable");
+    const dropZones = document.querySelectorAll(".drop-zone");
 
-    draggables.forEach(draggable => {
-        draggable.addEventListener("dragstart", (e) => {
-            e.dataTransfer.setData("text/plain", draggable.dataset.part);
-            draggable.classList.add("dragging");
-        });
+    draggables.forEach(draggable => {
+        draggable.addEventListener("dragstart", (e) => {
+            e.dataTransfer.setData("text/plain", draggable.dataset.part);
+            draggable.classList.add("dragging");
+        });
 
-        draggable.addEventListener("dragend", () => {
-            draggable.classList.remove("dragging");
-        });
-    });
+        draggable.addEventListener("dragend", () => {
+            draggable.classList.remove("dragging");
+        });
+    });
 
-    dropZones.forEach(zone => {
-        zone.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            zone.classList.add("hovered");
-        });
+    dropZones.forEach(zone => {
+        zone.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            zone.classList.add("hovered");
+        });
 
-        zone.addEventListener("dragleave", () => {
-            zone.classList.remove("hovered");
-        });
+        zone.addEventListener("dragleave", () => {
+            zone.classList.remove("hovered");
+        });
 
-        zone.addEventListener("drop", (e) => {
-            e.preventDefault();
-            zone.classList.remove("hovered");
+        zone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            zone.classList.remove("hovered");
 
-            const dataPart = e.dataTransfer.getData("text/plain");
-            const expectedPart = zone.dataset.accept;
+            const dataPart = e.dataTransfer.getData("text/plain");
+            const expectedPart = zone.dataset.accept;
 
-            if (dataPart === expectedPart) {
-                const originalElement = document.querySelector(`.draggable[data-part="${dataPart}"]`);
-                
-                if (originalElement) {
-                    zone.innerText = originalElement.innerText;
-                    zone.classList.add("corect");
-                    originalElement.style.visibility = "hidden";
-                    schimbaStareMascota('vesel', `Ai plasat corect componenta: ${originalElement.innerText}! ✨`);
-                    verificaFinalizareJoc();
-                }
-            } else {
-                schimbaStareMascota('trist', "Nu e locul potrivit! Mai încearcă.");
-            }
-        });
-    });
+            if (dataPart === expectedPart) {
+                const originalElement = document.querySelector(`.draggable[data-part="${dataPart}"]`);
+                
+                if (originalElement) {
+                    zone.innerText = originalElement.innerText;
+                    zone.classList.add("corect");
+                    originalElement.style.visibility = "hidden";
+                    schimbaStareMascota('vesel', `Ai plasat corect componenta: ${originalElement.innerText}! ✨`);
+                    verificaFinalizareJoc();
+                }
+            } else {
+                schimbaStareMascota('trist', "Nu e locul potrivit! Mai încearcă.");
+            }
+        });
+    });
 }
 
 function verificaFinalizareJoc() {
-    const toateZonele = document.querySelectorAll(".drop-zone");
-    const zoneCorecte = document.querySelectorAll(".drop-zone.corect");
-    
-    if (toateZonele.length === zoneCorecte.length) {
-        setTimeout(() => {
-            schimbaStareMascota('vesel', "Felicitări! Ai identificat toate părțile plantei! 🍓🎉");
-        }, 1500);
-    }
+    const toateZonele = document.querySelectorAll(".drop-zone");
+    const zoneCorecte = document.querySelectorAll(".drop-zone.corect");
+    
+    if (toateZonele.length === zoneCorecte.length) {
+        setTimeout(() => {
+            schimbaStareMascota('vesel', "Felicitări! Ai identificat toate părțile plantei! 🍓🎉");
+        }, 1500);
+    }
 }
 
 // ==========================================
 // 7. CONTROL SUB-MENIURI MATEMATICĂ
 // ==========================================
 function toggleSubMath(id) {
-    const subAlgebra = document.getElementById('sub-algebra');
-    const subGeometrie = document.getElementById('sub-geometrie');
-    
-    if (subAlgebra) subAlgebra.style.display = 'none';
-    if (subGeometrie) subGeometrie.style.display = 'none';
+    const subAlgebra = document.getElementById('sub-algebra');
+    const subGeometrie = document.getElementById('sub-geometrie');
+    
+    if (subAlgebra) subAlgebra.style.display = 'none';
+    if (subGeometrie) subGeometrie.style.display = 'none';
 
-    const containerCurent = document.getElementById(id);
-    if (containerCurent) {
-        containerCurent.style.display = 'flex';
-    }
+    const containerCurent = document.getElementById(id);
+    if (containerCurent) {
+        containerCurent.style.display = 'flex';
+    }
 }
 
-// Acest mic artificiu ne ajută să putem închide sub-meniul și când el e transformat în link de Analiză (clasa 11)
 document.addEventListener('click', function(e) {
-    if(e.target && e.target.innerText === 'Analiză Matematică') {
-        const subGeometrie = document.getElementById('sub-geometrie');
-        if(subGeometrie) subGeometrie.style.display = subGeometrie.style.display === 'none' ? 'flex' : 'none';
-    }
+    if(e.target && e.target.innerText === 'Analiză Matematică') {
+        const subGeometrie = document.getElementById('sub-geometrie');
+        if(subGeometrie) subGeometrie.style.display = subGeometrie.style.display === 'none' ? 'flex' : 'none';
+    }
 });
 
 function incarcaContinut(ramura, tip) {
-    console.log("S-a selectat din " + ramura + ": " + tip);
-    schimbaStareMascota('vesel', `Super! Ai ales ${ramura} - ${tip}. Să începem!`);
-} 
+    console.log("S-a selectat din " + ramura + ": " + tip);
+    schimbaStareMascota('vesel', `Super! Ai ales ${ramura} - ${tip}. Să începem!`);
+}
