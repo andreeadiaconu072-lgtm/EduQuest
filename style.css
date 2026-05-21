@@ -560,3 +560,53 @@ input:focus {
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
 }
+
+
+/* Stiluri personalizate pentru butoanele de Matematică clasa a 5-a */
+.btn-math-main {
+    width: 220px;
+    padding: 15px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #ff8c00; /* Portocaliu */
+    border: none;
+    border-radius: 12px; /* Colțuri rotunjite */
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-math-main:hover {
+    background-color: #e07b00;
+}
+
+.btn-math-main:active {
+    transform: scale(0.98);
+}
+
+.math-sub-container {
+    animation: fadeInMath 0.25s ease-out;
+}
+
+.btn-math-sub {
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #ff8c00;
+    background-color: white;
+    border: 2px solid #ff8c00;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-math-sub:hover {
+    background-color: #ff8c00;
+    color: white;
+}
+
+@keyframes fadeInMath {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
