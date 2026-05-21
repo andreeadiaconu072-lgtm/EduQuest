@@ -138,7 +138,6 @@ function afiseazaSelectieClase() {
 
         if (i === 0) {
             descriere = 'Pregătitoare';
-            warnaCSS = 'verde';
             culoareCSS = 'verde';
         } else if (i >= 1 && i <= 4) {
             descriere = 'Învățământ Primar';
@@ -165,32 +164,52 @@ function afiseazaMateriile(numeClasa) {
     const btnAcasa = document.getElementById('btn-acasa-nou');
     if(btnAcasa) btnAcasa.classList.remove('ascuns');
 
-    const mteriileMat = [
+    const materii = [
         { nume: 'Matematica', clasaCSS: 'albastru' },
         { nume: 'Stiinte', clasaCSS: 'verde' }
     ];
 
     const clasaNumar = parseInt(numeClasa.replace(/[^0-9]/g, ''), 10) || 0;
 
-    mteriileMat.forEach(m => {
+    materii.forEach(m => {
         const card = document.createElement('div');
         card.className = `clasa-card ${m.clasaCSS}`;
         card.innerHTML = `<h3>${m.nume}</h3>`;
         card.onclick = () => {
             
-            // VERIFICARE SPECIALĂ PENTRU MATEMATICĂ (CLASELE 5-11)
+            // VERIFICARE MATEMATICĂ (CLASELE 5-11) PENTRU MAPPING PDF ȘI EXERCIȚII
             if (m.nume === 'Matematica' && clasaNumar >= 5 && clasaNumar <= 11) {
                 gridPrincipal.innerHTML = ''; 
                 const meniuMath = document.getElementById('sub-meniuri-matematica');
                 
                 if (meniuMath) {
-                    const btnMainA = meniuMath.querySelector('.math-section-container:nth-child(1) .btn-math-main');
                     const btnMainB = meniuMath.querySelector('.math-section-container:nth-child(2) .btn-math-main');
-                    
                     const btnTeorieAlgebra = meniuMath.querySelector('#sub-algebra .btn-math-sub:nth-child(1)');
                     const btnTeorieGeometrie = meniuMath.querySelector('#sub-geometrie .btn-math-sub:nth-child(1)');
 
-                    // Setăm acțiunea de click pe butoanele de Teorie pentru a deschide PDF-ul corect de pe GitHub
+                    const btnExercitiiAlgebra = meniuMath.querySelector('#sub-algebra .btn-math-sub:nth-child(2)');
+                    const btnExercitiiGeometrie = meniuMath.querySelector('#sub-geometrie .btn-math-sub:nth-child(2)');
+
+                    // Legătură dinamică buton Exerciții Algebră
+                    if (btnExercitiiAlgebra) {
+                        btnExercitiiAlgebra.onclick = () => {
+                            meniuMath.classList.add("ascuns");
+                            meniuMath.style.display = 'none';
+                            pornesteQuiz(`clasa_${clasaNumar}_algebra_exercitii`);
+                        };
+                    }
+
+                    // Legătură dinamică buton Exerciții Geometrie / Analiză
+                    if (btnExercitiiGeometrie) {
+                        btnExercitiiGeometrie.onclick = () => {
+                            meniuMath.classList.add("ascuns");
+                            meniuMath.style.display = 'none';
+                            let tipGeom = (clasaNumar === 11) ? 'analiza' : 'geometrie';
+                            pornesteQuiz(`clasa_${clasaNumar}_${tipGeom}_exercitii`);
+                        };
+                    }
+
+                    // Click Teorie Algebră (Deschidere PDF)
                     if (btnTeorieAlgebra) {
                         btnTeorieAlgebra.onclick = () => {
                             let fisierAlg = (clasaNumar >= 9) ? `Teorie_Algebra_Clasa_${clasaNumar}_Portocaliu.pdf` : `Teorie_Algebra_Clasa_${clasaNumar}.pdf`;
@@ -198,6 +217,7 @@ function afiseazaMateriile(numeClasa) {
                         };
                     }
 
+                    // Click Teorie Geometrie / Analiză (Deschidere PDF)
                     if (clasaNumar === 11) {
                         if (btnMainB) btnMainB.innerText = "Analiză Matematică";
                         if (btnTeorieGeometrie) {
@@ -205,7 +225,7 @@ function afiseazaMateriile(numeClasa) {
                                 window.open("Teorie_Analiza_Matematica_Clasa_11.pdf", '_blank');
                             };
                         }
-                        schimbaStareMascota('neutru', `Ai ales Matematica pentru clasa a XI-a! Ce facem azi, Algebră sau Analiză Matematică?`);
+                        schimbaStareMascota('neutru', `Matematica clasa a XI-a: Algebră sau Analiză Matematică?`);
                     } else {
                         if (clasaNumar === 9) {
                             if (btnMainB) btnMainB.innerText = "Geometrie Vectorială";
@@ -230,7 +250,7 @@ function afiseazaMateriile(numeClasa) {
                                 window.open(fisierGeom, '_blank');
                             };
                         }
-                        schimbaStareMascota('neutru', `Ai ales Matematica pentru clasa a ${clasaNumar}-a! Ce facem azi?`);
+                        schimbaStareMascota('neutru', `Matematica clasa a ${clasaNumar}-a: Algebră sau Geometrie?`);
                     }
 
                     meniuMath.classList.remove("ascuns");
@@ -249,7 +269,7 @@ function afiseazaMateriile(numeClasa) {
 }
 
 // ==========================================
-// 4. LOGICĂ SISTEM QUIZ (CU NAVIGARE MANUALĂ)
+// 4. LOGIC SISTEM QUIZ (CU NAVIGARE MANUALĂ)
 // ==========================================
 function pornesteQuiz(materie) {
     gridPrincipal.classList.add('ascuns');
@@ -465,13 +485,6 @@ function toggleSubMath(id) {
         containerCurent.style.display = 'flex';
     }
 }
-
-document.addEventListener('click', function(e) {
-    if(e.target && e.target.innerText === 'Analiză Matematică') {
-        const subGeometrie = document.getElementById('sub-geometrie');
-        if(subGeometrie) subGeometrie.style.display = subGeometrie.style.display === 'none' ? 'flex' : 'none';
-    }
-});
 
 function incarcaContinut(ramura, tip) {
     console.log("S-a selectat din " + ramura + ": " + tip);
