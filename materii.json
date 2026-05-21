@@ -89,6 +89,130 @@
         ],
         "eroare_pisiuc": "Off, mai încearcă!"
       }
+    ],
+    "clasa_5_algebra_exercitii": [
+      {
+        "intrebare": "Care este rezultatul calculului: 2 + 3 × 4?",
+        "optiuni": ["a) 20", "b) 14", "c) 9", "d) 24"],
+        "corect": 1,
+        "explicatie": "Se efectuează mai întâi înmulțirea: 3 × 4 = 12, apoi adunarea: 2 + 12 = 14."
+      },
+      {
+        "intrebare": "Cât este 5 la puterea a 3-a (5³)?",
+        "optiuni": ["a) 15", "b) 25", "c) 125", "d) 75"],
+        "corect": 2,
+        "explicatie": "5³ înseamnă 5 × 5 × 5. Avem 5 × 5 = 25, iar 25 × 5 = 125."
+      },
+      {
+        "intrebare": "Aflați pe x din ecuația: x + 15 = 40.",
+        "optiuni": ["a) 55", "b) 25", "c) 35", "d) 15"],
+        "corect": 1,
+        "explicatie": "Pentru a afla termenul necunoscut, scădem: x = 40 - 15 = 25."
+      },
+      {
+        "intrebare": "Care este restul împărțirii numărului 27 la 4?",
+        "optiuni": ["a) 3", "b) 6", "c) 1", "d) 2"],
+        "corect": 0,
+        "explicatie": "27 împărțit la 4 dă câtul 6 și restul 3, deoarece 4 × 6 + 3 = 27."
+      },
+      {
+        "intrebare": "Ce fel de fracție este 7/5?",
+        "optiuni": ["a) Subunitară", "b) Echiunitară", "c) Supraunitară", "d) Zecimală"],
+        "corect": 2,
+        "explicatie": "Deoarece numărătorul (7) este mai mare decât numitorul (5), fracția este supraunitară."
+      },
+      {
+        "intrebare": "Transformați fracția zecimală 0,75 într-o fracție ordinară simplă.",
+        "optiuni": ["a) 1/2", "b) 3/4", "c) 7/5", "d) 1/4"],
+        "corect": 1,
+        "explicatie": "0,75 înseamnă 75/100. Simplificând prin 25, obținem 3/4."
+      },
+      {
+        "intrebare": "Care dintre următoarele numere este divizibil cu 5?",
+        "optiuni": ["a) 123", "b) 456", "c) 780", "d) 234"],
+        "corect": 2,
+        "explicatie": "Un număr este divizibil cu 5 dacă ultima sa cifră este 0 sau 5. 780 se termină în 0."
+      },
+      {
+        "intrebare": "Care este rezultatul calculului: 1,2 + 3,45?",
+        "optiuni": ["a) 4,65", "b) 3,57", "c) 4,57", "d) 46,5"],
+        "corect": 0,
+        "explicatie": "Aliniind virgula sub virgulă, obținem 1,20 + 3,45 = 4,65."
+      },
+      {
+        "intrebare": "Cât este u(2⁴), adică ultima cifră a lui 2 la puterea a 4-a?",
+        "optiuni": ["a) 2", "b) 4", "c) 8", "d) 6"],
+        "corect": 3,
+        "explicatie": "2⁴ = 2 × 2 × 2 × 2 = 16. Ultima cifră a numărului 16 este 6."
+      },
+      {
+        "intrebare": "Dacă media aritmetică a două numere este 20, care este suma lor?",
+        "optiuni": ["a) 10", "b) 20", "c) 40", "d) 30"],
+        "corect": 2,
+        "explicatie": "Media aritmetică este suma împărțită la 2. Deci suma este 20 × 2 = 40."
+      }
+    ],
+    "clasa_5_geometrie_exercitii": [
+      {
+        "intrebare": "Câte puncte determină o singură dreaptă?",
+        "optiuni": ["a) Un singur punct", "b) Două puncte distincte", "c) Trei puncte", "d) Niciun punct"],
+        "corect": 1,
+        "explicatie": "Prin două puncte distincte trece o singură dreaptă."
+      },
+      {
+        "intrebare": "Cum se numește porțiunea dintr-o dreaptă mărginită la ambele capete?",
+        "optiuni": ["a) Semidreaptă", "b) Segment", "c) Unghi", "d) Arc"],
+        "corect": 1,
+        "explicatie": "Segmentul de dreaptă are două capete bine determinate și o lungime ce poate fi măsurată."
+      },
+      {
+        "intrebare": "Transformați 3 metri în centimetri.",
+        "optiuni": ["a) 30 cm", "b) 300 cm", "c) 3000 cm", "d) 0,3 cm"],
+        "corect": 1,
+        "explicatie": "Un metru are 100 de centimetri, deci 3 metri înseamnă 3 × 100 = 300 cm."
+      },
+      {
+        "intrebare": "Un unghi drept are măsura de...",
+        "optiuni": ["a) 180°", "b) 45°", "c) 90°", "d) 360°"],
+        "corect": 2,
+        "explicatie": "Unghiul drept este unghiul ale cărui laturi sunt perpendiculare și are exact 90 de grade."
+      },
+      {
+        "intrebare": "Un pătrat are latura de 5 cm. Care este perimetrul lui?",
+        "optiuni": ["a) 20 cm", "b) 25 cm", "c) 15 cm", "d) 10 cm"],
+        "corect": 0,
+        "explicatie": "Perimetrul pătratului este format din suma celor 4 laturi egale: 4 × latura = 4 × 5 = 20 cm."
+      },
+      {
+        "intrebare": "Cum se numesc două drepte care nu se intersectează niciodată și sunt în același plan?",
+        "optiuni": ["a) Concurente", "b) Perpendiculare", "c) Paralele", "d) Identice"],
+        "corect": 2,
+        "explicatie": "Dreptele paralele mențin o distanță constantă între ele și nu au niciun punct comun."
+      },
+      {
+        "intrebare": "Dacă un segment AB are lungimea de 12 cm, la ce distanță de punctul A se află mijlocul său, M?",
+        "optiuni": ["a) 12 cm", "b) 4 cm", "c) 3 cm", "d) 6 cm"],
+        "corect": 3,
+        "explicatie": "Mijlocul împarte segmentul în două părți egale: 12 : 2 = 6 cm."
+      },
+      {
+        "intrebare": "Ce unitate de măsură standard se folosește pentru a calcula volumul unui corp?",
+        "optiuni": ["a) Metrul pătrat (m²)", "b) Metrul cub (m³)", "c) Litrul", "d) Metrul (m)"],
+        "corect": 1,
+        "explicatie": "Unitatea principală de măsură pentru volum în SI este metrul cub (m³)."
+      },
+      {
+        "intrebare": "Un unghi cu măsura de 120° este un unghi...",
+        "optiuni": ["a) Ascuțit", "b) Drept", "c) Obtuz", "d) Alungit"],
+        "corect": 2,
+        "explicatie": "Unghiurile care au măsura mai mare de 90° și mai mică de 180° se numesc unghiuri obtuze."
+      },
+      {
+        "intrebare": "Un dreptunghi are lungimea de 8 cm și lățimea de 3 cm. Perimetrul său este:",
+        "optiuni": ["a) 11 cm", "b) 24 cm", "c) 22 cm", "d) 14 cm"],
+        "corect": 2,
+        "explicatie": "Perimetrul dreptunghiului este 2 × (L + l) = 2 × (8 + 3) = 2 × 11 = 22 cm."
+      }
     ]
   }
 }
