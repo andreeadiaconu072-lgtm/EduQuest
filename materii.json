@@ -1,4 +1,8 @@
 {
+  "utilizatori": [
+    { "user": "elev1", "parola": "1234" },
+    { "user": "profesor1", "parola": "profesor2026" }
+  ],
   "materii": {
     "Matematica": [
       {
