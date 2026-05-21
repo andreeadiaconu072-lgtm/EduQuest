@@ -186,7 +186,16 @@ function afiseazaMateriile(numeClasa) {
         card.className = `clasa-card ${m.clasaCSS}`;
         card.innerHTML = `<h3>${m.nume}</h3>`;
         card.onclick = () => {
-            if (numeClasa === 'Clasa 0' && m.nume === 'Stiinte') {
+            // VERIFICARE SPECIALĂ PENTRU MATEMATICĂ CLASA A 5-A
+            if (numeClasa === 'Clasa a 5-a' && m.nume === 'Matematica') {
+                gridPrincipal.innerHTML = ''; 
+                const meniuMath = document.getElementById('sub-meniuri-matematica');
+                if (meniuMath) {
+                    meniuMath.classList.remove("ascuns");
+                    meniuMath.style.display = 'flex';
+                }
+                schimbaStareMascota('neutru', "Ai ales Matematica pentru clasa a V-a! Ce facem azi, Algebră sau Geometrie?");
+            } else if (numeClasa === 'Clasa 0' && m.nume === 'Stiinte') {
                 gridPrincipal.classList.add('ascuns');
                 containerPlanta.classList.remove('ascuns');
                 schimbaStareMascota('vesel', 'Uită-te la plantă! Poți numi părțile ei?');
@@ -328,6 +337,13 @@ function resetInterfata() {
     const btnAcasa = document.getElementById('btn-acasa-nou');
     if(btnAcasa) btnAcasa.classList.add('ascuns');
     
+    // Ascundem meniul portocaliu când ne întoarcem la ecranul principal
+    const meniuMath = document.getElementById('sub-meniuri-matematica');
+    if (meniuMath) {
+        meniuMath.classList.add("ascuns");
+        meniuMath.style.display = 'none';
+    }
+    
     schimbaStareMascota('neutru');
     afiseazaSelectieClase();
 }
@@ -414,4 +430,28 @@ function verificaFinalizareJoc() {
             schimbaStareMascota('vesel', "Felicitări! Ai identificat toate părțile plantei! 🍓🎉");
         }, 1500);
     }
+}
+
+// ==========================================
+// 7. CONTROL SUB-MENIURI MATEMATICĂ
+// ==========================================
+function toggleSubMath(id) {
+    // Ascunde sub-butoanele deschise anterior ca să nu se suprapună
+    const subAlgebra = document.getElementById('sub-algebra');
+    const subGeometrie = document.getElementById('sub-geometrie');
+    
+    if (subAlgebra) subAlgebra.style.display = 'none';
+    if (subGeometrie) subGeometrie.style.display = 'none';
+
+    // Afișează doar sub-butoanele pentru secțiunea selectată
+    const containerCurent = document.getElementById(id);
+    if (containerCurent) {
+        containerCurent.style.display = 'flex';
+    }
+}
+
+function incarcaContinut(ramura, tip) {
+    console.log("S-a selectat din " + ramura + ": " + tip);
+    // Folosim funcția ta nativă ca să o facem pe pisică să vorbească
+    schimbaStareMascota('vesel', `Super! Ai ales ${ramura} - ${tip}. Să începem!`);
 }
