@@ -164,12 +164,16 @@ function afiseazaMateriile(numeClasa) {
     const btnAcasa = document.getElementById('btn-acasa-nou');
     if(btnAcasa) btnAcasa.classList.remove('ascuns');
 
-    const materii = [
+    const clasaNumar = parseInt(numeClasa.replace(/[^0-9]/g, ''), 10) || 0;
+
+    let materii = [
         { nume: 'Matematica', clasaCSS: 'albastru' },
         { nume: 'Stiinte', clasaCSS: 'verde' }
     ];
 
-    const clasaNumar = parseInt(numeClasa.replace(/[^0-9]/g, ''), 10) || 0;
+    if (clasaNumar >= 5 && clasaNumar <= 12) {
+        materii.push({ nume: 'Romana', clasaCSS: 'portocaliu' });
+    }
 
     materii.forEach(m => {
         const card = document.createElement('div');
@@ -177,7 +181,50 @@ function afiseazaMateriile(numeClasa) {
         card.innerHTML = `<h3>${m.nume}</h3>`;
         card.onclick = () => {
             
-            // VERIFICARE MATEMATICĂ (CLASELE 5-11) PENTRU MAPPING PDF ȘI EXERCIȚII
+            // 1. CONTROL QUIZ PENTRU CLASELE 1-4 (EVITĂ ATRIBUIREA QUIZ-ULUI DE CLASA 0)
+            if (clasaNumar >= 1 && clasaNumar <= 4) {
+                if (m.nume === 'Matematica') {
+                    pornesteQuiz('clasa_1_4_matematica');
+                } else if (m.nume === 'Stiinte') {
+                    pornesteQuiz('clasa_1_4_stiinte');
+                }
+                return;
+            }
+
+            // 2. ROMÂNĂ LICEU (9-12) - LISTA DE LECTURI CANONICE BAC
+            if (m.nume === 'Romana' && clasaNumar >= 9 && clasaNumar <= 12) {
+                afiseazaLecturiBac();
+                return;
+            }
+
+            // 3. ROMÂNĂ GIMNAZIU (5-8) - SUB-MENIURI DINAMICE
+            if (m.nume === 'Romana' && clasaNumar >= 5 && clasaNumar <= 8) {
+                gridPrincipal.innerHTML = '';
+                const meniuRomana = document.getElementById('sub-meniuri-romana');
+                if (meniuRomana) {
+                    const btnTeorie = document.getElementById('btn-teorie-romana');
+                    const btnExercitii = document.getElementById('btn-exercitii-romana');
+
+                    if (btnTeorie) {
+                        btnTeorie.onclick = () => {
+                            window.open(`Teorie_Romana_Clasa_${clasaNumar}.pdf`, '_blank');
+                        };
+                    }
+                    if (btnExercitii) {
+                        btnExercitii.onclick = () => {
+                            meniuRomana.classList.add("ascuns");
+                            meniuRomana.style.display = 'none';
+                            pornesteQuiz(`clasa_${clasaNumar}_romana_exercitii`);
+                        };
+                    }
+                    meniuRomana.classList.remove("ascuns");
+                    meniuRomana.style.display = 'flex';
+                    schimbaStareMascota('neutru', `Limba Română clasa a ${clasaNumar}-a. Alegi Teorie sau Exerciții?`);
+                }
+                return;
+            }
+
+            // 4. MATEMATICĂ LICEU ȘI GIMNAZIU (5-11)
             if (m.nume === 'Matematica' && clasaNumar >= 5 && clasaNumar <= 11) {
                 gridPrincipal.innerHTML = ''; 
                 const meniuMath = document.getElementById('sub-meniuri-matematica');
@@ -190,7 +237,6 @@ function afiseazaMateriile(numeClasa) {
                     const btnExercitiiAlgebra = meniuMath.querySelector('#sub-algebra .btn-math-sub:nth-child(2)');
                     const btnExercitiiGeometrie = meniuMath.querySelector('#sub-geometrie .btn-math-sub:nth-child(2)');
 
-                    // Legătură dinamică buton Exerciții Algebră
                     if (btnExercitiiAlgebra) {
                         btnExercitiiAlgebra.onclick = () => {
                             meniuMath.classList.add("ascuns");
@@ -199,7 +245,6 @@ function afiseazaMateriile(numeClasa) {
                         };
                     }
 
-                    // Legătură dinamică buton Exerciții Geometrie / Analiză
                     if (btnExercitiiGeometrie) {
                         btnExercitiiGeometrie.onclick = () => {
                             meniuMath.classList.add("ascuns");
@@ -209,7 +254,6 @@ function afiseazaMateriile(numeClasa) {
                         };
                     }
 
-                    // Click Teorie Algebră (Deschidere PDF)
                     if (btnTeorieAlgebra) {
                         btnTeorieAlgebra.onclick = () => {
                             let fisierAlg = (clasaNumar >= 9) ? `Teorie_Algebra_Clasa_${clasaNumar}_Portocaliu.pdf` : `Teorie_Algebra_Clasa_${clasaNumar}.pdf`;
@@ -217,7 +261,6 @@ function afiseazaMateriile(numeClasa) {
                         };
                     }
 
-                    // Click Teorie Geometrie / Analiză (Deschidere PDF)
                     if (clasaNumar === 11) {
                         if (btnMainB) btnMainB.innerText = "Analiză Matematică";
                         if (btnTeorieGeometrie) {
@@ -227,26 +270,17 @@ function afiseazaMateriile(numeClasa) {
                         }
                         schimbaStareMascota('neutru', `Matematica clasa a XI-a: Algebră sau Analiză Matematică?`);
                     } else {
-                        if (clasaNumar === 9) {
-                            if (btnMainB) btnMainB.innerText = "Geometrie Vectorială";
-                        } else if (clasaNumar === 10) {
-                            if (btnMainB) btnMainB.innerText = "Geometrie Analitică";
-                        } else {
-                            if (btnMainB) btnMainB.innerText = "Geometrie";
-                        }
+                        if (clasaNumar === 9) { if (btnMainB) btnMainB.innerText = "Geometrie Vectorială"; }
+                        else if (clasaNumar === 10) { if (btnMainB) btnMainB.innerText = "Geometrie Analitică"; }
+                        else { if (btnMainB) btnMainB.innerText = "Geometrie"; }
 
                         if (btnTeorieGeometrie) {
                             btnTeorieGeometrie.onclick = () => {
                                 let fisierGeom = "";
-                                if (clasaNumar === 5) {
-                                    fisierGeom = "Teorie_Geometrie_Clasa_5_Portocaliu.pdf";
-                                } else if (clasaNumar === 9) {
-                                    fisierGeom = "Teorie_Geometrie_Vectoriala_Clasa_9.pdf";
-                                } else if (clasaNumar === 10) {
-                                    fisierGeom = "Teorie_Geometrie_Analitica_Clasa_10.pdf";
-                                } else {
-                                    fisierGeom = `Teorie_Geometrie_Clasa_${clasaNumar}.pdf`;
-                                }
+                                if (clasaNumar === 5) { fisierGeom = "Teorie_Geometrie_Clasa_5_Portocaliu.pdf"; }
+                                else if (clasaNumar === 9) { fisierGeom = "Teorie_Geometrie_Vectoriala_Clasa_9.pdf"; }
+                                else if (clasaNumar === 10) { fisierGeom = "Teorie_Geometrie_Analitica_Clasa_10.pdf"; }
+                                else { fisierGeom = `Teorie_Geometrie_Clasa_${clasaNumar}.pdf`; }
                                 window.open(fisierGeom, '_blank');
                             };
                         }
@@ -269,7 +303,37 @@ function afiseazaMateriile(numeClasa) {
 }
 
 // ==========================================
-// 4. LOGIC SISTEM QUIZ (CU NAVIGARE MANUALĂ)
+// 4. INTERFAȚĂ LECTURI BAC (9-12)
+// ==========================================
+function afiseazaLecturiBac() {
+    gridPrincipal.innerHTML = `
+        <div class="card-selectie" style="max-width: 650px; text-align: left; margin: 30px auto; padding: 25px; background: #fffaf5; border: 2px solid #f5d6b8; border-radius: 12px;">
+            <h2 style="color: #d35400; text-align: center; margin-top: 0;">📚 Opere Canonice Obligatorii pentru BAC</h2>
+            <p style="font-size:14px; color:#7e4a1f; margin-bottom:15px; text-align:center;">Lista oficială a operelor pentru examenul de Bacalaureat:</p>
+            <div style="max-height: 380px; overflow-y: auto; padding-right: 10px;">
+                <ul style="list-style-type: none; padding-left: 0; line-height: 1.8;">
+                    <li style="margin-bottom: 8px;">🔸 <strong>Povestea lui Harap-Alb</strong> – Ion Creangă</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Moara cu noroc</strong> – Ioan Slavici</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Luceafărul</strong> – Mihai Eminescu</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>O scrisoare pierdută</strong> – I.L. Caragiale</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Plumb</strong> – George Bacovia</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Ion</strong> – Liviu Rebreanu</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Ultima noapte de dragoste...</strong> – Camil Petrescu</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Enigma Otiliei</strong> – George Călinescu</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Baltagul</strong> – Mihail Sadoveanu</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Testament</strong> – Tudor Arghezi</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Riga Crypto și lapona Enigel</strong> – Ion Barbu</li>
+                    <li style="margin-bottom: 8px;">🔸 <strong>Iona</strong> – Marin Sorescu</li>
+                </ul>
+            </div>
+            <button class="btn-acasa" onclick="resetInterfata()" style="margin-top: 20px; width: 100%;">Înapoi la clase</button>
+        </div>
+    `;
+    schimbaStareMascota('vesel', 'Iată lista autorilor canonici! Spor la învățat pentru examen.');
+}
+
+// ==========================================
+// 5. LOGICĂ SISTEM QUIZ (CU NAVIGARE MANUALĂ)
 // ==========================================
 function pornesteQuiz(materie) {
     gridPrincipal.classList.add('ascuns');
@@ -281,7 +345,7 @@ function pornesteQuiz(materie) {
     if (dateQuiz.length > 0) {
         afiseazaIntrebare();
     } else {
-        document.getElementById('intrebare-text').innerText = "Momentan nu avem întrebări pentru această materie.";
+        document.getElementById('intrebare-text').innerText = "Momentan nu avem întrebări pentru această secțiune.";
         document.getElementById('optiuni').innerHTML = '';
     }
 }
@@ -342,7 +406,7 @@ function verificareRaspuns(isCorect, explicatie) {
 }
 
 // ==========================================
-// 5. MODULUL MASCOTA PISIUC & RESET
+// 6. MODULUL MASCOTA PISIUC & RESET
 // ==========================================
 function urmatoareaIntrebare() {
     indexIntrebareCurenta++;
@@ -398,13 +462,19 @@ function resetInterfata() {
         meniuMath.classList.add("ascuns");
         meniuMath.style.display = 'none';
     }
+
+    const meniuRomana = document.getElementById('sub-meniuri-romana');
+    if (meniuRomana) {
+        meniuRomana.classList.add("ascuns");
+        meniuRomana.style.display = 'none';
+    }
     
     schimbaStareMascota('neutru');
     afiseazaSelectieClase();
 }
 
 // ==========================================
-// 6. LOGICĂ DRAG AND DROP (EXERCIȚIU VIZUAL)
+// 7. LOGICĂ DRAG AND DROP (EXERCIȚIU VIZUAL)
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
     initDragAndDrop();
@@ -471,7 +541,7 @@ function verificaFinalizareJoc() {
 }
 
 // ==========================================
-// 7. CONTROL SUB-MENIURI MATEMATICĂ
+// 8. CONTROL SUB-MENIURI MATEMATICĂ
 // ==========================================
 function toggleSubMath(id) {
     const subAlgebra = document.getElementById('sub-algebra');
@@ -484,9 +554,4 @@ function toggleSubMath(id) {
     if (containerCurent) {
         containerCurent.style.display = 'flex';
     }
-}
-
-function incarcaContinut(ramura, tip) {
-    console.log("S-a selectat din " + ramura + ": " + tip);
-    schimbaStareMascota('vesel', `Super! Ai ales ${ramura} - ${tip}. Să începem!`);
 }
