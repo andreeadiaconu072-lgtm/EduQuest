@@ -1,241 +1,241 @@
 /* ==========================================================================
-   1. VARIABILE, RESET & STILURI DE BAZĂ
-   ========================================================================== */
+   1. VARIABILE, RESET & STILURI DE BAZĂ
+   ========================================================================== */
 :root {
-    --verde: #4caf50;
-    --portocaliu: #ff9800;
-    --rosu: #f44336;
-    --albastru: #2196f3;
-    --albastru-inchis: #1976D2;
-    --fundal: #f8f9fa;
-    --text-inchis: #333333;
+    --verde: #4caf50;
+    --portocaliu: #ff9800;
+    --rosu: #f44336;
+    --albastru: #2196f3;
+    --albastru-inchis: #1976D2;
+    --fundal: #f8f9fa;
+    --text-inchis: #333333;
 }
 
 * {
-    box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-    background-color: var(--fundal);
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    background-color: var(--fundal);
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .ascuns {
-    display: none !important;
+    display: none !important;
 }
 
 /* ==========================================================================
-   2. BARA DE SUS (HEADER MODERN) & NAVIGARE
-   ========================================================================== */
+   2. BARA DE SUS (HEADER MODERN) & NAVIGARE
+   ========================================================================== */
 .app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background-color: transparent;
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: transparent;
+    width: 100%;
 }
 
 .logo-text {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--albastru);
-    cursor: pointer;
-    margin: 0;
-    user-select: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--albastru);
+    cursor: pointer;
+    margin: 0;
+    user-select: none;
 }
 
 .header-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .user-badge {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: white;
-    padding: 8px 15px;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    font-weight: bold;
-    color: var(--text-inchis);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    font-weight: bold;
+    color: var(--text-inchis);
 }
 
 .user-badge:hover {
-    transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .user-avatar-mini {
-    font-size: 16px;
+    font-size: 16px;
 }
 
 .streak-container {
-    background: white;
-    padding: 8px 15px;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    font-weight: bold;
-    color: var(--text-inchis);
+    background: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-weight: bold;
+    color: var(--text-inchis);
 }
 
 .nav-actions {
-    padding: 0 30px;
-    margin-bottom: 10px;
+    padding: 0 30px;
+    margin-bottom: 10px;
 }
 
 .btn-acasa {
-    background-color: var(--portocaliu);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: background-color 0.2s, transform 0.2s;
+    background-color: var(--portocaliu);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.2s, transform 0.2s;
 }
 
 .btn-acasa:hover {
-    background-color: #e68a00;
-    transform: translateY(-1px);
+    background-color: #e68a00;
+    transform: translateY(-1px);
 }
 
 /* ==========================================================================
-   3. ECRANELE FULL-SCREEN (LOGIN & SELECȚIE ROL)
-   ========================================================================== */
+   3. ECRANELE FULL-SCREEN (LOGIN & SELECȚIE ROL)
+   ========================================================================== */
 .overlay-full {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--fundal);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--fundal);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
 .card-login, .card-selectie {
-    background: white;
-    padding: 50px;
-    border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-    text-align: center;
-    max-width: 500px;
-    width: 90%;
+    background: white;
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
 }
 
 input {
-    display: block;
-    width: 100%;
-    margin: 15px 0;
-    padding: 15px;
-    border: 2px solid #eee;
-    border-radius: 15px;
-    outline: none;
-    font-size: 1rem;
-    transition: 0.3s;
+    display: block;
+    width: 100%;
+    margin: 15px 0;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 15px;
+    outline: none;
+    font-size: 1rem;
+    transition: 0.3s;
 }
 
 input:focus {
-    border-color: var(--albastru);
+    border-color: var(--albastru);
 }
 
 .card-login button, .input-container button {
-    background-color: var(--portocaliu);
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    width: 100%;
+    background-color: var(--portocaliu);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 100%;
 }
 
 .card-login button:hover, .input-container button:hover {
-    background-color: #e68a00;
-    transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+    background-color: #e68a00;
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
 }
 
 .schimba-ecran {
-    margin-top: 20px;
-    font-size: 0.95rem;
-    color: #666;
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: #666;
 }
 
 .schimba-ecran a {
-    color: var(--albastru);
-    text-decoration: none;
-    font-weight: bold;
+    color: var(--albastru);
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .schimba-ecran a:hover {
-    text-decoration: underline;
+    text-decoration: underline;
 }
 
 .optiuni-roluri {
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
 }
 
 .rol-box {
-    padding: 30px;
-    border: 2px solid #eee;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-    flex: 1;
-    background: white;
-    font-weight: bold;
+    padding: 30px;
+    border: 2px solid #eee;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    flex: 1;
+    background: white;
+    font-weight: bold;
 }
 
 .rol-box:hover {
-    border-color: var(--verde);
-    background-color: #f8fff8;
-    transform: translateY(-5px);
+    border-color: var(--verde);
+    background-color: #f8fff8;
+    transform: translateY(-5px);
 }
 
 /* ==========================================================================
-   4. INTERFAȚĂ PRINCIPALĂ (GRID AUTO-RESPONSIVE CLASE 0-12)
-   ========================================================================== */
+   4. INTERFAȚĂ PRINCIPALĂ (GRID AUTO-RESPONSIVE CLASE 0-12)
+   ========================================================================== */
 #grid-principal {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .clasa-card {
-    background: white;
-    border-radius: 25px;
-    padding: 35px 20px;
-    text-align: center;
-    color: var(--text-inchis);
-    font-weight: bold;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: white;
+    border-radius: 25px;
+    padding: 35px 20px;
+    text-align: center;
+    color: var(--text-inchis);
+    font-weight: bold;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .clasa-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .verde { background-color: #e8f5e9; border-bottom: 8px solid var(--verde); }
@@ -244,386 +244,386 @@ input:focus {
 .albastru { background-color: #e3f2fd; border-bottom: 8px solid var(--albastru); }
 
 /* ==========================================================================
-   5. CONTAINER JOC ȘI SISTEM QUIZ
-   ========================================================================== */
+   5. CONTAINER JOC ȘI SISTEM QUIZ
+   ========================================================================== */
 #quiz-container {
-    background: white;
-    margin: 40px auto;
-    padding: 40px;
-    border-radius: 30px;
-    max-width: 600px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    text-align: center;
+    background: white;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 30px;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
 }
 
 #intrebare-text {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: var(--text-inchis);
-    margin-bottom: 25px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-inchis);
+    margin-bottom: 25px;
 }
 
 #optiuni {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
 }
 
 #optiuni .btn-optiune-quiz {
-    background-color: white !important;
-    color: var(--text-inchis) !important;
-    border: 2px solid #eee !important;
-    padding: 15px 20px !important;
-    border-radius: 15px !important;
-    cursor: pointer !important;
-    font-weight: 600 !important;
-    font-size: 1rem !important;
-    width: 100% !important;
-    box-shadow: none !important;
-    transform: none !important;
-    transition: all 0.2s ease !important;
+    background-color: white !important;
+    color: var(--text-inchis) !important;
+    border: 2px solid #eee !important;
+    padding: 15px 20px !important;
+    border-radius: 15px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: all 0.2s ease !important;
 }
 
 #optiuni .btn-optiune-quiz:hover:not(:disabled) {
-    border-color: var(--portocaliu) !important;
-    background-color: #fffbf5 !important;
-    transform: translateY(-2px) !important;
+    border-color: var(--portocaliu) !important;
+    background-color: #fffbf5 !important;
+    transform: translateY(-2px) !important;
 }
 
 #optiuni button:disabled, #optiuni .btn-optiune-quiz:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
 }
 
 .quiz-nav-baza {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 25px;
-    padding-top: 15px;
-    border-top: 2px dashed #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 2px dashed #f0f0f0;
 }
 
 .quiz-nav-baza button {
-    background-color: var(--albastru);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--albastru);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .quiz-nav-baza button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    background-color: var(--albastru-inchis);
-    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.3);
+    transform: translateY(-2px);
+    background-color: var(--albastru-inchis);
+    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.3);
 }
 
 .quiz-nav-baza button:disabled {
-    background-color: #cccccc;
-    color: #666666;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
 #quiz-progres {
-    font-weight: bold;
-    color: #555;
-    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    font-size: 16px;
 }
 
 /* ==========================================================================
-   6. MODAL DETALII CONT (POP-UP PROFIL)
-   ========================================================================== */
+   6. MODAL DETALII CONT (POP-UP PROFIL)
+   ========================================================================== */
 .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
 .modal-content {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 .close-modal {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #aaa;
-    transition: color 0.2s;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.2s;
 }
 
 .close-modal:hover {
-    color: black;
+    color: black;
 }
 
 .avatar-mare {
-    font-size: 50px;
-    margin-bottom: 15px;
+    font-size: 50px;
+    margin-bottom: 15px;
 }
 
 .modal-profile-info p {
-    margin: 10px 0;
-    font-size: 18px;
-    color: var(--text-inchis);
+    margin: 10px 0;
+    font-size: 18px;
+    color: var(--text-inchis);
 }
 
 .btn-inchide {
-    margin-top: 20px;
-    background-color: var(--albastru);
-    color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s;
+    margin-top: 20px;
+    background-color: var(--albastru);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
 }
 
 .btn-inchide:hover {
-    background-color: var(--albastru-inchis);
+    background-color: var(--albastru-inchis);
 }
 
 /* ==========================================================================
-   7. MASCOTA PISIUC & BULA DE TEXT (STÂNGA JOS)
-   ========================================================================== */
+   7. MASCOTA PISIUC & BULA DE TEXT (STÂNGA JOS)
+   ========================================================================== */
 #mascota-container {
-    position: fixed; 
-    bottom: 30px; 
-    left: 30px;      
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1000;
-    pointer-events: none;
+    position: fixed; 
+    bottom: 30px; 
+    left: 30px;      
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    pointer-events: none;
 }
 
 #cat-img {
-    width: 200px; 
-    height: auto;
-    pointer-events: auto;
-    filter: none;
-    transition: transform 0.3s ease; 
+    width: 200px; 
+    height: auto;
+    pointer-events: auto;
+    filter: none;
+    transition: transform 0.3s ease; 
 }
 
 #bula-text {
-    background: white;
-    border: 2px solid var(--portocaliu);
-    border-radius: 20px;
-    padding: 12px 18px;
-    margin-bottom: 10px;
-    max-width: 200px;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: bold;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    pointer-events: auto;
+    background: white;
+    border: 2px solid var(--portocaliu);
+    border-radius: 20px;
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    max-width: 200px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    pointer-events: auto;
 }
 
 #bula-text::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 20%;      
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 10px solid var(--portocaliu);
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 20%;      
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid var(--portocaliu);
 }
 
 /* ==========================================================================
-   8. EXERCIȚIUL VIZUAL (DRAG & DROP ȘTIINȚE)
-   ========================================================================== */
+   8. EXERCIȚIUL VIZUAL (DRAG & DROP ȘTIINȚE)
+   ========================================================================== */
 #exercitiu-vizual-container {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
 }
 
 .game-layout {
-    display: flex;
-    flex-direction: row; 
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
+    display: flex;
+    flex-direction: row; 
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 #labels-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 150px;
 }
 
 .draggable {
-    background: white;
-    color: var(--text-inchis, #333);
-    padding: 10px 15px;
-    border: 2px solid var(--portocaliu, #ff9900);
-    border-radius: 12px;
-    cursor: grab;
-    font-weight: bold;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: transform 0.2s, background-color 0.2s;
-    user-select: none;
+    background: white;
+    color: var(--text-inchis, #333);
+    padding: 10px 15px;
+    border: 2px solid var(--portocaliu, #ff9900);
+    border-radius: 12px;
+    cursor: grab;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s, background-color 0.2s;
+    user-select: none;
 }
 
 .draggable:active {
-    cursor: grabbing;
-    transform: scale(0.98);
-    background-color: #fff8f0;
+    cursor: grabbing;
+    transform: scale(0.98);
+    background-color: #fff8f0;
 }
 
 /* Starea în timp ce tragi elementul */
 .draggable.dragging {
-    opacity: 0.5;
+    opacity: 0.5;
 }
 
 #image-wrapper {
-    position: relative;
-    display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 #image-wrapper img {
-    width: 100%;
-    max-width: 600px; 
-    height: auto;
-    display: block;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 600px; 
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 /* Zonele de plasare (Inițial sub formă de capsule semi-transparente) */
 .drop-zone {
-    position: absolute;
-    width: 100px;
-    height: 40px;
-    border: 2px dashed var(--albastru, #2196f3);
-    border-radius: 20px; /* Le face să arate ca niște capsule rotunjite */
-    background-color: rgba(255, 255, 255, 0.85);
-    transform: translate(-50%, -50%); 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: bold;
-    color: var(--text-inchis, #333);
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    border: 2px dashed var(--albastru, #2196f3);
+    border-radius: 20px; /* Le face să arate ca niște capsule rotunjite */
+    background-color: rgba(255, 255, 255, 0.85);
+    transform: translate(-50%, -50%); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-inchis, #333);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 /* Când utilizatorul ține o etichetă deasupra zonei valide */
 .drop-zone.hovered {
-    background-color: rgba(255, 230, 0, 0.2);
-    border-color: var(--portocaliu, #ff9900);
-    transform: translate(-50%, -50%) scale(1.1); /* Păstrează centrarea intactă la mărire */
+    background-color: rgba(255, 230, 0, 0.2);
+    border-color: var(--portocaliu, #ff9900);
+    transform: translate(-50%, -50%) scale(1.1); /* Păstrează centrarea intactă la mărire */
 }
 
 /* Când piesa a fost plasată corect (Suportă ambele denumiri corect/correct) */
 .drop-zone.corect,
 .drop-zone.correct {
-    width: auto;
-    height: auto;
-    padding: 8px 16px;
-    border-style: solid;
-    border-color: var(--verde, #2ed573);
-    background-color: var(--verde, #2ed573);
-    color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    width: auto;
+    height: auto;
+    padding: 8px 16px;
+    border-style: solid;
+    border-color: var(--verde, #2ed573);
+    background-color: var(--verde, #2ed573);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
 }
 
 
 /* Stiluri personalizate pentru butoanele de Matematică clasa a 5-a */
 .btn-math-main {
-    width: 220px;
-    padding: 15px 25px;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    background-color: #ff8c00; /* Portocaliu */
-    border: none;
-    border-radius: 12px; /* Colțuri rotunjite */
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    padding: 15px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #ff8c00; /* Portocaliu */
+    border: none;
+    border-radius: 12px; /* Colțuri rotunjite */
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn-math-main:hover {
-    background-color: #e07b00;
+    background-color: #e07b00;
 }
 
 .btn-math-main:active {
-    transform: scale(0.98);
+    transform: scale(0.98);
 }
 
 .math-sub-container {
-    animation: fadeInMath 0.25s ease-out;
+    animation: fadeInMath 0.25s ease-out;
 }
 
 .btn-math-sub {
-    padding: 10px 20px;
-    font-size: 15px;
-    font-weight: bold;
-    color: #ff8c00;
-    background-color: white;
-    border: 2px solid #ff8c00;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #ff8c00;
+    background-color: white;
+    border: 2px solid #ff8c00;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .btn-math-sub:hover {
-    background-color: #ff8c00;
-    color: white;
+    background-color: #ff8c00;
+    color: white;
 }
 
 @keyframes fadeInMath {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .card-material {
-    background: #fffaf5;
-    border-left: 5px solid #e67e22;
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    text-align: left;
+    background: #fffaf5;
+    border-left: 5px solid #e67e22;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: left;
 }
 .card-material h3 { color: #d35400; margin-top: 0; margin-bottom: 8px; }
 .card-material p { color: #4a2e1b; margin: 0; font-size: 14px; }
 .card-material .data-postare { font-size: 11px; color: #999; margin-top: 10px; display: block; }
 
 .cod-badge {
-    background: #fdebd0; color: #d35400; padding: 5px 10px;
-    border-radius: 5px; font-weight: bold; letter-spacing: 1px; font-family: monospace;
+    background: #fdebd0; color: #d35400; padding: 5px 10px;
+    border-radius: 5px; font-weight: bold; letter-spacing: 1px; font-family: monospace;
 }
