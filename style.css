@@ -7,7 +7,7 @@
     --rosu: #f44336;
     --albastru: #2196f3;
     --albastru-inchis: #1976D2;
-    --fundal: #f8f9fa;
+    --fundal: #f5f7fb; /* Un gri-albăstrui foarte deschis care scoate în evidență cardurile albe */
     --text-inchis: #333333;
 }
 
@@ -17,12 +17,19 @@
 
 body {
     background-color: var(--fundal);
+    color: var(--text-inchis);
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+
+.rol-box, .math-section-container button {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+.rol-box:hover { transform: translateY(-5px); }
 
 .ascuns {
     display: none !important;
@@ -31,22 +38,25 @@ body {
 /* ==========================================================================
    2. BARA DE SUS (HEADER MODERN) & NAVIGARE
    ========================================================================== */
+/* Bara portocalie pentru header - acum ocupă perfect spațiul */
 .app-header {
+    background-color: #e67e22; /* Portocaliu EduQuest */
+    padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background-color: transparent;
-    width: 100%;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
 .logo-text {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
-    color: var(--albastru);
+    color: #ffffff; /* Schimbat în alb pentru contrast excelent pe portocaliu */
     cursor: pointer;
     margin: 0;
     user-select: none;
+    letter-spacing: 0.5px;
 }
 
 .header-right {
@@ -88,6 +98,7 @@ body {
 
 .nav-actions {
     padding: 0 30px;
+    margin-top: 20px;
     margin-bottom: 10px;
 }
 
@@ -210,15 +221,32 @@ input:focus {
 }
 
 /* ==========================================================================
-   4. INTERFAȚĂ PRINCIPALĂ (GRID AUTO-RESPONSIVE CLASE 0-12)
+   4. SEPARARE ȘI STRUCTURĂ GRIDS (CLASE VIRTUALÈ vs MATERII)
    ========================================================================== */
+/* Secțiunea de sus pentru clase virtuale - fundal cald */
+#grid-clase-profesor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+    background-color: #fffaf0; /* Crem cald */
+    padding: 25px;
+    border-radius: 20px;
+    border: 2px dashed #ffd1a4;
+    margin: 20px 30px;
+}
+
+/* Secțiunea de jos pentru materiile 0-12 - fundal curat */
 #grid-principal {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
+    background-color: #ffffff; /* Alb curat pentru contrast cu fundalul gri al paginii */
     padding: 30px;
+    border-radius: 25px;
+    border: 1px solid #e2e8f0;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .clasa-card {
@@ -228,14 +256,14 @@ input:focus {
     text-align: center;
     color: var(--text-inchis);
     font-weight: bold;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.03);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .clasa-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
 }
 
 .verde { background-color: #e8f5e9; border-bottom: 8px solid var(--verde); }
@@ -503,7 +531,6 @@ input:focus {
     background-color: #fff8f0;
 }
 
-/* Starea în timp ce tragi elementul */
 .draggable.dragging {
     opacity: 0.5;
 }
@@ -521,13 +548,12 @@ input:focus {
     margin: 0 auto;
 }
 
-/* Zonele de plasare (Inițial sub formă de capsule semi-transparente) */
 .drop-zone {
     position: absolute;
     width: 100px;
     height: 40px;
     border: 2px dashed var(--albastru, #2196f3);
-    border-radius: 20px; /* Le face să arate ca niște capsule rotunjite */
+    border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.85);
     transform: translate(-50%, -50%); 
     display: flex;
@@ -540,14 +566,12 @@ input:focus {
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* Când utilizatorul ține o etichetă deasupra zonei valide */
 .drop-zone.hovered {
     background-color: rgba(255, 230, 0, 0.2);
     border-color: var(--portocaliu, #ff9900);
-    transform: translate(-50%, -50%) scale(1.1); /* Păstrează centrarea intactă la mărire */
+    transform: translate(-50%, -50%) scale(1.1);
 }
 
-/* Când piesa a fost plasată corect (Suportă ambele denumiri corect/correct) */
 .drop-zone.corect,
 .drop-zone.correct {
     width: auto;
@@ -561,17 +585,18 @@ input:focus {
     box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
 }
 
-
-/* Stiluri personalizate pentru butoanele de Matematică clasa a 5-a */
+/* ==========================================================================
+   9. EXTRA MATEMATICĂ & MATERIALE 
+   ========================================================================== */
 .btn-math-main {
     width: 220px;
     padding: 15px 25px;
     font-size: 18px;
     font-weight: bold;
     color: white;
-    background-color: #ff8c00; /* Portocaliu */
+    background-color: #ff8c00;
     border: none;
-    border-radius: 12px; /* Colțuri rotunjite */
+    border-radius: 12px;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
