@@ -1,213 +1,197 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduQuest - Învață cu Pisiuc</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduQuest - Învață cu Pisiuc</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="app-header">
-        <div class="header-left">
-            <h1 class="logo-text" onclick="resetInterfata()">EduQuest</h1>
-        </div>
-        
-        <div class="header-right">
-            <div id="user-profile-badge" class="user-badge ascuns" onclick="deschideModalCont()">
-                <span id="header-username">Utilizator</span>
-                <div class="user-avatar-mini">🐾</div>
-            </div>
-            
-            <div class="streak-container">
-                <span>🔥 Streak: <strong id="streak-num">0</strong></span>
-            </div>
-        </div>
-    </header>
+    <header class="app-header">
+        <div class="header-left">
+            <h1 class="logo-text" onclick="resetInterfata()">EduQuest</h1>
+        </div>
+        
+        <div class="header-right">
+            <div id="user-profile-badge" class="user-badge ascuns" onclick="deschideModalCont()">
+                <span id="header-username">Utilizator</span>
+                <div class="user-avatar-mini">🐾</div>
+            </div>
+            
+            <div class="streak-container">
+                <span>🔥 Streak: <strong id="streak-num">0</strong></span>
+            </div>
+        </div>
+    </header>
 
-    <div class="nav-actions">
-        <button id="btn-acasa-nou" class="btn-acasa ascuns" onclick="resetInterfata()">🏠 Acasă</button>
-    </div>
+    <div class="nav-actions">
+        <button id="btn-acasa-nou" class="btn-acasa ascuns" onclick="resetInterfata()">🏠 Acasă</button>
+    </div>
 
-    <div id="ecran-login" class="overlay-full">
-        <div id="form-login" class="card-login">
-            <h2>EduQuest Login</h2>
-            <input type="text" id="login-user" placeholder="Utilizator">
-            <input type="password" id="login-pass" placeholder="Parolă">
-            <button onclick="proceseazaLogin()">Intră în cont</button>
-            <p class="schimba-ecran">Nu ai cont? <a href="#" onclick="comutaEcraneAutentificare('register')">Creează un cont nou</a></p>
-        </div>
+    <div id="modal-cont" class="modal-backdrop ascuns">
+        <div class="modal-content">
+            <span class="close-modal" onclick="inchideModalCont()">&times;</span>
+            <h2>Profilul tău EduQuest</h2>
+            <div class="modal-profile-info">
+                <div class="avatar-mare">🐱</div>
+                <p><strong>Utilizator:</strong> <span id="modal-username">elev1</span></p>
+                <p><strong>Rol:</strong> <span id="modal-rol">Elev Explorator</span></p>
+                <p><strong>Status:</strong> Activ pentru InfoEducație 🚀</p>
+            </div>
+            <button class="btn-inchide" onclick="inchideModalCont()">Închide</button>
+        </div>
+    </div>
 
-        <div id="form-register" class="card-login ascuns">
-            <h2>Cont Nou EduQuest</h2>
-            <input type="text" id="register-user" placeholder="Alege Nume Utilizator">
-            <input type="password" id="register-pass" placeholder="Alege Parolă">
-            <button onclick="proceseazaInregistrare()">Înregistrare</button>
-            <p class="schimba-ecran">Ai deja cont? <a href="#" onclick="comutaEcraneAutentificare('login')">Loghează-te</a></p>
-        </div>
-    </div>
+    <div id="ecran-login" class="overlay-full">
+        <div id="form-login" class="card-login">
+            <h2>EduQuest Login</h2>
+            <input type="text" id="login-user" placeholder="Utilizator">
+            <input type="password" id="login-pass" placeholder="Parolă">
+            <button onclick="proceseazaLogin()">Intră în cont</button>
+            <p class="schimba-ecran">Nu ai cont? <a href="#" onclick="comutaEcraneAutentificare('register')">Creează un cont nou</a></p>
+        </div>
 
-    <div id="ecran-rol" class="overlay-full ascuns">
-        <div class="card-selectie">
-            <h1>Cine ești?</h1>
-            <div class="optiuni-roluri">
-                <div class="rol-box" onclick="setRol('elev')">Sunt Elev</div>
-                <div class="rol-box" onclick="setRol('profesor')">Sunt Profesor</div>
-            </div>
-        </div>
-    </div>
+        <div id="form-register" class="card-login ascuns">
+            <h2>Cont Nou EduQuest</h2>
+            <input type="text" id="register-user" placeholder="Alege Nume Utilizator">
+            <input type="password" id="register-pass" placeholder="Alege Parolă">
+            <button onclick="proceseazaInregistrare()">Înregistrare</button>
+            <p class="schimba-ecran">Ai deja cont? <a href="#" onclick="comutaEcraneAutentificare('login')">Loghează-te</a></p>
+        </div>
+    </div>
 
-    <div id="interfata-principala" class="ascuns">
-        <div id="app">
-            
-            <div id="dashboard-elev" class="ascuns">
-                <section id="sectiune-clase">
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
-                        <h2 style="color: #d35400;">🎒 Clasele Tale</h2>
-                        <button class="btn-math-sub" onclick="document.getElementById('modal-alaturare-clasa').classList.remove('ascuns')">🔑 Intră în clasă nouă</button>
-                    </div>
-                    <div id="grid-clase-elev" style="display: flex; flex-wrap: wrap; gap: 15px; padding: 20px;">
-                        </div>
-                </section>
+    <div id="ecran-rol" class="overlay-full ascuns">
+        <div class="card-selectie">
+            <h1>Cine ești?</h1>
+            <div class="optiuni-roluri">
+                <div class="rol-box" onclick="setRol('elev')">Sunt Elev</div>
+                <div class="rol-box" onclick="setRol('profesor')">Sunt Profesor</div>
+            </div>
+        </div>
+    </div>
 
-                <hr style="border: 0; border-top: 2px solid #eee; margin: 30px 20px;">
+    <div id="interfata-principala" class="ascuns">
+        <div id="app">
+            
+            <div id="grid-principal"></div>
+            
+            <div id="dashboard-profesor" class="ascuns" style="max-width: 800px; margin: 40px auto; padding: 20px; width: 100%;">
+                <h2 style="color: #d35400; text-align: center;">🎓 Cabinetul Profesorului</h2>
+                <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 30px;">
+                    <button class="btn-math-main" onclick="document.getElementById('modal-creare-clasa').classList.remove('ascuns')">+ Creează o Clasă</button>
+                    <button class="btn-math-main" style="background-color: #27ae60;" onclick="deschideModalMaterial()">+ Postează Material/Temă</button>
+                </div>
+                <h3 style="color: #7e4a1f;">Clasele Tale Active:</h3>
+                <div id="grid-clase-profesor" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;"></div>
+            </div>
 
-                <section id="sectiune-materii">
-                    <h2 style="color: #2980b9; padding-left: 20px;">📚 Explorare pe Materii (Clasele 0-12)</h2>
-                    <div id="grid-principal"></div>
-                </section>
-            </div>
-            
-            <div id="dashboard-profesor" class="ascuns" style="max-width: 800px; margin: 40px auto; padding: 20px; width: 100%;">
-                <h2 style="color: #d35400; text-align: center;">🎓 Cabinetul Profesorului</h2>
-                <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 30px;">
-                    <button class="btn-math-main" onclick="document.getElementById('modal-creare-clasa').classList.remove('ascuns')">+ Creează o Clasă</button>
-                    <button class="btn-math-main" style="background-color: #27ae60;" onclick="deschideModalMaterial()">+ Postează Material/Temă</button>
-                </div>
-                <h3 style="color: #7e4a1f;">Clasele Tale Active:</h3>
-                <div id="grid-clase-profesor"></div>
-            </div>
+            <div id="vizualizare-clasa-elev" class="ascuns" style="max-width: 800px; margin: 40px auto; padding: 20px; width: 100%;">
+                <h2 id="titlu-clasa-activa" style="color: #d35400;">Materiale Clasă</h2>
+                <button class="btn-acasa" style="margin-bottom: 20px;" onclick="resetInterfata()">Înapoi la clase</button>
+                <div id="lista-materiale-elev" style="display: flex; flex-direction: column; gap: 15px;"></div>
+            </div>
+            
+            <div id="sub-meniuri-matematica" class="ascuns" style="flex-direction: column; gap: 20px; align-items: center; margin-top: 30px; width: 100%;">
+                <div class="math-section-container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <button class="btn-math-main" onclick="toggleSubMath('sub-algebra')">Algebră</button>
+                    <div id="sub-algebra" class="math-sub-container" style="display: none; gap: 15px;">
+                        <button class="btn-math-sub" id="btn-teorie-alg">Teorie</button>
+                        <button class="btn-math-sub" id="btn-ex-alg">Exerciții</button>
+                    </div>
+                </div>
 
-            <div id="vizualizare-clasa-elev" class="ascuns" style="max-width: 800px; margin: 40px auto; padding: 20px; width: 100%;">
-                <h2 id="titlu-clasa-activa" style="color: #d35400;">Materiale Clasă</h2>
-                <button class="btn-acasa" style="margin-bottom: 20px;" onclick="resetInterfata()">Înapoi la clase</button>
-                <div id="lista-materiale-elev" style="display: flex; flex-direction: column; gap: 15px;"></div>
-            </div>
-            
-            <div id="sub-meniuri-matematica" class="ascuns" style="flex-direction: column; gap: 20px; align-items: center; margin-top: 30px; width: 100%;">
-                <div class="math-section-container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                    <button class="btn-math-main" onclick="toggleSubMath('sub-algebra')">Algebră</button>
-                    <div id="sub-algebra" class="math-sub-container" style="display: none; gap: 15px;">
-                        <button class="btn-math-sub" id="btn-teorie-alg">Teorie</button>
-                        <button class="btn-math-sub" id="btn-ex-alg">Exerciții</button>
-                    </div>
-                </div>
+                <div class="math-section-container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <button class="btn-math-main" onclick="toggleSubMath('sub-geometrie')">Geometrie</button>
+                    <div id="sub-geometrie" class="math-sub-container" style="display: none; gap: 15px;">
+                        <button class="btn-math-sub" id="btn-teorie-geom">Teorie</button>
+                        <button class="btn-math-sub" id="btn-ex-geom">Exerciții</button>
+                    </div>
+                </div>
+            </div>
 
-                <div class="math-section-container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                    <button class="btn-math-main" onclick="toggleSubMath('sub-geometrie')">Geometrie</button>
-                    <div id="sub-geometrie" class="math-sub-container" style="display: none; gap: 15px;">
-                        <button class="btn-math-sub" id="btn-teorie-geom">Teorie</button>
-                        <button class="btn-math-sub" id="btn-ex-geom">Exerciții</button>
-                    </div>
-                </div>
-            </div>
+            <div id="sub-meniuri-romana" class="ascuns" style="display: none; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px; width: 100%;">
+                <div class="math-section-container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <button class="btn-math-main">Limba și Literatura Română</button>
+                    <div class="math-sub-container" style="display: flex; gap: 15px;">
+                        <button id="btn-teorie-romana" class="btn-math-sub">Teorie Gramatică</button>
+                        <button id="btn-exercitii-romana" class="btn-math-sub">Exerciții</button>
+                    </div>
+                </div>
+            </div>
 
-            <div id="sub-meniuri-romana" class="ascuns" style="display: none; flex-direction: column; gap: 20px; align-items: center; margin-top: 30px; width: 100%;">
-                <div class="math-section-container" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                    <button class="btn-math-main">Limba și Literatura Română</button>
-                    <div class="math-sub-container" style="display: flex; gap: 15px;">
-                        <button id="btn-teorie-romana" class="btn-math-sub">Teorie Gramatică</button>
-                        <button id="btn-exercitii-romana" class="btn-math-sub">Exerciții</button>
-                    </div>
-                </div>
-            </div>
+            <div id="quiz-container" class="ascuns">
+                <div id="intrebare-card">
+                    <p id="intrebare-text">Se încarcă întrebarea...</p>
+                    <div id="optiuni"></div>
+                    
+                    <div class="quiz-nav-baza">
+                        <button id="btn-prev" onclick="intrebarePrecedenta()">⬅️ Înapoi</button>
+                        <span id="quiz-progres">1 / 5</span>
+                        <button id="btn-next" onclick="urmatoareaIntrebare()">Înainte ➡️</button>
+                    </div>
+                </div>
+            </div>
 
-            <div id="quiz-container" class="ascuns">
-                <div id="intrebare-card">
-                    <p id="intrebare-text">Se încarcă întrebarea...</p>
-                    <div id="optiuni"></div>
-                    
-                    <div class="quiz-nav-baza">
-                        <button id="btn-prev" onclick="intrebarePrecedenta()">⬅️ Înapoi</button>
-                        <span id="quiz-progres">1 / 5</span>
-                        <button id="btn-next" onclick="urmatoareaIntrebare()">Înainte ➡️</button>
-                    </div>
-                </div>
-            </div>
+            <div id="exercitiu-vizual-container" class="ascuns">
+                <div class="game-layout">
+                    <div id="labels-container">
+                        <div class="draggable" draggable="true" data-part="radacina">Rădăcina</div>
+                        <div class="draggable" draggable="true" data-part="tulpina">Tulpina</div>
+                        <div class="draggable" draggable="true" data-part="frunza">Frunza</div>
+                        <div class="draggable" draggable="true" data-part="floarea">Floarea</div>
+                        <div class="draggable" draggable="true" data-part="fructul">Fructul</div>
+                    </div>
 
-            <div id="exercitiu-vizual-container" class="ascuns">
-                <div class="game-layout">
-                    <div id="labels-container">
-                        <div class="draggable" draggable="true" data-part="radacina">Rădăcina</div>
-                        <div class="draggable" draggable="true" data-part="tulpina">Tulpina</div>
-                        <div class="draggable" draggable="true" data-part="frunza">Frunza</div>
-                        <div class="draggable" draggable="true" data-part="floarea">Floarea</div>
-                        <div class="draggable" draggable="true" data-part="fructul">Fructul</div>
-                    </div>
+                    <div id="image-wrapper">
+                        <img src="Planta_Capsuna.png" alt="Capsuna">
+                        <div class="drop-zone" style="top: 85%; left: 50%;" data-accept="radacina"></div>
+                        <div class="drop-zone" style="top: 60%; left: 45%;" data-accept="tulpina"></div>
+                        <div class="drop-zone" style="top: 55%; left: 30%;" data-accept="frunza"></div>
+                        <div class="drop-zone" style="top: 25%; left: 40%;" data-accept="floarea"></div>
+                        <div class="drop-zone" style="top: 35%; left: 65%;" data-accept="fructul"></div>
+                    </div>
+                </div>
+            </div>
 
-                    <div id="image-wrapper">
-                        <img src="Planta_Capsuna.png" alt="Capsuna">
-                        <div class="drop-zone" style="top: 85%; left: 50%;" data-accept="radacina"></div>
-                        <div class="drop-zone" style="top: 60%; left: 45%;" data-accept="tulpina"></div>
-                        <div class="drop-zone" style="top: 55%; left: 30%;" data-accept="frunza"></div>
-                        <div class="drop-zone" style="top: 25%; left: 40%;" data-accept="floarea"></div>
-                        <div class="drop-zone" style="top: 35%; left: 65%;" data-accept="fructul"></div>
-                    </div>
-                </div>
-            </div>
+            <div id="mascota-container">
+                <div id="bula-text" class="ascuns"></div>
+                <img id="cat-img" src="pisiuc_neutru.png" alt="Mascota Pisiuc">
+            </div>
 
-            <div id="mascota-container">
-                <div id="bula-text" class="ascuns"></div>
-                <img id="cat-img" src="pisiuc_neutru.png" alt="Mascota Pisiuc">
-            </div>
+        </div>
+    </div>
 
-        </div>
-    </div>
+    <div id="modal-creare-clasa" class="modal-backdrop ascuns">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('modal-creare-clasa').classList.add('ascuns')">&times;</span>
+            <h2 style="color: #d35400;">Creează o clasă nouă</h2>
+            <input type="text" id="nume-clasa-noua" placeholder="Numele clasei (ex: Clasa a VI-a B)" style="width: 100%; padding: 10px; margin: 15px 0; border: 2px solid #fdebd0; border-radius: 8px; box-sizing: border-box;">
+            <button class="btn-math-main" style="width: 100%;" onclick="creeazaClasa()">Salvează Clasa</button>
+        </div>
+    </div>
 
-    <div id="modal-cont" class="modal-backdrop ascuns">
-        <div class="modal-content">
-            <span class="close-modal" onclick="inchideModalCont()">&times;</span>
-            <h2>Profilul tău EduQuest</h2>
-            <div class="modal-profile-info">
-                <div class="avatar-mare">🐱</div>
-                <p><strong>Utilizator:</strong> <span id="modal-username">elev1</span></p>
-                <p><strong>Rol:</strong> <span id="modal-rol">Elev Explorator</span></p>
-                <p><strong>Status:</strong> Activ pentru InfoEducație 🚀</p>
-            </div>
-            <button class="btn-inchide" onclick="inchideModalCont()">Închide</button>
-        </div>
-    </div>
+    <div id="modal-postare-material" class="modal-backdrop ascuns">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('modal-postare-material').classList.add('ascuns')">&times;</span>
+            <h2 style="color: #d35400;">Postează Material Nou</h2>
+            <select id="select-clasa-material" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 2px solid #fdebd0; box-sizing: border-box;"></select>
+            <input type="text" id="titlu-material" placeholder="Titlul lecției sau temei" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 2px solid #fdebd0; box-sizing: border-box;">
+            <textarea id="descriere-material" placeholder="Scrie cerința sau explicațiile aici..." style="width: 100%; padding: 10px; height: 100px; margin-bottom: 15px; border-radius: 8px; border: 2px solid #fdebd0; resize: none; box-sizing: border-box;"></textarea>
+            <button class="btn-math-main" style="width: 100%; background-color: #27ae60;" onclick="posteazaMaterial()">Postează Materialul</button>
+        </div>
+    </div>
 
-    <div id="modal-creare-clasa" class="modal-backdrop ascuns">
-        <div class="modal-content">
-            <span class="close-modal" onclick="document.getElementById('modal-creare-clasa').classList.add('ascuns')">&times;</span>
-            <h2 style="color: #d35400;">Creează o clasă nouă</h2>
-            <input type="text" id="nume-clasa-noua" placeholder="Numele clasei (ex: Clasa a VI-a B)" style="width: 100%; padding: 10px; margin: 15px 0; border: 2px solid #fdebd0; border-radius: 8px; box-sizing: border-box;">
-            <button class="btn-math-main" style="width: 100%;" onclick="creeazaClasa()">Salvează Clasa</button>
-        </div>
-    </div>
+    <div id="modal-alaturare-clasa" class="modal-backdrop ascuns">
+        <div class="modal-content">
+            <span class="close-modal" onclick="document.getElementById('modal-alaturare-clasa').classList.add('ascuns')">&times;</span>
+            <h2 style="color: #d35400;">Alătură-te unei clase</h2>
+            <p style="color: #7e4a1f; font-size: 14px;">Introdu codul primit de la profesorul tău pentru a vedea materialele postate.</p>
+            <input type="text" id="cod-clasa-alaturare" placeholder="Cod Clasă (ex: A7X9P)" style="width: 100%; padding: 10px; margin: 15px 0; text-transform: uppercase; font-weight: bold; text-align: center; border: 2px solid #fdebd0; border-radius: 8px; box-sizing: border-box; letter-spacing: 2px;">
+            <button class="btn-math-main" style="width: 100%;" onclick="alaturaClasaElev()">Intră în clasă</button>
+        </div>
+    </div>
 
-    <div id="modal-postare-material" class="modal-backdrop ascuns">
-        <div class="modal-content">
-            <span class="close-modal" onclick="document.getElementById('modal-postare-material').classList.add('ascuns')">&times;</span>
-            <h2 style="color: #d35400;">Postează Material Nou</h2>
-            <select id="select-clasa-material" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 2px solid #fdebd0; box-sizing: border-box;"></select>
-            <input type="text" id="titlu-material" placeholder="Titlul lecției sau temei" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 2px solid #fdebd0; box-sizing: border-box;">
-            <textarea id="descriere-material" placeholder="Scrie cerința sau explicațiile aici..." style="width: 100%; padding: 10px; height: 100px; margin-bottom: 15px; border-radius: 8px; border: 2px solid #fdebd0; resize: none; box-sizing: border-box;"></textarea>
-            <button class="btn-math-main" style="width: 100%; background-color: #27ae60;" onclick="posteazaMaterial()">Postează Materialul</button>
-        </div>
-    </div>
-
-    <div id="modal-alaturare-clasa" class="modal-backdrop ascuns">
-        <div class="modal-content">
-            <span class="close-modal" onclick="document.getElementById('modal-alaturare-clasa').classList.add('ascuns')">&times;</span>
-            <h2 style="color: #d35400;">Alătură-te unei clase</h2>
-            <p style="color: #7e4a1f; font-size: 14px;">Introdu codul primit de la profesorul tău pentru a vedea materialele postate.</p>
-            <input type="text" id="cod-clasa-alaturare" placeholder="Cod Clasă (ex: A7X9P)" style="width: 100%; padding: 10px; margin: 15px 0; text-transform: uppercase; font-weight: bold; text-align: center; border: 2px solid #fdebd0; border-radius: 8px; box-sizing: border-box; letter-spacing: 2px;">
-            <button class="btn-math-main" style="width: 100%;" onclick="alaturaClasaElev()">Intră în clasă</button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
