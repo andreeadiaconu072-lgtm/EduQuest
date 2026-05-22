@@ -29,20 +29,6 @@
         <button id="btn-acasa-nou" class="btn-acasa ascuns" onclick="resetInterfata()">🏠 Acasă</button>
     </div>
 
-    <div id="modal-cont" class="modal-backdrop ascuns">
-        <div class="modal-content">
-            <span class="close-modal" onclick="inchideModalCont()">&times;</span>
-            <h2>Profilul tău EduQuest</h2>
-            <div class="modal-profile-info">
-                <div class="avatar-mare">🐱</div>
-                <p><strong>Utilizator:</strong> <span id="modal-username">elev1</span></p>
-                <p><strong>Rol:</strong> <span id="modal-rol">Elev Explorator</span></p>
-                <p><strong>Status:</strong> Activ pentru InfoEducație 🚀</p>
-            </div>
-            <button class="btn-inchide" onclick="inchideModalCont()">Închide</button>
-        </div>
-    </div>
-
     <div id="ecran-login" class="overlay-full">
         <div id="form-login" class="card-login">
             <h2>EduQuest Login</h2>
@@ -74,7 +60,23 @@
     <div id="interfata-principala" class="ascuns">
         <div id="app">
             
-            <div id="grid-principal"></div>
+            <div id="dashboard-elev" class="ascuns">
+                <section id="sectiune-clase">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+                        <h2 style="color: #d35400;">🎒 Clasele Tale</h2>
+                        <button class="btn-math-sub" onclick="document.getElementById('modal-alaturare-clasa').classList.remove('ascuns')">🔑 Intră în clasă nouă</button>
+                    </div>
+                    <div id="grid-clase-elev" style="display: flex; flex-wrap: wrap; gap: 15px; padding: 20px;">
+                        </div>
+                </section>
+
+                <hr style="border: 0; border-top: 2px solid #eee; margin: 30px 20px;">
+
+                <section id="sectiune-materii">
+                    <h2 style="color: #2980b9; padding-left: 20px;">📚 Explorare pe Materii (Clasele 0-12)</h2>
+                    <div id="grid-principal"></div>
+                </section>
+            </div>
             
             <div id="dashboard-profesor" class="ascuns" style="max-width: 800px; margin: 40px auto; padding: 20px; width: 100%;">
                 <h2 style="color: #d35400; text-align: center;">🎓 Cabinetul Profesorului</h2>
@@ -83,7 +85,7 @@
                     <button class="btn-math-main" style="background-color: #27ae60;" onclick="deschideModalMaterial()">+ Postează Material/Temă</button>
                 </div>
                 <h3 style="color: #7e4a1f;">Clasele Tale Active:</h3>
-                <div id="grid-clase-profesor" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;"></div>
+                <div id="grid-clase-profesor"></div>
             </div>
 
             <div id="vizualizare-clasa-elev" class="ascuns" style="max-width: 800px; margin: 40px auto; padding: 20px; width: 100%;">
@@ -159,6 +161,20 @@
                 <img id="cat-img" src="pisiuc_neutru.png" alt="Mascota Pisiuc">
             </div>
 
+        </div>
+    </div>
+
+    <div id="modal-cont" class="modal-backdrop ascuns">
+        <div class="modal-content">
+            <span class="close-modal" onclick="inchideModalCont()">&times;</span>
+            <h2>Profilul tău EduQuest</h2>
+            <div class="modal-profile-info">
+                <div class="avatar-mare">🐱</div>
+                <p><strong>Utilizator:</strong> <span id="modal-username">elev1</span></p>
+                <p><strong>Rol:</strong> <span id="modal-rol">Elev Explorator</span></p>
+                <p><strong>Status:</strong> Activ pentru InfoEducație 🚀</p>
+            </div>
+            <button class="btn-inchide" onclick="inchideModalCont()">Închide</button>
         </div>
     </div>
 
