@@ -270,7 +270,7 @@
       { "intrebare": "Dacă f'(x) > 0 pe un interval, atunci funcția este:", "optiuni": ["a) Descrescătoare", "b) Constantă", "c) Crescătoare", "d) Convexă"], "corect": 2, "explicatie": "Semnul pozitiv al primei derivate indică monotonia crescătoare." },
       { "intrebare": "Interpretarea geometrică a derivatei f'(x0) este:", "optiuni": ["a) Aria de sub grafic", "b) Panta tangentei la grafic", "c) Distanța de la origine", "d) Punctul de inflexiune"], "corect": 1, "explicatie": "Derivata reprezintă coeficientul unghiular (panta) al dreptei tangente." }
     ],
-    "clasa_12_algebra_exercitii": [
+    "clasa_12_matematica_exercitii": [
       { 
         "intrebare": "Care dintre următoarele structuri algebrice clasice reprezintă un semineu, dar nu îndeplinește condițiile necesare pentru a fi un inel?", 
         "optiuni": ["a) (Z, +, ·)", "b) (N, +, ·)", "c) (Q, +, ·)", "d) (R, +, ·)"], 
@@ -288,9 +288,7 @@
         "optiuni": ["a) x · x' = 0", "b) x · x' = e (elementul neutru)", "c) x' = 1/x", "d) x · x' = x"], 
         "corect": 1, 
         "explicatie": "Într-o structură de grup, compunerea unui element cu simetricul său generează întotdeauna elementul neutru al grupului." 
-      }
-    ],
-    "clasa_12_analiza_exercitii": [
+      },
       { 
         "intrebare": "Calculați valoarea integralei definite de la 0 la 1 din funcția f(x) = 2x.", 
         "optiuni": ["a) 2", "b) 1", "c) 1/2", "d) 0"], 
