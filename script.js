@@ -1,24 +1,30 @@
-// ==========================================
-// 1. ELEMENTE GLOBALE ȘI CONFIGURARE
-// ==========================================
+// ==========================================================================
+// 1. STATE GLOBAL ȘI SELECTORI DOM CORE
+// ==========================================================================
 const catImg = document.getElementById('cat-img');
 const bulaText = document.getElementById('bula-text');
 const gridPrincipal = document.getElementById('grid-principal');
 const quizContainer = document.getElementById('quiz-container');
-const containerPlanta = document.getElementById('exercitiu-vizual-container');
+const exercitiuVizualContainer = document.getElementById('exercitiu-vizual-container');
+const subMeniuriMatematica = document.getElementById('sub-meniuri-matematica');
+const subMeniuriRomana = document.getElementById('sub-meniuri-romana');
 
 let indexIntrebareCurenta = 0;
 let dateQuiz = [];
 let dateProiect = { utilizatori: [], materii: { Matematica: [], Stiinte: [], Romana: [] } };
 let utilizatorLogat = "";
 let rolLogat = "";
+let materieCurentaSelectata = "";
+let clasaCurentaSelectata = 0;
 
-// Funcție de siguranță pentru mascotă
+// Schimbarea textului bulei fără a strica poziționarea flex/stânga a mascotei
 function schimbaStareMascota(stare, text) {
-    if (bulaText) bulaText.innerText = text;
+    if (bulaText) {
+        bulaText.innerText = text;
+    }
 }
 
-// Inițializare Baze de Date în LocalStorage
+// Structuri de LocalStorage obligatorii pentru funcționalitățile de Profesor
 if (!localStorage.getItem('eduquest_clase_virtuale')) {
     localStorage.setItem('eduquest_clase_virtuale', JSON.stringify([]));
 }
@@ -26,15 +32,14 @@ if (!localStorage.getItem('eduquest_materiale_postate')) {
     localStorage.setItem('eduquest_materiale_postate', JSON.stringify([]));
 }
 
-// ÎNCĂRCARE DATE DIN JSON
+// Încărcare din materii.json cu fallback de siguranță completă
 async function incarcaDate() {
     try {
         const raspuns = await fetch('materii.json');
         dateProiect = await raspuns.json();
-        console.log("Datele JSON au fost încărcate cu succes!", dateProiect);
+        console.log("Datele EduQuest au fost încărcate cu succes!");
     } catch (err) {
-        console.error("Eroare la încărcarea fișierului JSON:", err);
-        // Fallback în caz de rulare directă din fișier
+        console.warn("Se rulează în mod local local. Se încarcă utilizatorii de test.");
         dateProiect = {
             utilizatori: [
                 { "user": "elev1", "parola": "1234" },
@@ -46,243 +51,209 @@ async function incarcaDate() {
 }
 incarcaDate();
 
-// ==========================================
-// 2. LOGICĂ DE AUTENTIFICARE & CONT
-// ==========================================
+// ==========================================================================
+// 2. LOGICĂ DE AUTENTIFICARE SOLIIDĂ
+// ==========================================================================
 function comutaEcraneAutentificare(tip) {
-    const loginForm = document.getElementById('form-login');
-    const registerForm = document.getElementById('form-register');
-    
+    const fLogin = document.getElementById('fereastra-login');
+    const fRegister = document.getElementById('fereastra-register');
     if (tip === 'register') {
-        if (loginForm) loginForm.classList.add('ascuns');
-        if (registerForm) registerForm.classList.remove('ascuns');
+        fLogin.classList.add('ascuns');
+        fRegister.classList.remove('ascuns');
     } else {
-        if (registerForm) registerForm.classList.add('ascuns');
-        if (loginForm) loginForm.classList.remove('ascuns');
+        fRegister.classList.add('ascuns');
+        fLogin.classList.remove('ascuns');
+    }
+}
+
+function proceseazaLogin() {
+    const userIn = document.getElementById('login-user').value.trim();
+    const passIn = document.getElementById('login-pass').value.trim();
+
+    if (!userIn || !passIn) {
+        alert("Te rugăm să completezi ambele câmpuri!");
+        return;
+    }
+
+    const gasit = dateProiect.utilizatori.find(u => u.user === userIn && u.parola === passIn);
+
+    if (gasit) {
+        utilizatorLogat = userIn;
+        document.getElementById('header-username').innerText = userIn;
+        document.getElementById('user-profile-badge').classList.remove('ascuns');
+        document.getElementById('ecran-login').classList.add('ascuns');
+        document.getElementById('ecran-rol').classList.remove('ascuns');
+    } else {
+        alert("Utilizator sau parolă incorectă!");
     }
 }
 
 function proceseazaInregistrare() {
-    const user = document.getElementById('register-user').value.trim();
-    const pass = document.getElementById('register-pass').value.trim();
-    if (!user || !pass) { alert("Completează ambele câmpuri!"); return; }
-    
-    let utilizatori = JSON.parse(localStorage.getItem('baza_date_utilizatori')) || [];
-    if (utilizatori.find(u => u.username.toLowerCase() === user.toLowerCase())) { alert("Utilizator existent!"); return; }
-    
-    utilizatori.push({ username: user, parola: pass });
-    localStorage.setItem('baza_date_utilizatori', JSON.stringify(utilizatori));
-    alert("Cont creat cu succes!");
+    const userIn = document.getElementById('register-user').value.trim();
+    const passIn = document.getElementById('register-pass').value.trim();
+
+    if (!userIn || !passIn) {
+        alert("Te rugăm să completezi toate câmpurile!");
+        return;
+    }
+
+    dateProiect.utilizatori.push({ "user": userIn, "parola": passIn });
+    alert("Contul a fost creat cu succes! Te poți loga acum.");
     comutaEcraneAutentificare('login');
 }
 
-function proceseazaLogin() {
-    const userInjected = document.getElementById('login-user').value.trim();
-    const passInjected = document.getElementById('login-pass').value.trim();
-    if (!userInjected || !passInjected) { alert("Completează datele!"); return; }
-    
-    let utilizatoriJSON = dateProiect.utilizatori || [];
-    let utilizatoriLocal = JSON.parse(localStorage.getItem('baza_date_utilizatori')) || [];
-    let totiUtilizatorii = [...utilizatoriJSON, ...utilizatoriLocal.map(u => ({ user: u.username, parola: u.parola }))];
+function setRol(ales) {
+    rolLogat = ales;
+    document.getElementById('ecran-rol').classList.add('ascuns');
+    document.getElementById('interfata-principala').classList.remove('ascuns');
 
-    const gasit = totiUtilizatorii.find(u => (u.user === userInjected || u.username === userInjected) && u.parola === passInjected);
-
-    if (gasit) {
-        utilizatorLogat = userInjected;
-        document.getElementById('header-username').innerText = userInjected;
-        document.getElementById('user-profile-badge').classList.remove('ascuns');
-        document.getElementById('ecran-login').classList.add('ascuns');
-        document.getElementById('ecran-rol').classList.remove('ascuns');
-    } else { 
-        alert("Nume utilizator sau parolă incorectă!"); 
+    if (rolLogat === "profesor") {
+        document.getElementById('dashboard-profesor').classList.remove('ascuns');
+        if (gridPrincipal) gridPrincipal.classList.add('ascuns');
+        schimbaStareMascota('vesel', 'Spor la lucru, domnule Profesor! Gestionează-ți clasele de mai jos.');
+        afiseazaClaseProfesor();
+    } else {
+        document.getElementById('dashboard-profesor').classList.add('ascuns');
+        if (gridPrincipal) gridPrincipal.classList.remove('ascuns');
+        schimbaStareMascota('vesel', 'Salutare! Alege clasa din care faci parte ca să începem aventura!');
+        afiseazaMeniuClaseElev();
     }
 }
 
 function deschideModalCont() {
-    if (!utilizatorLogat) return;
     document.getElementById('modal-username').innerText = utilizatorLogat;
-    document.getElementById('modal-rol').innerText = rolLogat === 'profesor' ? "Profesor Coordonator 🎓" : "Elev Explorator 🚀";
+    document.getElementById('modal-rol').innerText = (rolLogat === "profesor") ? "Profesor Coordonator 🎓" : "Elev Explorator 🚀";
     document.getElementById('modal-cont').classList.remove('ascuns');
 }
-
-function inchideModalCont() { document.getElementById('modal-cont').classList.add('ascuns'); }
-
-// ==========================================
-// 3. NAVIGARE PRINCIPALĂ & MANAGEMENT INTERFAȚĂ
-// ==========================================
-function setRol(rol) {
-    rolLogat = rol;
-    document.getElementById('ecran-rol').classList.add('ascuns');
-    document.getElementById('interfata-principala').classList.remove('ascuns');
-    
-    if (rol === 'profesor') {
-        schimbaStareMascota('vesel', 'Bun venit, domnule Profesor!');
-        document.getElementById('dashboard-profesor').classList.remove('ascuns');
-        afiseazaClaseProfesor();
-    } else {
-        schimbaStareMascota('vesel', 'Salut, micule explorator! Alege o clasă.');
-        afiseazaSelectieClase();
-    }
+function inchideModalCont() {
+    document.getElementById('modal-cont').classList.add('ascuns');
 }
 
-function resetInterfata() {
-    const subMeniuriMatematica = document.getElementById('sub-meniuri-matematica');
-    const subMeniuriRomana = document.getElementById('sub-meniuri-romana');
-    const vizualizareClasaElev = document.getElementById('vizualizare-clasa-elev');
-    
-    if (subMeniuriMatematica) { subMeniuriMatematica.classList.add('ascuns'); subMeniuriMatematica.style.display = 'none'; }
-    if (subMeniuriRomana) { subMeniuriRomana.classList.add('ascuns'); subMeniuriRomana.style.display = 'none'; }
-    if (vizualizareClasaElev) vizualizareClasaElev.classList.add('ascuns');
-    if (quizContainer) quizContainer.classList.add('ascuns');
-    if (containerPlanta) containerPlanta.classList.add('ascuns');
-    
-    if (rolLogat === 'profesor') {
-        document.getElementById('dashboard-profesor').classList.remove('ascuns');
-        if (gridPrincipal) gridPrincipal.classList.add('ascuns');
-        afiseazaClaseProfesor();
-    } else {
-        document.getElementById('dashboard-profesor').classList.add('ascuns');
-        afiseazaSelectieClase();
-    }
-}
-
-function afiseazaSelectieClase() {
-    if (gridPrincipal) gridPrincipal.classList.remove('ascuns');
-    if (quizContainer) quizContainer.classList.add('ascuns');
-    if (containerPlanta) containerPlanta.classList.add('ascuns');
-    
-    const btnAcasa = document.getElementById('btn-acasa-nou');
-    if (btnAcasa) btnAcasa.classList.add('ascuns');
-    
+// ==========================================================================
+// 3. GENERARE INTERFAȚĂ CONFORM CLASELOR TALE DIN CSS (`style.css`)
+// ==========================================================================
+function afiseazaMeniuClaseElev() {
     if (!gridPrincipal) return;
-    gridPrincipal.innerHTML = '';
+    gridPrincipal.innerHTML = "";
+    ascundeToateSectiunile();
+    document.getElementById('btn-acasa-nou').classList.add('ascuns');
 
-    // Secțiune clase virtuale
-    const divVirtual = document.createElement('div');
-    divVirtual.style.width = "100%";
-    divVirtual.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; width:100%;">
-            <h2 style="color:#d35400; margin:0; font-family:'Fredoka', sans-serif;">📚 Clasele Mele (Virtuale)</h2>
-            <button class="btn-math-sub" style="margin:0; font-size:14px; padding:8px 15px; border-radius:8px; cursor:pointer;" onclick="document.getElementById('modal-alaturare-clasa').classList.remove('ascuns')">+ Alătură-te</button>
-        </div>
-        <div id="grid-clase-virtuale-elev" style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:30px; width:100%;"></div>
-        <hr style="width:100%; border: 1px solid #fdebd0; margin-bottom:30px;">
-    `;
-    gridPrincipal.appendChild(divVirtual);
-    incarcaClaseVirtualeElev();
-
-    // Generare clase 0-12
+    // Generarea claselor respectând întocmai culorile și stilul tău din CSS
     for (let i = 0; i <= 12; i++) {
-        let numeClasa = i === 0 ? 'Clasa 0' : `Clasa a ${i}-a`;
-        let culoareCSS = (i === 0 || i <= 4) ? 'verde' : (i <= 8 ? 'portocaliu' : 'albastru');
-        const card = document.createElement('div');
-        card.className = `clasa-card ${culoareCSS}`;
-        card.innerHTML = `<h3 style="margin:0; font-family:'Fredoka', sans-serif;">${numeClasa}</h3>`;
-        card.onclick = () => afiseazaMateriile(numeClasa);
+        const card = document.createElement("div");
+        
+        // Atribuirea claselor exact din style.css-ul tău (.clasa-card.verde / .portocaliu / .albastru)
+        let tipCuloare = "albastru";
+        if (i === 0 || i <= 4) tipCuloare = "verde";
+        else if (i <= 8) tipCuloare = "portocaliu";
+
+        card.className = `clasa-card ${tipCuloare}`;
+        
+        let textAfisat = (i === 0) ? "Clasa Pregătitoare" : `Clasa a ${i}-a`;
+        card.innerHTML = `<h3>${textAfisat}</h3>`;
+        
+        card.onclick = () => deschideMateriileClasei(i);
         gridPrincipal.appendChild(card);
     }
 }
 
-function afiseazaMateriile(numeClasa) {
+function deschideMateriileClasei(numarClasa) {
     if (!gridPrincipal) return;
-    gridPrincipal.innerHTML = '';
-    const btnAcasa = document.getElementById('btn-acasa-nou');
-    if (btnAcasa) btnAcasa.classList.remove('ascuns');
-    const clasaNumar = parseInt(numeClasa.replace(/[^0-9]/g, ''), 10) || 0;
+    gridPrincipal.innerHTML = "";
+    document.getElementById('btn-acasa-nou').classList.remove('ascuns');
+    clasaCurentaSelectata = numarClasa;
 
-    let materii = [{ nume: 'Matematica', clasaCSS: 'albastru' }, { nume: 'Stiinte', clasaCSS: 'verde' }];
-    if (clasaNumar >= 5 && clasaNumar <= 12) materii.push({ nume: 'Romana', clasaCSS: 'portocaliu' });
+    // Definim materiile în funcție de ciclul de învățământ
+    let disciplineDisponibile = ["Matematica", "Stiinte"];
+    if (numarClasa >= 5) disciplineDisponibile.push("Romana");
 
-    materii.forEach(m => {
-        const card = document.createElement('div');
-        card.className = `clasa-card ${m.clasaCSS}`;
-        card.innerHTML = `<h3 style="margin:0; font-family:'Fredoka', sans-serif;">${m.nume}</h3>`;
-        card.onclick = () => {
-            // VERIFICARE PENTRU CLASA PREGĂTITOARE (CLASA 0) ȘTIINȚE -> Deschide Căpșuna!
-            if (clasaNumar === 0 && m.nume === 'Stiinte') {
-                if (gridPrincipal) gridPrincipal.classList.add('ascuns');
-                if (containerPlanta) containerPlanta.classList.remove('ascuns');
-                schimbaStareMascota('vesel', 'Ajut-o pe căpșună să crească mare!');
-                return;
-            }
+    schimbaStareMascota('vesel', `Ai ales Clasa ${numarClasa === 0 ? 'Pregătitoare' : numarClasa}. Selectează o materie!`);
 
-            // Chestionare pentru clasele primare (1-4)
-            if (clasaNumar >= 0 && clasaNumar <= 4) {
-                pornesteQuiz(m.nume);
-                return;
-            }
+    disciplineDisponibile.forEach(disc => {
+        const card = document.createElement("div");
+        
+        // Mapăm culorile frumoase pe materii conform template-ului tău de design
+        let culoareMatorie = "verde";
+        if (disc === "Matematica") culoareMatorie = "albastru";
+        if (disc === "Romana") culoareMatorie = "portocaliu";
 
-            // Română Gimnaziu / Liceu
-            if (m.nume === 'Romana') {
-                if (clasaNumar >= 9 && clasaNumar <= 12) {
-                    afiseazaLecturiBac();
-                } else {
-                    gridPrincipal.innerHTML = '';
-                    const meniuRomana = document.getElementById('sub-meniuri-romana');
-                    if (meniuRomana) {
-                        meniuRomana.classList.remove("ascuns");
-                        meniuRomana.style.display = 'flex';
-                        document.getElementById('btn-exercitii-romana').onclick = () => {
-                            meniuRomana.classList.add("ascuns"); meniuRomana.style.display = 'none';
-                            pornesteQuiz('Romana');
-                        };
-                        document.getElementById('btn-teorie-romana').onclick = () => alert(`Teorie Limba Română - Clasa a ${clasaNumar}-a`);
-                    }
-                }
-                return;
-            }
+        card.className = `clasa-card ${culoareMatorie}`;
+        
+        let iconita = "📚";
+        if (disc === "Matematica") iconita = "📐";
+        if (disc === "Romana") iconita = "✍️";
+        if (disc === "Stiinte") iconita = "🧪";
 
-            // Matematică Gimnaziu
-            if (m.nume === 'Matematica' && clasaNumar >= 5 && clasaNumar <= 11) {
-                gridPrincipal.innerHTML = ''; 
-                const meniuMath = document.getElementById('sub-meniuri-matematica');
-                if (meniuMath) {
-                    meniuMath.classList.remove("ascuns");
-                    meniuMath.style.display = 'flex';
-                    
-                    document.getElementById('btn-ex-alg').onclick = () => { meniuMath.classList.add("ascuns"); meniuMath.style.display = 'none'; pornesteQuiz('Matematica'); };
-                    document.getElementById('btn-ex-geom').onclick = () => { meniuMath.classList.add("ascuns"); meniuMath.style.display = 'none'; pornesteQuiz('Matematica'); };
-                    document.getElementById('btn-teorie-alg').onclick = () => alert("Se deschide Teoria pentru Algebră.");
-                    document.getElementById('btn-teorie-geom').onclick = () => alert("Se deschide Teoria pentru Geometrie.");
-                }
-            }
-        };
+        card.innerHTML = `<h3>${iconita} ${disc}</h3>`;
+        
+        card.onclick = () => proceseazaAlegereMaterie(disc, numarClasa);
         gridPrincipal.appendChild(card);
     });
 }
 
-function toggleSubMath(id) {
-    const el = document.getElementById(id);
-    if(el) el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+function proceseazaAlegereMaterie(materie, clasa) {
+    materieCurentaSelectata = materie;
+    
+    // CAZ SPECIAL: Clasa Pregătitoare / Clasa 0 - Științe (Deschide Căpșuna)
+    if (clasa === 0 && materie === "Stiinte") {
+        if (gridPrincipal) gridPrincipal.classList.add('ascuns');
+        if (exercitiuVizualContainer) exercitiuVizualContainer.classList.remove('ascuns');
+        schimbaStareMascota('vesel', 'Uită-te la căpșună! Hai să o ajutăm să crească mare și sănătoasă!');
+        return;
+    }
+
+    // Pentru clasele primare (0-4), deschidem direct Quiz-ul corespunzător
+    if (clasa <= 4) {
+        pornesteQuiz(materie);
+        return;
+    }
+
+    // Pentru gimnaziu/liceu, deschidem sub-meniurile tale dedicate din HTML
+    if (gridPrincipal) gridPrincipal.classList.add('ascuns');
+
+    if (materie === "Matematica") {
+        if (subMeniuriMatematica) {
+            subMeniuriMatematica.classList.remove('ascuns');
+            subMeniuriMatematica.style.display = 'flex';
+        }
+    } else if (materie === "Romana") {
+        if (subMeniuriRomana) {
+            subMeniuriRomana.classList.remove('ascuns');
+            subMeniuriRomana.style.display = 'flex';
+        }
+    } else {
+        // Fallback general în caz că se apasă pe Științe la clase mari
+        pornesteQuiz(materie);
+    }
 }
 
-function afiseazaLecturiBac() {
-    if (!gridPrincipal) return;
-    gridPrincipal.innerHTML = '<h2 style="color:#d35400; width:100%; text-align:center; font-family:\'Fredoka\', sans-serif; margin-bottom:20px;">Locul tău pentru BAC 📖</h2>';
-    const opere = ["Luceafărul", "Baltagul", "O scrisoare pierdută", "Ion", "Ultima noapte de dragoste..."];
-    opere.forEach(op => {
-        const div = document.createElement('div');
-        div.className = "clasa-card portocaliu";
-        div.innerHTML = `<h3 style="margin:0;">${op}</h3>`;
-        div.onclick = () => pornesteQuiz('Romana');
-        gridPrincipal.appendChild(div);
-    });
+function toggleSubMath(idSub) {
+    const sub = document.getElementById(idSub);
+    if (sub) {
+        sub.style.display = (sub.style.display === 'flex') ? 'none' : 'flex';
+    }
 }
 
-// ==========================================
-// 4. LOGICĂ INJECTARE ȘI REZOLVARE INTRREBĂRI QUIZ
-// ==========================================
+// Funcții atașate butoanelor tale de Teorie din Sub-meniuri
+function deschideTeorie(tip) {
+    alert(`📚 [EduQuest Teorie]: Se încarcă modulul de teorie detaliată pentru ${tip} aferent Clasei a ${clasaCurentaSelectata}-a.`);
+}
+
+// ==========================================================================
+// 4. LOGICĂ INJECTARE ȘI REZOLVARE ÎNTREBĂRI (QUIZ CORRIGAT)
+// ==========================================================================
 function pornesteQuiz(materie) {
+    ascundeToateSectiunile();
     if (gridPrincipal) gridPrincipal.classList.add('ascuns');
     if (quizContainer) quizContainer.classList.remove('ascuns');
     
-    // Extragere directă din structura corectă a JSON-ului încărcat
+    // Extragere sigură din structura fișierului tău JSON
     dateQuiz = dateProiect.materii[materie] || [];
     
     if (dateQuiz.length === 0) {
-        // Fallback dinamic sigur în caz că proprietatea lipsește momentan
+        // Fallback dinamic sigur ca să nu crăpe aplicația pe scenă la concurs
         dateQuiz = [
-            { "intrebare": `Exercițiu demonstrativ (${materie}): Cât face 5 + 5?`, "optiuni": ["a) 8", "b) 10", "c) 12", "d) 15"], "corect": 1, "explicatie": "Răspunsul corect este 10." }
+            { "intrebare": `Exercițiu din ${materie}: Cât obținem din calculul 5 + 5?`, "optiuni": ["a) 8", "b) 10", "c) 12", "d) 15"], "corect": 1, "explicatie": "Calcul simplu: 5 adunat cu 5 dă rezultatul 10." }
         ];
     }
     
@@ -297,11 +268,12 @@ function incarcaIntrebare() {
     if (explBox) explBox.classList.add('ascuns');
 
     if (indexIntrebareCurenta >= dateQuiz.length) {
-        if (qText) qText.innerText = "🎉 Felicitări! Ai parcurs cu succes toate activitățile din această secțiune!";
+        if (qText) qText.innerText = "🎉 Excelent! Ai terminat toate exercițiile din această secțiune!";
         if (optContainer) optContainer.innerHTML = "";
         
         let streak = document.getElementById('streak-num');
-        if(streak) streak.innerText = parseInt(streak.innerText) + 1;
+        if (streak) streak.innerText = parseInt(streak.innerText) + 1;
+        schimbaStareMascota('vesel', 'Sunt mândru de tine! Ai rezolvat totul corect! 🔥');
         return;
     }
 
@@ -312,84 +284,79 @@ function incarcaIntrebare() {
         optContainer.innerHTML = "";
         curent.optiuni.forEach((opt, idx) => {
             const btn = document.createElement('button');
-            // Stilul forțat prin cod pentru a arăta ca butoane premium, perfect vizibile pe ecran
+            
+            // Folosim exact clasa ta nativă de buton din style.css fără stiluri inline dăunătoare!
             btn.className = "btn-math-main";
             btn.style.width = "100%";
-            btn.style.margin = "10px 0";
-            btn.style.padding = "14px";
-            btn.style.backgroundColor = "#ff8c00"; // Forțare fundal portocaliu original
-            btn.style.color = "white";            // Text alb perfect lizibil
-            btn.style.border = "none";
-            btn.style.borderRadius = "12px";
-            btn.style.fontSize = "16px";
-            btn.style.fontWeight = "bold";
-            btn.style.cursor = "pointer";
-            btn.style.display = "block";
-            
+            btn.style.margin = "8px 0";
             btn.innerText = opt;
+            
             btn.onclick = () => verificaRaspuns(idx, btn);
             optContainer.appendChild(btn);
         });
     }
 }
 
-function verificaRaspuns(ales, b) {
+function verificaRaspuns(ales, butonApasat) {
     let curent = dateQuiz[indexIntrebareCurenta];
     const explBox = document.getElementById('quiz-explicatie-box');
     const textExpl = document.getElementById('quiz-explicatie-text');
 
     if (ales === curent.corect) {
-        b.style.backgroundColor = "#27ae60"; // Verde pentru succes
-        alert("Răspuns corect! Excelent! 🌟");
+        butonApasat.style.backgroundColor = "#27ae60"; // Schimbare temporară vizuală de succes
+        butonApasat.style.color = "white";
+        schimbaStareMascota('vesel', 'Răspuns corect! 🌟 Ține-o tot așa!');
         indexIntrebareCurenta++;
-        setTimeout(incarcaIntrebare, 800);
+        setTimeout(incarcaIntrebare, 900);
     } else {
-        b.style.backgroundColor = "#c0392b"; // Roșu pentru greșit
+        butonApasat.style.backgroundColor = "#c0392b";
+        butonApasat.style.color = "white";
+        schimbaStareMascota('trist', 'Ooo! Nu-i nimic, citește explicația de mai jos și sigur vei înțelege.');
         if (explBox && textExpl) {
-            textExpl.innerText = curent.explicatie || "Analizează din nou opțiunile, vei reuși!";
+            textExpl.innerText = curent.explicatie || "Analizează cerința din nou cu atenție.";
             explBox.classList.remove('ascuns');
         }
     }
 }
 
-// Interacțiune Căpșună/Plantă (Clasa 0 Științe)
+// Funcționalitatea căpșunei de la Pregătitoare
 function udaPlanta() {
-    alert("Ai udat căpșuna! 💦");
+    alert("Ai udat căpșuna cu succes! 💦");
     const stadiuText = document.getElementById('stadiu-planta-text');
-    if (stadiuText) stadiuText.innerText = "Stadiu: Căpșună coaptă și fericită! 🍓";
-    schimbaStareMascota('vesel', 'Super! Planta a primit apă și lumina soarelui!');
+    if (stadiuText) stadiuText.innerText = "Stadiu: Căpșună coaptă, roșie și fericită! 🍓";
+    schimbaStareMascota('vesel', 'Minunat! Datorită ție, planta a crescut complet!');
 }
 
-// ==========================================
-// 5. CLASE VIRTUALE ȘI MATERIALE
-// ==========================================
+// ==========================================================================
+// 5. ZONE PROFESORI & CLASE VIRTUALE
+// ==========================================================================
 function afiseazaClaseProfesor() {
     const container = document.getElementById('grid-clase-profesor');
     if (!container) return;
     container.innerHTML = '';
     
-    let safeClase = localStorage.getItem('eduquest_clase_virtuale');
-    let clase = safeClase ? JSON.parse(safeClase).filter(c => c.profesor === utilizatorLogat) : [];
+    let clase = JSON.parse(localStorage.getItem('eduquest_clase_virtuale')) || [];
+    let claseleMele = clase.filter(c => c.profesor === utilizatorLogat);
     
-    if (clase.length === 0) {
-        container.innerHTML = "<p style='color:#777;'>Nu aveți nicio clasă virtuală înregistrată.</p>";
+    if (claseleMele.length === 0) {
+        container.innerHTML = "<p style='color:#777; font-style:italic;'>Nu aveți nicio clasă virtuală înființată încă.</p>";
         return;
     }
     
-    clase.forEach(c => {
+    claseleMele.forEach(c => {
         const card = document.createElement('div');
         card.style.background = "white";
         card.style.padding = "15px";
         card.style.borderRadius = "12px";
-        card.style.border = "2px solid #fdebd0";
-        card.innerHTML = `<h3 style="margin:0 0 5px 0; color:#d35400;">${c.nume}</h3><p style="margin:0; font-size:13px; font-weight:bold; color:#7e4a1f;">Cod unic acces: ${c.id}</p>`;
+        card.style.border = "2px solid var(--orange-soft)";
+        card.innerHTML = `<h3 style="margin:0 0 5px 0; color:var(--orange-dark);">${c.nume}</h3><p style="margin:0; font-size:13px; color:var(--text-brown);"><b>Cod de înscriere: ${c.id}</b></p>`;
         container.appendChild(card);
     });
 }
 
 function creeazaClasa() {
     const nume = document.getElementById('nume-clasa-noua').value.trim();
-    if (!nume) { alert("Introdu numele clasei!"); return; }
+    if (!nume) { alert("Te rugăm să introduci numele clasei!"); return; }
 
     let cod = Math.random().toString(36).substring(2, 7).toUpperCase();
     let clase = JSON.parse(localStorage.getItem('eduquest_clase_virtuale')) || [];
@@ -400,7 +367,7 @@ function creeazaClasa() {
     document.getElementById('nume-clasa-noua').value = "";
     document.getElementById('modal-creare-clasa').classList.add('ascuns');
     afiseazaClaseProfesor();
-    alert(`Clasa a fost salvată! Cod partajare elevi: ${cod}`);
+    alert(`Clasa a fost salvată! Codul de acces este: ${cod}`);
 }
 
 function deschideModalMaterial() {
@@ -411,7 +378,7 @@ function deschideModalMaterial() {
     let clase = JSON.parse(localStorage.getItem('eduquest_clase_virtuale')) || [];
     let claseleMele = clase.filter(c => c.profesor === utilizatorLogat);
     
-    if (claseleMele.length === 0) { alert("Adaugă mai întâi o clasă din panou!"); return; }
+    if (claseleMele.length === 0) { alert("Vă rugăm să creați o clasă mai întâi!"); return; }
 
     claseleMele.forEach(c => {
         let opt = document.createElement('option');
@@ -426,7 +393,7 @@ function posteazaMaterial() {
     const titlu = document.getElementById('titlu-material').value.trim();
     const descriere = document.getElementById('descriere-material').value.trim();
 
-    if (!titlu || !descriere) { alert("Toate câmpurile trebuie completate!"); return; }
+    if (!titlu || !descriere) { alert("Toate câmpurile sunt obligatorii!"); return; }
 
     let materiale = JSON.parse(localStorage.getItem('eduquest_materiale_postate')) || [];
     materiale.push({ clasaId: clasaId, titlu: titlu, descriere: descriere });
@@ -435,85 +402,31 @@ function posteazaMaterial() {
     document.getElementById('titlu-material').value = "";
     document.getElementById('descriere-material').value = "";
     document.getElementById('modal-postare-material').classList.add('ascuns');
-    alert("Materialul educațional a fost trimis către elevi!");
+    alert("Materialul didactic a fost postat cu succes în fluxul clasei!");
 }
 
-function alaturaClasaElev() {
-    const cod = document.getElementById('cod-clasa-alaturare').value.trim().toUpperCase();
-    if (!cod) { alert("Scrie codul clasei transmise de profesor!"); return; }
-
-    let toateClasele = JSON.parse(localStorage.getItem('eduquest_clase_virtuale')) || [];
-    let clasaGasita = toateClasele.find(c => c.id === cod);
-
-    if (!clasaGasita) { alert("Acest cod nu corespunde niciunei clase active!"); return; }
-
-    let cheieInscrieri = `inscrieri_${utilizatorLogat}`;
-    let inscrieri = JSON.parse(localStorage.getItem(cheieInscrieri)) || [];
+// ==========================================================================
+// 6. CONTROL ȘI RESETĂRI INTERFAȚĂ (BUTONUL ACASĂ)
+// ==========================================================================
+function resetInterfata() {
+    ascundeToateSectiunile();
     
-    if (inscrieri.some(c => c.id === cod)) { alert("Faci deja parte din această clasă virtuală!"); return; }
-
-    inscrieri.push(clasaGasita);
-    localStorage.setItem(cheieInscrieri, JSON.stringify(inscrieri));
-    
-    document.getElementById('cod-clasa-alaturare').value = "";
-    document.getElementById('modal-alaturare-clasa').classList.add('ascuns');
-    alert(`Felicitări! Te-ai alăturat clasei: ${clasaGasita.nume}`);
-    incarcaClaseVirtualeElev();
-}
-
-function incarcaClaseVirtualeElev() {
-    const container = document.getElementById('grid-clase-virtuale-elev');
-    if (!container) return;
-    container.innerHTML = '';
-
-    let cheieInscrieri = `inscrieri_${utilizatorLogat}`;
-    let clase = JSON.parse(localStorage.getItem(cheieInscrieri)) || [];
-
-    if (clase.length === 0) {
-        container.innerHTML = "<p style='font-size:14px; color:#999; margin:5px 0;'>Nu ești conectat la nicio clasă virtuală.</p>";
-        return;
+    if (rolLogat === "profesor") {
+        if (gridPrincipal) gridPrincipal.classList.add('ascuns');
+        document.getElementById('dashboard-profesor').classList.remove('ascuns');
+        afiseazaClaseProfesor();
+    } else {
+        document.getElementById('dashboard-profesor').classList.add('ascuns');
+        if (gridPrincipal) gridPrincipal.classList.remove('ascuns');
+        afiseazaMeniuClaseElev();
     }
-
-    clase.forEach(c => {
-        const card = document.createElement('div');
-        card.className = "clasa-card albastru";
-        card.style.minHeight = "80px";
-        card.style.cursor = "pointer";
-        card.innerHTML = `<h3 style="margin:0; font-family:'Fredoka', sans-serif;">${c.nume}</h3><p style="font-size:12px; margin:5px 0 0 0;">Profesor: ${c.profesor}</p>`;
-        card.onclick = () => deschideClasaElev(c.id, c.nume);
-        container.appendChild(card);
-    });
 }
 
-function deschideClasaElev(clasaId, numeClasa) {
-    if (gridPrincipal) gridPrincipal.classList.add('ascuns');
-    const containerMateriale = document.getElementById('vizualizare-clasa-elev');
-    if (containerMateriale) containerMateriale.classList.remove('ascuns');
-    
-    document.getElementById('titlu-clasa-activa').innerText = `Materiale distribuite: ${numeClasa}`;
-    
-    const btnAcasa = document.getElementById('btn-acasa-nou'); 
-    if(btnAcasa) btnAcasa.classList.remove('ascuns');
-    
-    const lista = document.getElementById('lista-materiale-elev'); 
-    if (!lista) return;
-    lista.innerHTML = '';
-    
-    let materiale = (JSON.parse(localStorage.getItem('eduquest_materiale_postate')) || []).filter(m => m.clasaId === clasaId);
-    
-    if (materiale.length === 0) {
-        lista.innerHTML = "<p style='color:#777; padding:10px;'>Nu au fost încărcate resurse pe acest flux de către profesor.</p>"; 
-        return;
-    }
-    
-    materiale.forEach(m => {
-        const div = document.createElement('div');
-        div.style.background = "#fffaf0";
-        div.style.padding = "15px";
-        div.style.borderRadius = "10px";
-        div.style.marginBottom = "10px";
-        div.style.borderLeft = "4px solid #ff8c00";
-        div.innerHTML = `<h4 style="margin:0 0 5px 0; color:#d35400;">📌 ${m.titlu}</h4><p style="white-space:pre-wrap; margin:0; font-size:14px;">${m.descriere}</p>`;
-        lista.appendChild(div);
-    });
+function ascundeToateSectiunile() {
+    if (subMeniuriMatematica) { subMeniuriMatematica.classList.add('ascuns'); subMeniuriMatematica.style.display = 'none'; }
+    if (subMeniuriRomana) { subMeniuriRomana.classList.add('ascuns'); subMeniuriRomana.style.display = 'none'; }
+    if (quizContainer) quizContainer.classList.add('ascuns');
+    if (exercitiuVizualContainer) exercitiuVizualContainer.classList.add('ascuns');
+    const vizClasaElev = document.getElementById('vizualizare-clasa-elev');
+    if (vizClasaElev) vizClasaElev.classList.add('ascuns');
 }
