@@ -23,7 +23,7 @@
             </div>
             
             <div class="streak-container">
-                <span class="streak-text">🔥 Streak: <strong id="streak-num">0</strong></span>
+                <span>🔥 Streak: <strong id="streak-num">0</strong></span>
             </div>
         </div>
     </header>
@@ -51,21 +51,21 @@
     <div id="ecran-login" class="overlay-full">
         <div id="form-login" class="card-login">
             <h2>EduQuest Login</h2>
-            <div class="input-group">
+            <div class="input-fields">
                 <input type="text" id="login-user" placeholder="Utilizator">
                 <input type="password" id="login-pass" placeholder="Parolă">
             </div>
-            <button class="btn-primary" onclick="proceseazaLogin()">Intră în cont</button>
+            <button onclick="proceseazaLogin()">Intră în cont</button>
             <p class="schimba-ecran">Nu ai cont? <a href="#" onclick="comutaEcraneAutentificare('register')">Creează un cont nou</a></p>
         </div>
 
         <div id="form-register" class="card-login ascuns">
             <h2>Cont Nou EduQuest</h2>
-            <div class="input-group">
+            <div class="input-fields">
                 <input type="text" id="register-user" placeholder="Alege Nume Utilizator">
                 <input type="password" id="register-pass" placeholder="Alege Parolă">
             </div>
-            <button class="btn-primary" onclick="proceseazaInregistrare()">Înregistrare</button>
+            <button onclick="proceseazaInregistrare()">Înregistrare</button>
             <p class="schimba-ecran">Ai deja cont? <a href="#" onclick="comutaEcraneAutentificare('login')">Loghează-te</a></p>
         </div>
     </div>
@@ -74,14 +74,8 @@
         <div class="card-selectie">
             <h1>Cine ești?</h1>
             <div class="optiuni-roluri">
-                <div class="rol-box" onclick="setRol('elev')">
-                    <div class="rol-icon">🎒</div>
-                    <span>Sunt Elev</span>
-                </div>
-                <div class="rol-box" onclick="setRol('profesor')">
-                    <div class="rol-icon">🎓</div>
-                    <span>Sunt Profesor</span>
-                </div>
+                <div class="rol-box" onclick="setRol('elev')">Sunt Elev</div>
+                <div class="rol-box" onclick="setRol('profesor')">Sunt Profesor</div>
             </div>
         </div>
     </div>
@@ -89,25 +83,25 @@
     <div id="interfata-principala" class="ascuns">
         <div id="app">
             
-            <div id="grid-principal" class="grid-discipline"></div>
+            <div id="grid-principal"></div>
             
-            <div id="dashboard-profesor" class="dashboard-section ascuns">
-                <h2 class="section-title text-orange">🎓 Cabinetul Profesorului</h2>
-                <div class="action-buttons-container">
+            <div id="dashboard-profesor" class="ascuns">
+                <h2 class="title-profesor">🎓 Cabinetul Profesorului</h2>
+                <div class="profesor-actions">
                     <button class="btn-math-main" onclick="document.getElementById('modal-creare-clasa').classList.remove('ascuns')">+ Creează o Clasă</button>
-                    <button class="btn-math-main btn-green" onclick="deschideModalMaterial()">+ Postează Material/Temă</button>
+                    <button class="btn-math-main btn-alt-color" onclick="deschideModalMaterial()">+ Postează Material/Temă</button>
                 </div>
-                <h3 class="subsection-title">Clasele Tale Active:</h3>
-                <div id="grid-clase-profesor" class="grid-clase"></div>
+                <h3 class="title-sub-sectiune">Clasele Tale Active:</h3>
+                <div id="grid-clase-profesor"></div>
             </div>
 
-            <div id="vizualizare-clasa-elev" class="dashboard-section ascuns">
-                <h2 id="titlu-clasa-activa" class="section-title text-orange">Materiale Clasă</h2>
-                <button class="btn-acasa margin-b-20" onclick="resetInterfata()">Înapoi la clase</button>
-                <div id="lista-materiale-elev" class="flex-column-gap"></div>
+            <div id="vizualizare-clasa-elev" class="ascuns">
+                <h2 id="titlu-clasa-activa">Materiale Clasă</h2>
+                <button class="btn-acasa back-btn-spacing" onclick="resetInterfata()">Înapoi la clase</button>
+                <div id="lista-materiale-elev"></div>
             </div>
             
-            <div id="sub-meniuri-matematica" class="sub-meniuri-container ascuns">
+            <div id="sub-meniuri-matematica" class="ascuns">
                 <div class="math-section-container">
                     <button class="btn-math-main" onclick="toggleSubMath('sub-algebra')">Algebră</button>
                     <div id="sub-algebra" class="math-sub-container">
@@ -125,32 +119,32 @@
                 </div>
             </div>
 
-            <div id="sub-meniuri-romana" class="sub-meniuri-container ascuns">
+            <div id="sub-meniuri-romana" class="ascuns">
                 <div class="math-section-container">
                     <button class="btn-math-main">Limba și Literatura Română</button>
-                    <div class="math-sub-container force-flex">
+                    <div class="math-sub-container romana-flex-override">
                         <button id="btn-teorie-romana" class="btn-math-sub">Teorie Gramatică</button>
                         <button id="btn-exercitii-romana" class="btn-math-sub">Exerciții</button>
                     </div>
                 </div>
             </div>
 
-            <div id="quiz-container" class="quiz-wrapper ascuns">
-                <div id="intrebare-card" class="quiz-card">
+            <div id="quiz-container" class="ascuns">
+                <div id="intrebare-card">
                     <p id="intrebare-text">Se încarcă întrebarea...</p>
-                    <div id="optiuni" class="quiz-options-grid"></div>
+                    <div id="optiuni"></div>
                     
                     <div class="quiz-nav-baza">
-                        <button id="btn-prev" class="btn-quiz-nav" onclick="intrebarePrecedenta()">⬅️ Înapoi</button>
-                        <span id="quiz-progres" class="badge-progres">1 / 5</span>
-                        <button id="btn-next" class="btn-quiz-nav" onclick="urmatoareaIntrebare()">Înainte ➡️</button>
+                        <button id="btn-prev" onclick="intrebarePrecedenta()">⬅️ Înapoi</button>
+                        <span id="quiz-progres">1 / 5</span>
+                        <button id="btn-next" onclick="urmatoareaIntrebare()">Înainte ➡️</button>
                     </div>
                 </div>
             </div>
 
-            <div id="exercitiu-vizual-container" class="interactive-container ascuns">
+            <div id="exercitiu-vizual-container" class="ascuns">
                 <div class="game-layout">
-                    <div id="labels-container" class="drag-labels-stack">
+                    <div id="labels-container">
                         <div class="draggable" draggable="true" data-part="radacina">Rădăcina</div>
                         <div class="draggable" draggable="true" data-part="tulpina">Tulpina</div>
                         <div class="draggable" draggable="true" data-part="frunza">Frunza</div>
@@ -158,8 +152,8 @@
                         <div class="draggable" draggable="true" data-part="fructul">Fructul</div>
                     </div>
 
-                    <div id="image-wrapper" class="interactive-image-wrapper">
-                        <img src="Planta_Capsuna.png" alt="Capsuna" class="game-img">
+                    <div id="image-wrapper">
+                        <img src="Planta_Capsuna.png" alt="Capsuna">
                         <div class="drop-zone dz-radacina" data-accept="radacina"></div>
                         <div class="drop-zone dz-tulpina" data-accept="tulpina"></div>
                         <div class="drop-zone dz-frunza" data-accept="frunza"></div>
@@ -169,8 +163,8 @@
                 </div>
             </div>
 
-            <div id="mascota-container" class="companion-container">
-                <div id="bula-text" class="speech-bubble ascuns"></div>
+            <div id="mascota-container">
+                <div id="bula-text" class="ascuns"></div>
                 <img id="cat-img" src="pisiuc_neutru.png" alt="Mascota Pisiuc">
             </div>
 
@@ -180,30 +174,30 @@
     <div id="modal-creare-clasa" class="modal-backdrop ascuns">
         <div class="modal-content">
             <span class="close-modal" onclick="document.getElementById('modal-creare-clasa').classList.add('ascuns')">&times;</span>
-            <h2 class="text-orange">Creează o clasă nouă</h2>
-            <input type="text" id="nume-clasa-noua" placeholder="Numele clasei (ex: Clasa a VI-a B)" class="modal-input">
-            <button class="btn-math-main w-100" onclick="creeazaClasa()">Salvează Clasa</button>
+            <h2 class="orange-modal-title">Creează o clasă nouă</h2>
+            <input type="text" id="nume-clasa-noua" placeholder="Numele clasei (ex: Clasa a VI-a B)" class="custom-modal-input">
+            <button class="btn-math-main full-w-btn" onclick="creeazaClasa()">Salvează Clasa</button>
         </div>
     </div>
 
     <div id="modal-postare-material" class="modal-backdrop ascuns">
         <div class="modal-content">
             <span class="close-modal" onclick="document.getElementById('modal-postare-material').classList.add('ascuns')">&times;</span>
-            <h2 class="text-orange">Postează Material Nou</h2>
-            <select id="select-clasa-material" class="modal-select"></select>
-            <input type="text" id="titlu-material" placeholder="Titlul lecției sau temei" class="modal-input">
-            <textarea id="descriere-material" placeholder="Scrie cerința sau explicațiile aici..." class="modal-textarea"></textarea>
-            <button class="btn-math-main btn-green w-100" onclick="posteazaMaterial()">Postează Materialul</button>
+            <h2 class="orange-modal-title">Postează Material Nou</h2>
+            <select id="select-clasa-material" class="custom-modal-select"></select>
+            <input type="text" id="titlu-material" placeholder="Titlul lecției sau temei" class="custom-modal-input">
+            <textarea id="descriere-material" placeholder="Scrie cerința sau explicațiile aici..." class="custom-modal-textarea"></textarea>
+            <button class="btn-math-main btn-alt-color full-w-btn" onclick="posteazaMaterial()">Postează Materialul</button>
         </div>
     </div>
 
     <div id="modal-alaturare-clasa" class="modal-backdrop ascuns">
         <div class="modal-content">
             <span class="close-modal" onclick="document.getElementById('modal-alaturare-clasa').classList.add('ascuns')">&times;</span>
-            <h2 class="text-orange">Alătură-te unei clase</h2>
-            <p class="modal-hint">Introdu codul primit de la profesorul tău pentru a vedea materialele postate.</p>
-            <input type="text" id="cod-clasa-alaturare" placeholder="Cod Clasă (ex: A7X9P)" class="modal-input code-input">
-            <button class="btn-math-main w-100" onclick="alaturaClasaElev()">Intră în clasă</button>
+            <h2 class="orange-modal-title">Alătură-te unei clase</h2>
+            <p class="modal-explanation-text">Introdu codul primit de la profesorul tău pentru a vedea materialele postate.</p>
+            <input type="text" id="cod-clasa-alaturare" placeholder="Cod Clasă (ex: A7X9P)" class="custom-modal-input bold-code-input">
+            <button class="btn-math-main full-w-btn" onclick="alaturaClasaElev()">Intră în clasă</button>
         </div>
     </div>
 
