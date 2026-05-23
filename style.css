@@ -2,10 +2,10 @@
    1. IDENTITATE CROMATICĂ PORTOCALIE & SETĂRI GLOBALE
    ========================================================================== */
 :root {
-    --orange-primary: #ff8c00;    /* Portocaliul cald original */
-    --orange-dark: #d35400;       /* Portocaliu intens titluri */
-    --orange-soft: #fdebd0;       /* Fundalul tău pastelat deschis */
-    --text-brown: #7e4a1f;        /* Textul maroniu de accent */
+    --orange-primary: #ff8c00;    
+    --orange-dark: #d35400;       
+    --orange-soft: #fdebd0;       
+    --text-brown: #7e4a1f;        
     --text-dark: #3c3c3c;
     --bg-light: #faf8f5;
     --white: #ffffff;
@@ -120,7 +120,6 @@ h1, h2, h3, .logo-text, .btn-math-main {
     z-index: 999;
 }
 
-/* Mapat pe ID-urile tale originale din script.js */
 .card-login, #fereastra-login, #fereastra-register, .card-selectie {
     background: var(--white);
     padding: 40px;
@@ -185,7 +184,6 @@ h1, h2, h3, .logo-text, .btn-math-main {
     font-weight: 700;
 }
 
-/* Selecție Rol */
 .card-selectie { max-width: 500px; }
 .optiuni-roluri {
     display: flex;
@@ -211,7 +209,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
 }
 
 /* ==========================================================================
-   4. STRUCTURA INTERFEȚEI ȘI CLASELE DINAMICE (JS)
+   4. STRUCTURA INTERFEȚEI ȘI CLASELE DINAMICE (CONFORM SCRIPT.JS)
    ========================================================================== */
 #app {
     max-width: 1000px;
@@ -225,24 +223,23 @@ h1, h2, h3, .logo-text, .btn-math-main {
     gap: 20px;
 }
 
-/* .card generat din script (1).js */
-.card {
+/* Clasa generată dinamic de script.js pentru discipline/clase */
+.card-disciplina-nou, .card-clasa-noua {
     background: var(--white);
-    border: 2px solid var(--orange-soft) !important;
-    border-radius: 16px !important;
-    padding: 25px 20px !important;
+    border: 2px solid var(--orange-soft);
+    border-radius: 16px;
+    padding: 25px 20px;
     text-align: center;
     cursor: pointer;
-    box-shadow: 0 5px 0 var(--orange-soft) !important;
-    transition: var(--transition-fast) !important;
+    box-shadow: 0 5px 0 var(--orange-soft);
+    transition: var(--transition-fast);
 }
-.card:hover {
+.card-disciplina-nou:hover, .card-clasa-noua:hover {
     transform: translateY(-4px);
-    border-color: var(--orange-primary) !important;
-    box-shadow: 0 9px 0 var(--orange-soft) !important;
+    border-color: var(--orange-primary);
+    box-shadow: 0 9px 0 var(--orange-soft);
 }
 
-/* Dashboard Elemente */
 #dashboard-profesor, #vizualizare-clasa-elev {
     background: var(--white);
     border-radius: 20px;
@@ -262,30 +259,15 @@ h1, h2, h3, .logo-text, .btn-math-main {
 .profesor-actions .btn-math-main { width: auto; min-width: 200px; }
 .btn-alt-color { background-color: #27ae60 !important; box-shadow: 0 4px 0 #1e8449 !important; }
 
-/* Grid Clase Profesori (.clasa-card din JS) */
 #grid-clase-profesor {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
 }
-.clasa-card {
-    background: #fffbf5;
-    border: 2px solid var(--orange-soft);
-    border-radius: 12px;
-    padding: 15px 25px;
-    text-align: center;
-    min-width: 180px;
-    box-shadow: 0 4px 0 var(--orange-soft);
-}
 
-/* Lista materiale (.card-material din JS) */
-#lista-materiale-elev {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.card-material {
+/* Clasa din script.js pentru materialele din lista */
+.card-material-nou {
     background: #fffdf9;
     border: 2px solid var(--orange-soft);
     border-radius: 12px;
@@ -293,7 +275,6 @@ h1, h2, h3, .logo-text, .btn-math-main {
     box-shadow: 0 4px 0 #fbe5c8;
 }
 
-/* Sub-meniuri */
 #sub-meniuri-matematica, #sub-meniuri-romana {
     display: flex;
     flex-direction: column;
@@ -335,7 +316,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
 }
 
 /* ==========================================================================
-   5. MODUL QUIZ (CHESTIONARE)
+   5. QUIZ INTERACTIV
    ========================================================================== */
 #quiz-container {
     max-width: 600px;
@@ -361,22 +342,21 @@ h1, h2, h3, .logo-text, .btn-math-main {
     margin-bottom: 25px;
 }
 
-/* .varianta-raspuns din JS */
-.varianta-raspuns {
+.varianta-raspuns-noua {
     padding: 14px 18px;
-    border: 2px solid var(--orange-soft) !important;
-    background: var(--white) !important;
-    border-radius: 12px !important;
+    border: 2px solid var(--orange-soft);
+    background: var(--white);
+    border-radius: 12px;
     cursor: pointer;
     font-size: 15px;
     font-weight: 600;
     text-align: left;
-    box-shadow: 0 3px 0 var(--orange-soft) !important;
+    box-shadow: 0 3px 0 var(--orange-soft);
     transition: var(--transition-fast);
 }
-.varianta-raspuns:hover {
-    background-color: #fffbf4 !important;
-    border-color: var(--orange-primary) !important;
+.varianta-raspuns-noua:hover {
+    background-color: #fffbf4;
+    border-color: var(--orange-primary);
 }
 
 .quiz-nav-baza {
@@ -403,7 +383,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
 }
 
 /* ==========================================================================
-   6. DRAG & DROP JOC INTERACTIV
+   6. JOC DRAG & DROP
    ========================================================================== */
 #exercitiu-vizual-container {
     background: var(--white);
@@ -451,7 +431,6 @@ h1, h2, h3, .logo-text, .btn-math-main {
     border-radius: 50%;
     transform: translate(-50%, -50%);
 }
-
 .dz-radacina { top: 85%; left: 50%; }
 .dz-tulpina { top: 60%; left: 45%; }
 .dz-frunza { top: 55%; left: 30%; }
@@ -459,7 +438,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
 .dz-fructul { top: 35%; left: 65%; }
 
 /* ==========================================================================
-   7. MODUL MASCOTĂ GLOBALĂ (PISIUC)
+   7. MASCOTĂ & MODALE GLOBALE
    ========================================================================== */
 #mascota-container {
     position: fixed;
@@ -475,10 +454,8 @@ h1, h2, h3, .logo-text, .btn-math-main {
     cursor: pointer;
     transition: transform 0.2s;
 }
-#cat-img:hover {
-    transform: scale(1.08);
-}
-.speech-bubble {
+#cat-img:hover { transform: scale(1.08); }
+.speech-bubble, #bula-text {
     background: var(--white);
     border: 2px solid var(--orange-soft);
     border-radius: 16px;
@@ -490,9 +467,6 @@ h1, h2, h3, .logo-text, .btn-math-main {
     font-weight: 600;
 }
 
-/* ==========================================================================
-   8. MODALE MANAGEMENT
-   ========================================================================== */
 .modal-backdrop {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
