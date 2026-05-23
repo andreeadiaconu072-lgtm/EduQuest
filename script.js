@@ -9,17 +9,16 @@ const containerPlanta = document.getElementById('exercitiu-vizual-container');
 
 let indexIntrebareCurenta = 0;
 let dateQuiz = [];
-let dateProiect = { utilizatori: [], materii: { Matematica: [], Stiinte: [] } };
+let dateProiect = { utilizatori: [], materii: { Matematica: [], Stiinte: [], Romana: [] } };
 let utilizatorLogat = "";
 let rolLogat = "";
 
-// Funcție de siguranță pentru mascotă (previne erorile dacă elementele lipsesc)
+// Funcție de siguranță pentru mascotă
 function schimbaStareMascota(stare, text) {
-    console.log(`Mascota starea ${stare}: ${text}`);
     if (bulaText) bulaText.innerText = text;
 }
 
-// Inițializare Bază de Date Locală securizată (Pentru Clase Virtuale)
+// Inițializare Baze de Date în LocalStorage
 if (!localStorage.getItem('eduquest_clase_virtuale')) {
     localStorage.setItem('eduquest_clase_virtuale', JSON.stringify([]));
 }
@@ -32,9 +31,10 @@ async function incarcaDate() {
     try {
         const raspuns = await fetch('materii.json');
         dateProiect = await raspuns.json();
+        console.log("Datele JSON au fost încărcate cu succes!", dateProiect);
     } catch (err) {
-        console.error("Eroare la încărcarea fișierului JSON. Activare fallback local:", err);
-        // Fallback în caz că rulează local fără server web
+        console.error("Eroare la încărcarea fișierului JSON:", err);
+        // Fallback în caz de rulare directă din fișier
         dateProiect = {
             utilizatori: [
                 { "user": "elev1", "parola": "1234" },
@@ -108,7 +108,7 @@ function deschideModalCont() {
 function inchideModalCont() { document.getElementById('modal-cont').classList.add('ascuns'); }
 
 // ==========================================
-// 3. NAVIGARE PRINCIPALĂ & CLASE
+// 3. NAVIGARE PRINCIPALĂ & MANAGEMENT INTERFAȚĂ
 // ==========================================
 function setRol(rol) {
     rolLogat = rol;
@@ -133,6 +133,8 @@ function resetInterfata() {
     if (subMeniuriMatematica) { subMeniuriMatematica.classList.add('ascuns'); subMeniuriMatematica.style.display = 'none'; }
     if (subMeniuriRomana) { subMeniuriRomana.classList.add('ascuns'); subMeniuriRomana.style.display = 'none'; }
     if (vizualizareClasaElev) vizualizareClasaElev.classList.add('ascuns');
+    if (quizContainer) quizContainer.classList.add('ascuns');
+    if (containerPlanta) containerPlanta.classList.add('ascuns');
     
     if (rolLogat === 'profesor') {
         document.getElementById('dashboard-profesor').classList.remove('ascuns');
@@ -148,19 +150,20 @@ function afiseazaSelectieClase() {
     if (gridPrincipal) gridPrincipal.classList.remove('ascuns');
     if (quizContainer) quizContainer.classList.add('ascuns');
     if (containerPlanta) containerPlanta.classList.add('ascuns');
+    
     const btnAcasa = document.getElementById('btn-acasa-nou');
     if (btnAcasa) btnAcasa.classList.add('ascuns');
     
     if (!gridPrincipal) return;
     gridPrincipal.innerHTML = '';
 
-    // INJECTARE SECȚIUNE CLASE VIRTUALE ELEV
+    // Secțiune clase virtuale
     const divVirtual = document.createElement('div');
     divVirtual.style.width = "100%";
     divVirtual.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; width:100%;">
-            <h2 style="color:#d35400; margin:0;">📚 Clasele Mele (Virtuale)</h2>
-            <button class="btn-math-sub" style="margin:0; font-size:14px;" onclick="document.getElementById('modal-alaturare-clasa').classList.remove('ascuns')">+ Alătură-te</button>
+            <h2 style="color:#d35400; margin:0; font-family:'Fredoka', sans-serif;">📚 Clasele Mele (Virtuale)</h2>
+            <button class="btn-math-sub" style="margin:0; font-size:14px; padding:8px 15px; border-radius:8px; cursor:pointer;" onclick="document.getElementById('modal-alaturare-clasa').classList.remove('ascuns')">+ Alătură-te</button>
         </div>
         <div id="grid-clase-virtuale-elev" style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:30px; width:100%;"></div>
         <hr style="width:100%; border: 1px solid #fdebd0; margin-bottom:30px;">
@@ -168,13 +171,13 @@ function afiseazaSelectieClase() {
     gridPrincipal.appendChild(divVirtual);
     incarcaClaseVirtualeElev();
 
-    // RĂMÂNE LOGICA PENTRU CLASELE 0-12
+    // Generare clase 0-12
     for (let i = 0; i <= 12; i++) {
         let numeClasa = i === 0 ? 'Clasa 0' : `Clasa a ${i}-a`;
         let culoareCSS = (i === 0 || i <= 4) ? 'verde' : (i <= 8 ? 'portocaliu' : 'albastru');
         const card = document.createElement('div');
         card.className = `clasa-card ${culoareCSS}`;
-        card.innerHTML = `<h3>${numeClasa}</h3>`;
+        card.innerHTML = `<h3 style="margin:0; font-family:'Fredoka', sans-serif;">${numeClasa}</h3>`;
         card.onclick = () => afiseazaMateriile(numeClasa);
         gridPrincipal.appendChild(card);
     }
@@ -193,55 +196,54 @@ function afiseazaMateriile(numeClasa) {
     materii.forEach(m => {
         const card = document.createElement('div');
         card.className = `clasa-card ${m.clasaCSS}`;
-        card.innerHTML = `<h3>${m.nume}</h3>`;
+        card.innerHTML = `<h3 style="margin:0; font-family:'Fredoka', sans-serif;">${m.nume}</h3>`;
         card.onclick = () => {
-            if (clasaNumar >= 1 && clasaNumar <= 4) {
-                if (m.nume === 'Matematica') pornesteQuiz('Matematica');
-                else if (m.nume === 'Stiinte') pornesteQuiz('Stiinte');
+            // VERIFICARE PENTRU CLASA PREGĂTITOARE (CLASA 0) ȘTIINȚE -> Deschide Căpșuna!
+            if (clasaNumar === 0 && m.nume === 'Stiinte') {
+                if (gridPrincipal) gridPrincipal.classList.add('ascuns');
+                if (containerPlanta) containerPlanta.classList.remove('ascuns');
+                schimbaStareMascota('vesel', 'Ajut-o pe căpșună să crească mare!');
                 return;
             }
-            if (m.nume === 'Romana' && clasaNumar >= 9 && clasaNumar <= 12) { afiseazaLecturiBac(); return; }
-            if (m.nume === 'Romana' && clasaNumar >= 5 && clasaNumar <= 8) {
-                gridPrincipal.innerHTML = '';
-                const meniuRomana = document.getElementById('sub-meniuri-romana');
-                if (meniuRomana) {
-                    const btnTeorie = document.getElementById('btn-teorie-romana');
-                    const btnExercitii = document.getElementById('btn-exercitii-romana');
-                    if (btnTeorie) btnTeorie.onclick = () => alert(`Se deschide Teorie Română Clasa ${clasaNumar}`);
-                    if (btnExercitii) btnExercitii.onclick = () => {
-                        meniuRomana.classList.add("ascuns"); meniuRomana.style.display = 'none';
-                        pornesteQuiz(`Romana`);
-                    };
-                    meniuRomana.classList.remove("ascuns"); meniuRomana.style.display = 'flex';
+
+            // Chestionare pentru clasele primare (1-4)
+            if (clasaNumar >= 0 && clasaNumar <= 4) {
+                pornesteQuiz(m.nume);
+                return;
+            }
+
+            // Română Gimnaziu / Liceu
+            if (m.nume === 'Romana') {
+                if (clasaNumar >= 9 && clasaNumar <= 12) {
+                    afiseazaLecturiBac();
+                } else {
+                    gridPrincipal.innerHTML = '';
+                    const meniuRomana = document.getElementById('sub-meniuri-romana');
+                    if (meniuRomana) {
+                        meniuRomana.classList.remove("ascuns");
+                        meniuRomana.style.display = 'flex';
+                        document.getElementById('btn-exercitii-romana').onclick = () => {
+                            meniuRomana.classList.add("ascuns"); meniuRomana.style.display = 'none';
+                            pornesteQuiz('Romana');
+                        };
+                        document.getElementById('btn-teorie-romana').onclick = () => alert(`Teorie Limba Română - Clasa a ${clasaNumar}-a`);
+                    }
                 }
                 return;
             }
+
+            // Matematică Gimnaziu
             if (m.nume === 'Matematica' && clasaNumar >= 5 && clasaNumar <= 11) {
                 gridPrincipal.innerHTML = ''; 
                 const meniuMath = document.getElementById('sub-meniuri-matematica');
                 if (meniuMath) {
-                    const btnMainB = meniuMath.querySelector('.math-section-container:nth-child(2) .btn-math-main');
-                    const btnTeorieAlgebra = document.getElementById('btn-teorie-alg');
-                    const btnTeorieGeometrie = document.getElementById('btn-teorie-geom');
-                    const btnExercitiiAlgebra = document.getElementById('btn-ex-alg');
-                    const btnExercitiiGeometrie = document.getElementById('btn-ex-geom');
-
-                    if (btnExercitiiAlgebra) btnExercitiiAlgebra.onclick = () => {
-                        meniuMath.classList.add("ascuns"); meniuMath.style.display = 'none'; pornesteQuiz(`Matematica`);
-                    };
-                    if (btnExercitiiGeometrie) btnExercitiiGeometrie.onclick = () => {
-                        meniuMath.classList.add("ascuns"); meniuMath.style.display = 'none'; pornesteQuiz(`Matematica`);
-                    };
-                    if (btnTeorieAlgebra) btnTeorieAlgebra.onclick = () => alert(`Se deschide Teorie Algebră Clasa ${clasaNumar}`);
+                    meniuMath.classList.remove("ascuns");
+                    meniuMath.style.display = 'flex';
                     
-                    if (clasaNumar === 11) {
-                        if (btnMainB) btnMainB.innerText = "Analiză Matematică";
-                        if (btnTeorieGeometrie) btnTeorieGeometrie.onclick = () => alert("Se deschide Teorie Analiză Matematică");
-                    } else {
-                        if (btnMainB) btnMainB.innerText = clasaNumar === 9 ? "Geometrie Vectorială" : (clasaNumar === 10 ? "Geometrie Analitică" : "Geometrie");
-                        if (btnTeorieGeometrie) btnTeorieGeometrie.onclick = () => alert(`Se deschide Teorie Geometrie Clasa ${clasaNumar}`);
-                    }
-                    meniuMath.classList.remove("ascuns"); meniuMath.style.display = 'flex';
+                    document.getElementById('btn-ex-alg').onclick = () => { meniuMath.classList.add("ascuns"); meniuMath.style.display = 'none'; pornesteQuiz('Matematica'); };
+                    document.getElementById('btn-ex-geom').onclick = () => { meniuMath.classList.add("ascuns"); meniuMath.style.display = 'none'; pornesteQuiz('Matematica'); };
+                    document.getElementById('btn-teorie-alg').onclick = () => alert("Se deschide Teoria pentru Algebră.");
+                    document.getElementById('btn-teorie-geom').onclick = () => alert("Se deschide Teoria pentru Geometrie.");
                 }
             }
         };
@@ -256,28 +258,34 @@ function toggleSubMath(id) {
 
 function afiseazaLecturiBac() {
     if (!gridPrincipal) return;
-    gridPrincipal.innerHTML = '<h2 style="color:#d35400; width:100%; text-align:center;">📖 Lecturi Obligatorii BAC</h2>';
+    gridPrincipal.innerHTML = '<h2 style="color:#d35400; width:100%; text-align:center; font-family:\'Fredoka\', sans-serif; margin-bottom:20px;">Locul tău pentru BAC 📖</h2>';
     const opere = ["Luceafărul", "Baltagul", "O scrisoare pierdută", "Ion", "Ultima noapte de dragoste..."];
     opere.forEach(op => {
         const div = document.createElement('div');
         div.className = "clasa-card portocaliu";
-        div.innerHTML = `<h3>${op}</h3>`;
+        div.innerHTML = `<h3 style="margin:0;">${op}</h3>`;
         div.onclick = () => pornesteQuiz('Romana');
         gridPrincipal.appendChild(div);
     });
 }
 
 // ==========================================
-// 4. LOGICĂ QUIZ (PENTRU TOATE MATERIILE)
+// 4. LOGICĂ INJECTARE ȘI REZOLVARE INTRREBĂRI QUIZ
 // ==========================================
 function pornesteQuiz(materie) {
     if (gridPrincipal) gridPrincipal.classList.add('ascuns');
     if (quizContainer) quizContainer.classList.remove('ascuns');
     
-    // Luăm întrebările din fișierul JSON în funcție de cheia materiei
-    dateQuiz = dateProiect.materii[materie] || [
-        { "intrebare": "Exemplu de siguranță: Cât face 5 + 5?", "optiuni": ["a) 8", "b) 10", "c) 12", "d) 15"], "corect": 1, "explicatie": "5 + 5 = 10." }
-    ];
+    // Extragere directă din structura corectă a JSON-ului încărcat
+    dateQuiz = dateProiect.materii[materie] || [];
+    
+    if (dateQuiz.length === 0) {
+        // Fallback dinamic sigur în caz că proprietatea lipsește momentan
+        dateQuiz = [
+            { "intrebare": `Exercițiu demonstrativ (${materie}): Cât face 5 + 5?`, "optiuni": ["a) 8", "b) 10", "c) 12", "d) 15"], "corect": 1, "explicatie": "Răspunsul corect este 10." }
+        ];
+    }
+    
     indexIntrebareCurenta = 0;
     incarcaIntrebare();
 }
@@ -289,9 +297,9 @@ function incarcaIntrebare() {
     if (explBox) explBox.classList.add('ascuns');
 
     if (indexIntrebareCurenta >= dateQuiz.length) {
-        if (qText) qText.innerText = "🎉 Felicitări! Ai terminat acest set de exerciții!";
+        if (qText) qText.innerText = "🎉 Felicitări! Ai parcurs cu succes toate activitățile din această secțiune!";
         if (optContainer) optContainer.innerHTML = "";
-        // Creștem streak-ul ca bonus
+        
         let streak = document.getElementById('streak-num');
         if(streak) streak.innerText = parseInt(streak.innerText) + 1;
         return;
@@ -299,12 +307,25 @@ function incarcaIntrebare() {
 
     let curent = dateQuiz[indexIntrebareCurenta];
     if (qText) qText.innerText = `${indexIntrebareCurenta + 1}. ${curent.intrebare}`;
+    
     if (optContainer) {
         optContainer.innerHTML = "";
         curent.optiuni.forEach((opt, idx) => {
             const btn = document.createElement('button');
+            // Stilul forțat prin cod pentru a arăta ca butoane premium, perfect vizibile pe ecran
             btn.className = "btn-math-main";
+            btn.style.width = "100%";
             btn.style.margin = "10px 0";
+            btn.style.padding = "14px";
+            btn.style.backgroundColor = "#ff8c00"; // Forțare fundal portocaliu original
+            btn.style.color = "white";            // Text alb perfect lizibil
+            btn.style.border = "none";
+            btn.style.borderRadius = "12px";
+            btn.style.fontSize = "16px";
+            btn.style.fontWeight = "bold";
+            btn.style.cursor = "pointer";
+            btn.style.display = "block";
+            
             btn.innerText = opt;
             btn.onclick = () => verificaRaspuns(idx, btn);
             optContainer.appendChild(btn);
@@ -318,42 +339,50 @@ function verificaRaspuns(ales, b) {
     const textExpl = document.getElementById('quiz-explicatie-text');
 
     if (ales === curent.corect) {
-        b.style.backgroundColor = "#27ae60";
-        alert("Corect! 🌟");
+        b.style.backgroundColor = "#27ae60"; // Verde pentru succes
+        alert("Răspuns corect! Excelent! 🌟");
         indexIntrebareCurenta++;
-        setTimeout(incarcaIntrebare, 1000);
+        setTimeout(incarcaIntrebare, 800);
     } else {
-        b.style.backgroundColor = "#c0392b";
+        b.style.backgroundColor = "#c0392b"; // Roșu pentru greșit
         if (explBox && textExpl) {
-            textExpl.innerText = curent.explicatie || "Mai încearcă, sigur vei reuși!";
+            textExpl.innerText = curent.explicatie || "Analizează din nou opțiunile, vei reuși!";
             explBox.classList.remove('ascuns');
         }
     }
 }
 
+// Interacțiune Căpșună/Plantă (Clasa 0 Științe)
+function udaPlanta() {
+    alert("Ai udat căpșuna! 💦");
+    const stadiuText = document.getElementById('stadiu-planta-text');
+    if (stadiuText) stadiuText.innerText = "Stadiu: Căpșună coaptă și fericită! 🍓";
+    schimbaStareMascota('vesel', 'Super! Planta a primit apă și lumina soarelui!');
+}
+
 // ==========================================
-// 5. GESTIONARE CLASE VIRTUALE (PROFESOR & ELEV)
+// 5. CLASE VIRTUALE ȘI MATERIALE
 // ==========================================
 function afiseazaClaseProfesor() {
     const container = document.getElementById('grid-clase-profesor');
     if (!container) return;
     container.innerHTML = '';
     
-    let clase = JSON.parse(localStorage.getItem('eduquest_clase_virtuale')) || [];
-    let claseleMele = clase.filter(c => c.profesor === utilizatorLogat);
+    let safeClase = localStorage.getItem('eduquest_clase_virtuale');
+    let clase = safeClase ? JSON.parse(safeClase).filter(c => c.profesor === utilizatorLogat) : [];
     
-    if (claseleMele.length === 0) {
-        container.innerHTML = "<p style='color:#777;'>Nu ai nicio clasă creată încă.</p>";
+    if (clase.length === 0) {
+        container.innerHTML = "<p style='color:#777;'>Nu aveți nicio clasă virtuală înregistrată.</p>";
         return;
     }
     
-    claseleMele.forEach(c => {
+    clase.forEach(c => {
         const card = document.createElement('div');
         card.style.background = "white";
         card.style.padding = "15px";
         card.style.borderRadius = "12px";
         card.style.border = "2px solid #fdebd0";
-        card.innerHTML = `<h3>${c.nume}</h3><p style="font-size:13px; color:#7e4a1f;"><b>Cod: ${c.id}</b></p>`;
+        card.innerHTML = `<h3 style="margin:0 0 5px 0; color:#d35400;">${c.nume}</h3><p style="margin:0; font-size:13px; font-weight:bold; color:#7e4a1f;">Cod unic acces: ${c.id}</p>`;
         container.appendChild(card);
     });
 }
@@ -371,7 +400,7 @@ function creeazaClasa() {
     document.getElementById('nume-clasa-noua').value = "";
     document.getElementById('modal-creare-clasa').classList.add('ascuns');
     afiseazaClaseProfesor();
-    alert(`Clasa a fost creată! Oferă-le elevilor codul: ${cod}`);
+    alert(`Clasa a fost salvată! Cod partajare elevi: ${cod}`);
 }
 
 function deschideModalMaterial() {
@@ -382,7 +411,7 @@ function deschideModalMaterial() {
     let clase = JSON.parse(localStorage.getItem('eduquest_clase_virtuale')) || [];
     let claseleMele = clase.filter(c => c.profesor === utilizatorLogat);
     
-    if (claseleMele.length === 0) { alert("Creează o clasă mai întâi!"); return; }
+    if (claseleMele.length === 0) { alert("Adaugă mai întâi o clasă din panou!"); return; }
 
     claseleMele.forEach(c => {
         let opt = document.createElement('option');
@@ -397,7 +426,7 @@ function posteazaMaterial() {
     const titlu = document.getElementById('titlu-material').value.trim();
     const descriere = document.getElementById('descriere-material').value.trim();
 
-    if (!titlu || !descriere) { alert("Completează toate câmpurile!"); return; }
+    if (!titlu || !descriere) { alert("Toate câmpurile trebuie completate!"); return; }
 
     let materiale = JSON.parse(localStorage.getItem('eduquest_materiale_postate')) || [];
     materiale.push({ clasaId: clasaId, titlu: titlu, descriere: descriere });
@@ -406,29 +435,29 @@ function posteazaMaterial() {
     document.getElementById('titlu-material').value = "";
     document.getElementById('descriere-material').value = "";
     document.getElementById('modal-postare-material').classList.add('ascuns');
-    alert("Materialul a fost distribuit cu succes!");
+    alert("Materialul educațional a fost trimis către elevi!");
 }
 
 function alaturaClasaElev() {
     const cod = document.getElementById('cod-clasa-alaturare').value.trim().toUpperCase();
-    if (!cod) { alert("Introdu codul clasei!"); return; }
+    if (!cod) { alert("Scrie codul clasei transmise de profesor!"); return; }
 
     let toateClasele = JSON.parse(localStorage.getItem('eduquest_clase_virtuale')) || [];
     let clasaGasita = toateClasele.find(c => c.id === cod);
 
-    if (!clasaGasita) { alert("Codul este greșit sau inexistent!"); return; }
+    if (!clasaGasita) { alert("Acest cod nu corespunde niciunei clase active!"); return; }
 
     let cheieInscrieri = `inscrieri_${utilizatorLogat}`;
     let inscrieri = JSON.parse(localStorage.getItem(cheieInscrieri)) || [];
     
-    if (inscrieri.some(c => c.id === cod)) { alert("Ești deja înscris în această clasă!"); return; }
+    if (inscrieri.some(c => c.id === cod)) { alert("Faci deja parte din această clasă virtuală!"); return; }
 
     inscrieri.push(clasaGasita);
     localStorage.setItem(cheieInscrieri, JSON.stringify(inscrieri));
     
     document.getElementById('cod-clasa-alaturare').value = "";
     document.getElementById('modal-alaturare-clasa').classList.add('ascuns');
-    alert(`Te-ai alăturat cu succes clasei: ${clasaGasita.nume}`);
+    alert(`Felicitări! Te-ai alăturat clasei: ${clasaGasita.nume}`);
     incarcaClaseVirtualeElev();
 }
 
@@ -441,7 +470,7 @@ function incarcaClaseVirtualeElev() {
     let clase = JSON.parse(localStorage.getItem(cheieInscrieri)) || [];
 
     if (clase.length === 0) {
-        container.innerHTML = "<p style='font-size:14px; color:#999; margin:10px 0;'>Nu ești înscris în nicio clasă virtuală. Folosește butonul de mai sus!</p>";
+        container.innerHTML = "<p style='font-size:14px; color:#999; margin:5px 0;'>Nu ești conectat la nicio clasă virtuală.</p>";
         return;
     }
 
@@ -449,7 +478,8 @@ function incarcaClaseVirtualeElev() {
         const card = document.createElement('div');
         card.className = "clasa-card albastru";
         card.style.minHeight = "80px";
-        card.innerHTML = `<h3>${c.nume}</h3><p style="font-size:12px; margin:0;">Profesor: ${c.profesor}</p>`;
+        card.style.cursor = "pointer";
+        card.innerHTML = `<h3 style="margin:0; font-family:'Fredoka', sans-serif;">${c.nume}</h3><p style="font-size:12px; margin:5px 0 0 0;">Profesor: ${c.profesor}</p>`;
         card.onclick = () => deschideClasaElev(c.id, c.nume);
         container.appendChild(card);
     });
@@ -460,8 +490,7 @@ function deschideClasaElev(clasaId, numeClasa) {
     const containerMateriale = document.getElementById('vizualizare-clasa-elev');
     if (containerMateriale) containerMateriale.classList.remove('ascuns');
     
-    const tClasa = document.getElementById('titlu-clasa-activa');
-    if (tClasa) tClasa.innerText = `Materiale: ${numeClasa}`;
+    document.getElementById('titlu-clasa-activa').innerText = `Materiale distribuite: ${numeClasa}`;
     
     const btnAcasa = document.getElementById('btn-acasa-nou'); 
     if(btnAcasa) btnAcasa.classList.remove('ascuns');
@@ -470,11 +499,10 @@ function deschideClasaElev(clasaId, numeClasa) {
     if (!lista) return;
     lista.innerHTML = '';
     
-    let safeMat = localStorage.getItem('eduquest_materiale_postate');
-    let materiale = safeMat ? JSON.parse(safeMat).filter(m => m.clasaId === clasaId) : [];
+    let materiale = (JSON.parse(localStorage.getItem('eduquest_materiale_postate')) || []).filter(m => m.clasaId === clasaId);
     
     if (materiale.length === 0) {
-        lista.innerHTML = "<p style='color:#777; padding: 10px;'>Profesorul nu a postat încă niciun material în această clasă virtuală.</p>"; 
+        lista.innerHTML = "<p style='color:#777; padding:10px;'>Nu au fost încărcate resurse pe acest flux de către profesor.</p>"; 
         return;
     }
     
@@ -485,7 +513,7 @@ function deschideClasaElev(clasaId, numeClasa) {
         div.style.borderRadius = "10px";
         div.style.marginBottom = "10px";
         div.style.borderLeft = "4px solid #ff8c00";
-        div.innerHTML = `<h4>📌 ${m.titlu}</h4><p style="white-space:pre-wrap; margin:5px 0 0 0; font-size:14px;">${m.descriere}</p>`;
+        div.innerHTML = `<h4 style="margin:0 0 5px 0; color:#d35400;">📌 ${m.titlu}</h4><p style="white-space:pre-wrap; margin:0; font-size:14px;">${m.descriere}</p>`;
         lista.appendChild(div);
     });
 }
