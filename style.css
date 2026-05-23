@@ -1,20 +1,15 @@
 /* ==========================================================================
-   1. VARIABILE DE CULOARE ȘI SETĂRI GLOBALE
+   1. IDENTITATE CROMATICĂ PORTOCALIE & SETĂRI GLOBALE
    ========================================================================== */
 :root {
-    --brand-primary: #58cc02;    /* Verde Duolingo vibrant */
-    --brand-secondary: #ff9600;  /* Portocaliu cald */
-    --brand-blue: #1cb0f6;       /* Albastru deschis */
-    --brand-purple: #854eee;     /* Violet elegant pentru discipline */
+    --orange-primary: #ff8c00;    /* Portocaliul cald original */
+    --orange-dark: #d35400;       /* Portocaliu intens titluri */
+    --orange-soft: #fdebd0;       /* Fundalul tău pastelat deschis */
+    --text-brown: #7e4a1f;        /* Textul maroniu de accent */
     --text-dark: #3c3c3c;
-    --text-light: #777777;
-    --bg-main: #f7f9fa;
-    --bg-white: #ffffff;
-    --border-radius-lg: 16px;
-    --border-radius-md: 12px;
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
-    --shadow-3d: 0 4px 0px rgba(0, 0, 0, 0.15);
+    --bg-light: #faf8f5;
+    --white: #ffffff;
+    --transition-fast: all 0.2s ease;
 }
 
 * {
@@ -23,14 +18,11 @@
 }
 
 body {
-    background-color: var(--bg-main);
+    background-color: var(--bg-light);
     color: var(--text-dark);
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
 }
 
 h1, h2, h3, .logo-text, .btn-math-main {
@@ -43,16 +35,15 @@ h1, h2, h3, .logo-text, .btn-math-main {
 }
 
 /* ==========================================================================
-   2. HEADER & ELEMENTE DE NAVIGARE
+   2. HEADER, NAVIGARE ȘI BADGE-URI
    ========================================================================== */
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background-color: var(--bg-white);
-    border-bottom: 2px solid #e5e5e5;
-    box-shadow: var(--shadow-soft);
+    background-color: var(--white);
+    border-bottom: 3px solid var(--orange-soft);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -60,15 +51,9 @@ h1, h2, h3, .logo-text, .btn-math-main {
 
 .logo-text {
     font-size: 28px;
-    color: var(--brand-blue);
+    color: var(--orange-primary);
     cursor: pointer;
     margin: 0;
-    transition: var(--transition-smooth);
-}
-
-.logo-text:hover {
-    transform: scale(1.05);
-    color: var(--brand-purple);
 }
 
 .header-right {
@@ -80,487 +65,393 @@ h1, h2, h3, .logo-text, .btn-math-main {
 .user-badge {
     display: flex;
     align-items: center;
-    gap: 10px;
-    background-color: #f0f4f7;
+    gap: 8px;
+    background-color: var(--orange-soft);
     padding: 8px 16px;
-    border-radius: var(--border-radius-lg);
+    border-radius: 12px;
     cursor: pointer;
-    border: 2px solid #e5e5e5;
     font-weight: 700;
-    transition: var(--transition-smooth);
-}
-
-.user-badge:hover {
-    background-color: #e1ebf5;
-    border-color: var(--brand-blue);
-}
-
-.user-avatar-mini {
-    font-size: 18px;
+    color: var(--text-brown);
 }
 
 .streak-container {
-    background-color: #fff0e6;
-    border: 2px solid #ffd4b3;
+    background-color: #fff3e0;
+    border: 2px solid var(--orange-soft);
     padding: 8px 16px;
-    border-radius: var(--border-radius-lg);
+    border-radius: 12px;
     font-weight: 700;
-    color: #ff6600;
+    color: var(--orange-dark);
 }
 
 .nav-actions {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 20px auto 0 auto;
     width: 100%;
     padding: 0 20px;
 }
 
 .btn-acasa {
-    background: var(--bg-white);
-    border: 2px solid #e5e5e5;
+    background: var(--white);
+    border: 2px solid var(--orange-soft);
     padding: 10px 20px;
-    border-radius: var(--border-radius-md);
+    border-radius: 12px;
     cursor: pointer;
     font-weight: 700;
-    color: var(--text-dark);
-    box-shadow: var(--shadow-3d);
-    transition: transform 0.1s;
+    color: var(--text-brown);
+    box-shadow: 0 4px 0 var(--orange-soft);
+    transition: var(--transition-fast);
 }
-
 .btn-acasa:active {
-    transform: translateY(4px);
+    transform: translateY(3px);
     box-shadow: none;
 }
+.back-btn-spacing { margin-bottom: 20px; }
 
 /* ==========================================================================
-   3. AUTENTIFICARE ȘI SELECȚIE ROL
+   3. FORMULARE AUTENTIFICARE ȘI SELECTIE ROL
    ========================================================================== */
 .overlay-full {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
-    background: radial-gradient(circle, #e3f2fd 0%, #bbdefb 100%);
+    background: linear-gradient(135deg, var(--orange-soft) 0%, #fff3e0 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999;
-    animation: fadeIn 0.4s ease-out;
 }
 
 .card-login, .card-selectie {
-    background: var(--bg-white);
+    background: var(--white);
     padding: 40px;
-    border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    border: 2px solid #e5e5e5;
+    border-radius: 20px;
+    border: 3px solid var(--orange-soft);
+    box-shadow: 0 8px 24px rgba(211, 84, 0, 0.06);
     width: 100%;
-    max-width: 420px;
+    max-width: 400px;
     text-align: center;
 }
 
-.card-login h2 {
-    font-size: 26px;
-    color: var(--text-dark);
-    margin-bottom: 25px;
+.card-login h2, .card-selectie h1 {
+    margin-top: 0;
+    color: var(--orange-dark);
 }
 
-.input-group {
+.input-fields {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .card-login input {
     width: 100%;
-    padding: 14px 18px;
-    border: 2px solid #e5e5e5;
-    border-radius: var(--border-radius-md);
-    background: #fdfdfd;
+    padding: 12px 15px;
+    border: 2px solid var(--orange-soft);
+    border-radius: 10px;
     font-size: 16px;
     outline: none;
-    transition: var(--transition-smooth);
+    background: #fffdfb;
 }
-
 .card-login input:focus {
-    border-color: var(--brand-blue);
-    background: var(--bg-white);
-    box-shadow: 0 0 0 4px rgba(28, 176, 246, 0.15);
+    border-color: var(--orange-primary);
 }
 
-.btn-primary {
+.card-login button, .btn-math-main {
     width: 100%;
-    background-color: var(--brand-primary);
-    color: var(--bg-white);
     padding: 14px;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--white);
+    background-color: var(--orange-primary);
     border: none;
-    border-radius: var(--border-radius-md);
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 4px 0 #3b8a01;
-    transition: transform 0.1s;
+    box-shadow: 0 4px 0 var(--orange-dark);
+    transition: var(--transition-fast);
 }
-
-.btn-primary:active {
+.card-login button:active, .btn-math-main:active {
     transform: translateY(4px);
     box-shadow: none;
 }
 
 .schimba-ecran {
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: 14px;
-    color: var(--text-light);
 }
-
 .schimba-ecran a {
-    color: var(--brand-blue);
+    color: var(--orange-dark);
     text-decoration: none;
     font-weight: 700;
 }
 
-/* Selecție Rol */
-.card-selectie {
-    max-width: 550px;
-}
-
+/* Selectie Rol */
+.card-selectie { max-width: 500px; }
 .optiuni-roluri {
     display: flex;
     gap: 20px;
-    margin-top: 30px;
+    margin-top: 25px;
 }
-
 .rol-box {
     flex: 1;
-    border: 2px solid #e5e5e5;
-    border-radius: var(--border-radius-lg);
-    padding: 25px;
+    border: 2px solid var(--orange-soft);
+    background: #fffdfb;
+    padding: 20px;
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: var(--shadow-3d);
-    transition: var(--transition-smooth);
-}
-
-.rol-box:hover {
-    border-color: var(--brand-blue);
-    transform: translateY(-4px);
-}
-
-.rol-icon {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-.rol-box span {
     font-weight: 700;
     font-size: 18px;
+    color: var(--text-brown);
+    box-shadow: 0 4px 0 var(--orange-soft);
+    transition: var(--transition-fast);
+}
+.rol-box:hover {
+    border-color: var(--orange-primary);
+    transform: translateY(-2px);
 }
 
 /* ==========================================================================
-   4. GRID DISCIPLINE ȘI SECȚIUNI INTERNE
+   4. STRUCTURA INTERFEȚEI ȘI CLASELE DINAMICE (JS)
    ========================================================================== */
 #app {
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 40px auto;
     padding: 0 20px;
-    width: 100%;
 }
 
-.grid-discipline {
+/* Clasa .card creată din script.js pentru materii */
+#grid-principal {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 150fr));
-    gap: 25px;
-    margin-top: 20px;
-    animation: fadeInUp 0.4s ease-out;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
 }
 
-/* Clasa de card dinamic generată în JS */
-.card-disciplina-nou {
-    background: var(--bg-white);
-    border: 2px solid #e5e5e5;
-    border-radius: 20px;
-    padding: 30px 20px;
+.card {
+    background: var(--white);
+    border: 2px solid var(--orange-soft) !important;
+    border-radius: 16px !important;
+    padding: 25px 20px !important;
     text-align: center;
     cursor: pointer;
-    box-shadow: 0 6px 0 #e5e5e5;
-    transition: var(--transition-smooth);
+    box-shadow: 0 5px 0 var(--orange-soft) !important;
+    transition: var(--transition-fast) !important;
+}
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--orange-primary) !important;
+    box-shadow: 0 9px 0 var(--orange-soft) !important;
 }
 
-.card-disciplina-nou:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 11px 0 #e5e5e5;
-}
-
-.dashboard-section {
-    background: var(--bg-white);
-    border-radius: 24px;
-    padding: 35px;
-    border: 2px solid #e5e5e5;
-    box-shadow: var(--shadow-soft);
+/* Dashboard Elemente */
+#dashboard-profesor, #vizualizare-clasa-elev {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 30px;
+    border: 2px solid var(--orange-soft);
     margin-top: 20px;
 }
 
-.section-title {
-    text-align: center;
-    margin-top: 0;
-    font-size: 28px;
-}
+.title-profesor { color: var(--orange-dark); text-align: center; margin-top: 0;}
+.title-sub-sectiune { color: var(--text-brown); margin-top: 25px; }
 
-.text-orange { color: var(--brand-secondary); }
-
-.action-buttons-container {
+.profesor-actions {
     display: flex;
     gap: 20px;
     justify-content: center;
-    margin-bottom: 30px;
+}
+.profesor-actions .btn-math-main { width: auto; min-width: 200px; }
+.btn-alt-color { background-color: #27ae60 !important; box-shadow: 0 4px 0 #1e8449 !important; }
+
+/* Grid Clase Profesori (.clasa-card generat din JS) */
+#grid-clase-profesor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+.clasa-card {
+    background: #fffbf5;
+    border: 2px solid var(--orange-soft);
+    border-radius: 12px;
+    padding: 15px 25px;
+    text-align: center;
+    min-width: 180px;
+    box-shadow: 0 4px 0 var(--orange-soft);
 }
 
-.grid-clase {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
-    margin-top: 15px;
-}
-
-/* ==========================================================================
-   5. BUTOANE DISCIPLINE ȘI SUB-MENIURI
-   ========================================================================== */
-.btn-math-main {
-    padding: 14px 28px;
-    font-size: 18px;
-    color: var(--bg-white);
-    background-color: var(--brand-secondary);
-    border: none;
-    border-radius: var(--border-radius-lg);
-    cursor: pointer;
-    box-shadow: 0 4px 0 #c67500;
-    transition: transform 0.1s;
-}
-
-.btn-math-main:active {
-    transform: translateY(4px);
-    box-shadow: none;
-}
-
-.btn-green {
-    background-color: var(--brand-primary);
-    box-shadow: 0 4px 0 #3b8a01;
-}
-
-.sub-meniuri-container {
+/* Lista materiale (.card-material generat din JS) */
+#lista-materiale-elev {
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    align-items: center;
-    margin-top: 30px;
+    gap: 15px;
+}
+.card-material {
+    background: #fffdf9;
+    border: 2px solid var(--orange-soft);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 0 #fbe5c8;
 }
 
+/* Sub-meniuri containere */
+#sub-meniuri-matematica, #sub-meniuri-romana {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-top: 30px;
+    width: 100%;
+}
 .math-section-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     width: 100%;
     max-width: 400px;
 }
-
-.math-section-container .btn-math-main {
-    width: 100%;
-}
-
 .math-sub-container {
-    display: flex;
+    display: none;
     gap: 15px;
     width: 100%;
-    justify-content: center;
-    animation: fadeInMath 0.3s ease-out;
 }
-
-.force-flex { display: flex !important; }
+.romana-flex-override { display: flex !important; }
 
 .btn-math-sub {
     flex: 1;
     padding: 12px;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--brand-secondary);
-    background-color: var(--bg-white);
-    border: 2px solid var(--brand-secondary);
-    border-radius: var(--border-radius-md);
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--orange-primary);
+    background-color: var(--white);
+    border: 2px solid var(--orange-primary);
+    border-radius: 10px;
     cursor: pointer;
-    box-shadow: 0 3px 0 var(--brand-secondary);
-    transition: var(--transition-smooth);
+    transition: var(--transition-fast);
 }
-
 .btn-math-sub:hover {
-    background-color: var(--brand-secondary);
-    color: var(--bg-white);
-}
-
-/* Carduri Clase Profesori injectate din JS */
-.clasa-card-nou {
-    background: #fbf9ff;
-    border: 2px solid #ded0fd !important;
-    border-radius: var(--border-radius-lg);
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 4px 0 #ded0fd !important;
-    transition: var(--transition-smooth);
-}
-.clasa-card-nou:hover { transform: translateY(-3px); }
-
-/* Carduri Materiale Postate injectate */
-.card-material-nou {
-    background: #fffdf6;
-    border: 2px solid #fcefc1;
-    border-radius: var(--border-radius-lg);
-    padding: 20px;
-    box-shadow: 0 4px 0 #fcefc1;
+    background-color: var(--orange-primary);
+    color: var(--white);
 }
 
 /* ==========================================================================
-   6. MODUL QUIZ (CHESTIONARE)
+   5. MODUL QUIZ (CHESTIONARE)
    ========================================================================== */
-.quiz-wrapper {
-    max-width: 650px;
-    margin: 40px auto;
+#quiz-container {
+    max-width: 600px;
+    margin: 30px auto;
 }
-
-.quiz-card {
-    background: var(--bg-white);
-    border-radius: 24px;
-    padding: 35px;
-    border: 2px solid #e5e5e5;
-    box-shadow: var(--shadow-soft);
+#intrebare-card {
+    background: var(--white);
+    border: 2px solid var(--orange-soft);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.02);
 }
-
 #intrebare-text {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 25px;
     text-align: center;
+    margin-bottom: 25px;
+}
+#optiuni {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
 }
 
-.quiz-options-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-/* Opțiunile de răspuns din JS */
-.varianta-quiz-nou {
-    padding: 16px 20px;
-    font-size: 16px;
+/* Stil pentru variantele de răspuns generate din JS (.varianta-raspuns) */
+.varianta-raspuns {
+    padding: 14px 18px;
+    border: 2px solid var(--orange-soft) !important;
+    background: var(--white) !important;
+    border-radius: 12px !important;
+    cursor: pointer;
+    font-size: 15px;
     font-weight: 600;
     text-align: left;
-    background: var(--bg-white);
-    border: 2px solid #e5e5e5;
-    border-radius: var(--border-radius-lg);
-    cursor: pointer;
-    box-shadow: 0 4px 0 #e5e5e5;
-    transition: var(--transition-smooth);
+    box-shadow: 0 3px 0 var(--orange-soft) !important;
+    transition: var(--transition-fast);
 }
-
-.varianta-quiz-nou:hover {
-    background-color: #f7f7f7;
-    border-color: #a0a0a0;
+.varianta-raspuns:hover {
+    background-color: #fffbf4 !important;
+    border-color: var(--orange-primary) !important;
 }
 
 .quiz-nav-baza {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 2px solid #e5e5e5;
+    border-top: 2px solid var(--orange-soft);
     padding-top: 20px;
 }
-
-.btn-quiz-nav {
-    background: var(--bg-white);
-    border: 2px solid #e5e5e5;
+.quiz-nav-baza button {
+    background: var(--white);
+    border: 2px solid var(--orange-soft);
     padding: 10px 20px;
-    border-radius: var(--border-radius-md);
+    border-radius: 10px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 3px 0 #e5e5e5;
 }
-
-.badge-progres {
-    background: #e1f5fe;
-    color: #0288d1;
-    padding: 6px 16px;
-    border-radius: 20px;
+#quiz-progres {
+    background: var(--orange-soft);
+    color: var(--text-brown);
+    padding: 5px 15px;
+    border-radius: 15px;
     font-weight: 700;
 }
 
 /* ==========================================================================
-   7. DRAG AND DROP JOC INTERACTIV
+   6. DRAG & DROP JOC INTERACTIV
    ========================================================================== */
-.interactive-container {
-    background: var(--bg-white);
-    border-radius: 24px;
+#exercitiu-vizual-container {
+    background: var(--white);
+    border-radius: 20px;
     padding: 30px;
-    border: 2px solid #e5e5e5;
+    border: 2px solid var(--orange-soft);
 }
-
 .game-layout {
     display: flex;
-    gap: 40px;
+    gap: 30px;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
 }
-
-.drag-labels-stack {
+#labels-container {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    min-width: 160px;
+    gap: 10px;
 }
-
 .draggable {
-    background: var(--bg-white);
-    border: 2px solid var(--brand-blue);
-    padding: 12px 20px;
-    border-radius: var(--border-radius-md);
+    background: var(--white);
+    border: 2px solid var(--orange-primary);
+    padding: 10px 18px;
+    border-radius: 8px;
     cursor: grab;
     font-weight: 700;
     text-align: center;
-    box-shadow: 0 4px 0 var(--brand-blue);
-    user-select: none;
+    box-shadow: 0 3px 0 var(--orange-primary);
 }
-
-.draggable:active { cursor: grabbing; }
-
-.interactive-image-wrapper {
+#image-wrapper {
     position: relative;
-    max-width: 450px;
-    width: 100%;
+    max-width: 400px;
 }
-
-.game-img {
+#image-wrapper img {
     width: 100%;
     display: block;
-    border-radius: var(--border-radius-lg);
+    border-radius: 12px;
 }
-
 .drop-zone {
     position: absolute;
-    width: 45px;
-    height: 45px;
-    background: rgba(28, 176, 246, 0.25);
-    border: 3px dashed var(--brand-blue);
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 140, 0, 0.2);
+    border: 2px dashed var(--orange-primary);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: var(--transition-smooth);
 }
 
-.drop-zone.hovered {
-    background: rgba(88, 204, 2, 0.4);
-    border-color: var(--brand-primary);
-    transform: translate(-50%, -50%) scale(1.2);
-}
-
-/* Poziționările drop-zonelor mapate din fostele stiluri inline */
+/* Mapare coordonate din fostele stiluri inline */
 .dz-radacina { top: 85%; left: 50%; }
 .dz-tulpina { top: 60%; left: 45%; }
 .dz-frunza { top: 55%; left: 30%; }
@@ -568,147 +459,80 @@ h1, h2, h3, .logo-text, .btn-math-main {
 .dz-fructul { top: 35%; left: 65%; }
 
 /* ==========================================================================
-   8. MODUL MASCOTĂ (PISIUC)
+   7. MODUL MASCOTĂ GLOBALĂ (PISIUC)
    ========================================================================== */
-.companion-container {
+#mascota-container {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
+    bottom: 20px;
+    right: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    z-index: 90;
-    pointer-events: none;
+    z-index: 99;
 }
-
 #cat-img {
-    width: 110px;
-    height: auto;
-    pointer-events: auto;
+    width: 100px;
     cursor: pointer;
     transition: transform 0.2s;
 }
-
 #cat-img:hover {
-    transform: scale(1.1) rotate(3deg);
+    transform: scale(1.08);
 }
-
 .speech-bubble {
-    position: relative;
-    background: var(--bg-white);
-    border: 2px solid #e5e5e5;
-    border-radius: 20px;
-    padding: 12px 18px;
-    margin-bottom: 12px;
-    max-width: 240px;
-    box-shadow: var(--shadow-soft);
-    font-weight: 600;
+    background: var(--white);
+    border: 2px solid var(--orange-soft);
+    border-radius: 16px;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    max-width: 220px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     font-size: 14px;
-    pointer-events: auto;
-    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.speech-bubble::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    right: 35px;
-    border-width: 10px 10px 0;
-    border-style: solid;
-    border-color: var(--bg-white) transparent;
-    display: block;
-    width: 0;
-}
-
-.speech-bubble::before {
-    content: '';
-    position: absolute;
-    bottom: -13px;
-    right: 34px;
-    border-width: 11px 11px 0;
-    border-style: solid;
-    border-color: #e5e5e5 transparent;
-    display: block;
-    width: 0;
-    z-index: -1;
+    font-weight: 600;
 }
 
 /* ==========================================================================
-   9. MODALE GENERALE CONT & MANAGEMENT
+   8. MODALE MANAGEMENT
    ========================================================================== */
 .modal-backdrop {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(126, 74, 31, 0.25);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 200;
-    backdrop-filter: blur(4px);
+    z-index: 500;
+    backdrop-filter: blur(2px);
 }
-
 .modal-content {
-    background: var(--bg-white);
-    border-radius: 24px;
-    padding: 35px;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 30px;
     width: 100%;
-    max-width: 460px;
-    border: 2px solid #e5e5e5;
+    max-width: 440px;
+    border: 3px solid var(--orange-soft);
     position: relative;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-
 .close-modal {
     position: absolute;
-    top: 15px; right: 20px;
-    font-size: 28px;
+    top: 12px; right: 18px;
+    font-size: 26px;
     cursor: pointer;
-    color: var(--text-light);
-    transition: var(--transition-smooth);
+    color: #aaa;
 }
-
-.close-modal:hover { color: var(--text-dark); }
-
-.modal-profile-info {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    margin: 20px 0;
-    background: #f7f9fa;
-    padding: 15px;
-    border-radius: var(--border-radius-lg);
-}
-
-.avatar-mare { font-size: 50px; }
-.status-badge {
-    background: #e8f5e9;
-    color: #2e7d32;
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-weight: 700;
-    display: inline-block;
-    font-size: 13px;
-}
-
-.modal-input, .modal-select, .modal-textarea {
+.orange-modal-title { color: var(--orange-dark); margin-top: 0; }
+.custom-modal-input, .custom-modal-select, .custom-modal-textarea {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     margin-bottom: 15px;
-    border: 2px solid #e5e5e5;
-    border-radius: var(--border-radius-md);
-    font-size: 15px;
+    border: 2px solid var(--orange-soft);
+    border-radius: 8px;
     outline: none;
+    font-size: 15px;
 }
-.modal-input:focus, .modal-select:focus, .modal-textarea:focus { border-color: var(--brand-blue); }
-.modal-textarea { height: 100px; resize: none; }
-.w-100 { width: 100%; }
-.margin-b-20 { margin-bottom: 20px; }
-.code-input { text-transform: uppercase; font-weight: bold; text-align: center; letter-spacing: 2px; font-size: 18px; }
-.modal-hint { color: var(--text-light); font-size: 14px; margin-bottom: 10px; }
-
-/* Animații critice */
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-@keyframes fadeInMath { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.custom-modal-textarea { height: 100px; resize: none; }
+.bold-code-input { text-transform: uppercase; font-weight: bold; text-align: center; letter-spacing: 2px; }
+.modal-explanation-text { color: var(--text-brown); font-size: 14px; }
+.full-w-btn { width: 100%; }
+.modal-profile-info { display: flex; gap: 15px; align-items: center; margin: 15px 0; background: var(--bg-light); padding: 12px; border-radius: 10px;}
+.avatar-mare { font-size: 40px; }
+.status-badge { background: #e8f5e9; color: #2e7d32; padding: 3px 8px; border-radius: 5px; font-weight: bold; font-size: 13px; }
