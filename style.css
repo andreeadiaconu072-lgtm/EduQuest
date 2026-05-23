@@ -108,7 +108,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
 .back-btn-spacing { margin-bottom: 20px; }
 
 /* ==========================================================================
-   3. FORMULARE AUTENTIFICARE ȘI SELECTIE ROL
+   3. FORMULARE AUTENTIFICARE ȘI SELECȚIE ROL
    ========================================================================== */
 .overlay-full {
     position: fixed;
@@ -120,7 +120,8 @@ h1, h2, h3, .logo-text, .btn-math-main {
     z-index: 999;
 }
 
-.card-login, .card-selectie {
+/* Mapat pe ID-urile tale originale din script.js */
+.card-login, #fereastra-login, #fereastra-register, .card-selectie {
     background: var(--white);
     padding: 40px;
     border-radius: 20px;
@@ -184,7 +185,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
     font-weight: 700;
 }
 
-/* Selectie Rol */
+/* Selecție Rol */
 .card-selectie { max-width: 500px; }
 .optiuni-roluri {
     display: flex;
@@ -218,13 +219,13 @@ h1, h2, h3, .logo-text, .btn-math-main {
     padding: 0 20px;
 }
 
-/* Clasa .card creată din script.js pentru materii */
 #grid-principal {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
 }
 
+/* .card generat din script (1).js */
 .card {
     background: var(--white);
     border: 2px solid var(--orange-soft) !important;
@@ -261,7 +262,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
 .profesor-actions .btn-math-main { width: auto; min-width: 200px; }
 .btn-alt-color { background-color: #27ae60 !important; box-shadow: 0 4px 0 #1e8449 !important; }
 
-/* Grid Clase Profesori (.clasa-card generat din JS) */
+/* Grid Clase Profesori (.clasa-card din JS) */
 #grid-clase-profesor {
     display: flex;
     flex-wrap: wrap;
@@ -278,7 +279,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
     box-shadow: 0 4px 0 var(--orange-soft);
 }
 
-/* Lista materiale (.card-material generat din JS) */
+/* Lista materiale (.card-material din JS) */
 #lista-materiale-elev {
     display: flex;
     flex-direction: column;
@@ -292,7 +293,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
     box-shadow: 0 4px 0 #fbe5c8;
 }
 
-/* Sub-meniuri containere */
+/* Sub-meniuri */
 #sub-meniuri-matematica, #sub-meniuri-romana {
     display: flex;
     flex-direction: column;
@@ -360,7 +361,7 @@ h1, h2, h3, .logo-text, .btn-math-main {
     margin-bottom: 25px;
 }
 
-/* Stil pentru variantele de răspuns generate din JS (.varianta-raspuns) */
+/* .varianta-raspuns din JS */
 .varianta-raspuns {
     padding: 14px 18px;
     border: 2px solid var(--orange-soft) !important;
@@ -451,7 +452,6 @@ h1, h2, h3, .logo-text, .btn-math-main {
     transform: translate(-50%, -50%);
 }
 
-/* Mapare coordonate din fostele stiluri inline */
 .dz-radacina { top: 85%; left: 50%; }
 .dz-tulpina { top: 60%; left: 45%; }
 .dz-frunza { top: 55%; left: 30%; }
