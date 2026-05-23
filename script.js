@@ -1,19 +1,22 @@
-// ==========================================
-// 1. ELEMENTE GLOBALE ȘI CONFIGURARE
-// ==========================================
-const catImg = document.getElementById('cat-img');
-const bulaText = document.getElementById('bula-text');
-const gridPrincipal = document.getElementById('grid-principal');
-const quizContainer = document.getElementById('quiz-container');
-const containerPlanta = document.getElementById('exercitiu-vizual-container');
-
-let indexIntrebareCurenta = 0;
-let dateQuiz = [];
-let dateProiect = { utilizatori: [], materii: { Matematica: [], Stiinte: [] } };
+// ==========================================================================
+// 1. STATE GLOBAL ȘI CONFIGURĂRI INITIALE
+// ==========================================================================
+let dateProiect;
 let utilizatorLogat = "";
 let rolLogat = "";
 
-// Inițializare Bază de Date Locală securizată (Pentru Clase Virtuale)
+// Referințe către elementele cheie din DOM
+const gridPrincipal = document.getElementById("grid-principal");
+const subMeniuriMatematica = document.getElementById("sub-meniuri-matematica");
+const subMeniuriRomana = document.getElementById("sub-meniuri-romana");
+const quizContainer = document.getElementById("quiz-container");
+const exercitiuVizualContainer = document.getElementById("exercitiu-vizual-container");
+const interfataPrincipala = document.getElementById("interfata-principala");
+const ecranLogin = document.getElementById("ecran-login");
+const ecranRol = document.getElementById("ecran-rol");
+const btnAcasaNou = document.getElementById("btn-acasa-nou");
+
+// Inițializare baze de date în LocalStorage dacă nu există
 if (!localStorage.getItem('eduquest_clase_virtuale')) {
     localStorage.setItem('eduquest_clase_virtuale', JSON.stringify([]));
 }
@@ -21,41 +24,40 @@ if (!localStorage.getItem('eduquest_materiale_postate')) {
     localStorage.setItem('eduquest_materiale_postate', JSON.stringify([]));
 }
 
-// ÎNCĂRCARE DATE DIN JSON cu mecanism de siguranță locală
+// Încărcare din fișierul JSON local cu fallback de siguranță
 async function incarcaDate() {
     try {
         const raspuns = await fetch('materii.json');
         dateProiect = await raspuns.json();
     } catch (err) {
-        console.warn("Atenție: Se folosesc datele de rezervă deoarece materii.json nu a putut fi citit local:", err);
-        // Siguranță: definim utilizatorii direct în cod dacă JSON-ul dă eroare la citire locală pe PC
+        console.warn("Rulare locală detectată. Se încarcă utilizatorii de siguranță.");
         dateProiect = {
             utilizatori: [
                 { "user": "elev1", "parola": "1234" },
                 { "user": "profesor1", "parola": "profesor2026" }
             ],
             materii: {
-                Matematica: [],
-                Stiinte: []
+                "Matematica": {},
+                "Romana": {},
+                "Stiinte": {}
             }
         };
     }
 }
 incarcaDate();
 
-// ==========================================
-// 2. LOGICĂ DE AUTENTIFICARE & CONT
-// ==========================================
+// ==========================================================================
+// 2. LOGICĂ DE AUTENTIFICARE (LOGIN & ÎNREGISTRARE)
+// ==========================================================================
 function comutaEcraneAutentificare(tip) {
     const fLogin = document.getElementById('fereastra-login');
     const fRegister = document.getElementById('fereastra-register');
-    
     if (tip === 'register') {
-        if(fLogin) fLogin.classList.add('ascuns');
-        if(fRegister) fRegister.classList.remove('ascuns');
+        fLogin.classList.add('ascuns');
+        fRegister.classList.remove('ascuns');
     } else {
-        if(fRegister) fRegister.classList.add('ascuns');
-        if(fLogin) fLogin.classList.remove('ascuns');
+        fRegister.classList.add('ascuns');
+        fLogin.classList.remove('ascuns');
     }
 }
 
@@ -68,17 +70,10 @@ function proceseazaLogin() {
         return;
     }
 
-    // Verificăm dacă utilizatorii există în baza de date loaded
-    if (!dateProiect.utilizatori) {
-        alert("Eroare la încărcarea datelor. Încearcă din nou!");
-        return;
-    }
-
     const gasit = dateProiect.utilizatori.find(u => u.user === userIn && u.parola === passIn);
 
     if (gasit) {
         utilizatorLogat = userIn;
-        // Determinăm rolul automat sau deschidem selecția de rol
         if (userIn.includes("profesor")) {
             rolLogat = "profesor";
             pornesteAplicatie();
@@ -86,9 +81,8 @@ function proceseazaLogin() {
             rolLogat = "elev";
             pornesteAplicatie();
         } else {
-            // Dacă e un cont nou creat, mergem la ecranul de selecție rol
-            document.getElementById('ecran-login').classList.add('ascuns');
-            document.getElementById('ecran-rol').classList.remove('ascuns');
+            ecranLogin.classList.add('ascuns');
+            ecranRol.classList.remove('ascuns');
         }
     } else {
         alert("Utilizator sau parolă incorectă!");
@@ -110,50 +104,42 @@ function proceseazaInregistrare() {
         return;
     }
 
-    // Adăugăm utilizatorul în lista temporară a sesiunii
     dateProiect.utilizatori.push({ "user": userIn, "parola": passIn });
-    alert("Cont creat cu succes! Acum te poți loga.");
+    alert("Cont creat! Acum te poți loga.");
     comutaEcraneAutentificare('login');
 }
 
-function setRol(rol ales) {
+function setRol(ales) {
     rolLogat = ales;
-    document.getElementById('ecran-rol').classList.add('ascuns');
+    ecranRol.classList.add('ascuns');
     pornesteAplicatie();
 }
 
 function pornesteAplicatie() {
-    document.getElementById('ecran-login').classList.add('ascuns');
-    document.getElementById('ecran-rol').classList.add('ascuns');
-    document.getElementById('interfata-principala').classList.remove('ascuns');
+    ecranLogin.classList.add('ascuns');
+    ecranRol.classList.add('ascuns');
+    interfataPrincipala.classList.remove('ascuns');
 
-    // Afișăm badge-ul de utilizator sus în header
-    const badge = document.getElementById('user-profile-badge');
-    const headerUser = document.getElementById('header-username');
-    if(badge) badge.classList.remove('ascuns');
-    if(headerUser) headerUser.innerText = utilizatorLogat;
+    document.getElementById('user-profile-badge').classList.remove('ascuns');
+    document.getElementById('header-username').innerText = utilizatorLogat;
 
-    // Redirecționare în funcție de rol
     if (rolLogat === "profesor") {
-        if(gridPrincipal) gridPrincipal.classList.add('ascuns');
+        gridPrincipal.classList.add('ascuns');
         document.getElementById('dashboard-profesor').classList.remove('ascuns');
         afiseazaClaseProfesor();
     } else {
-        if(gridPrincipal) gridPrincipal.classList.remove('ascuns');
+        gridPrincipal.classList.remove('ascuns');
         document.getElementById('dashboard-profesor').classList.add('ascuns');
         afiseazaMeniuDiscipline();
     }
-    
-    salutaMascota(`Salutare, ${utilizatorLogat}! Pregătit de aventură? 🐾`);
 }
 
-// ==========================================
-// 3. INTERFAȚĂ DISCIPLINE ȘI CLASE VIRTUALE
-// ==========================================
+// ==========================================================================
+// 3. AFIȘARE ȘI GESTIONARE DISCIPLINE & CLASE
+// ==========================================================================
 function afiseazaMeniuDiscipline() {
     if (!gridPrincipal) return;
     gridPrincipal.innerHTML = "";
-    gridPrincipal.classList.remove('ascuns');
     
     for (const disciplina in dateProiect.materii) {
         const card = document.createElement("div");
@@ -175,7 +161,6 @@ function afiseazaMeniuDiscipline() {
     }
 
     if (rolLogat === "elev") {
-        // Butonul pentru alăturare clasă profesori
         const cardAlaturare = document.createElement("div");
         cardAlaturare.className = "card-disciplina-nou";
         cardAlaturare.style.borderColor = "var(--orange-primary)";
@@ -186,40 +171,32 @@ function afiseazaMeniuDiscipline() {
         `;
         cardAlaturare.onclick = () => document.getElementById('modal-alaturare-clasa').classList.remove('ascuns');
         gridPrincipal.appendChild(cardAlaturare);
-
-        // Buton vizualizare clasele mele din care fac parte
-        const cardClaseleMele = document.createElement("div");
-        cardClaseleMele.className = "card-disciplina-nou";
-        cardClaseleMele.style.borderColor = "#9b59b6";
-        cardClaseleMele.innerHTML = `
-            <div style="font-size: 45px; margin-bottom: 10px;">🎒</div>
-            <h3 style="margin: 10px 0 5px 0; font-size: 20px; color: #8e44ad;">Clasele Mele</h3>
-            <p style="color: #777; margin: 0; font-size: 14px;">Vezi temele primite</p>
-        `;
-        cardClaseleMele.onclick = () => deschideClaseleMeleElev();
-        gridPrincipal.appendChild(cardClaseleMele);
     }
 }
 
 function deschideDisciplina(disciplina) {
     if (gridPrincipal) gridPrincipal.classList.add('ascuns');
-    const btnAcasa = document.getElementById('btn-acasa-nou');
-    if(btnAcasa) btnAcasa.classList.remove('ascuns');
+    if (btnAcasaNou) btnAcasaNou.classList.remove('ascuns');
 
     if (disciplina === "Matematica") {
-        document.getElementById('sub-meniuri-matematica').classList.remove('ascuns');
+        subMeniuriMatematica.classList.remove('ascuns');
     } else if (disciplina === "Romana") {
-        document.getElementById('sub-meniuri-romana').classList.remove('ascuns');
+        subMeniuriRomana.classList.remove('ascuns');
     } else if (disciplina === "Stiinte") {
-        // Deschide jocul interactiv drag & drop direct
-        document.getElementById('exercitiu-vizual-container').classList.remove('ascuns');
-        initJocPlanta();
+        if(exercitiuVizualContainer) exercitiuVizualContainer.classList.remove('ascuns');
     }
 }
 
-// ==========================================
-// 4. FUNCȚIONALITĂȚI DEDICATE PROFESORILOR
-// ==========================================
+function toggleSubMath(idSub) {
+    const sub = document.getElementById(idSub);
+    if(sub) {
+        sub.style.display = (sub.style.display === 'flex') ? 'none' : 'flex';
+    }
+}
+
+// ==========================================================================
+// 4. FUNCȚIONALITĂȚI PRIVILEGII PROFESOR
+// ==========================================================================
 function afiseazaClaseProfesor() {
     const container = document.getElementById('grid-clase-profesor');
     if (!container) return;
@@ -229,7 +206,7 @@ function afiseazaClaseProfesor() {
     let clase = safeClase ? JSON.parse(safeClase).filter(c => c.profesor === utilizatorLogat) : [];
     
     if(clase.length === 0) {
-        container.innerHTML = "<p style='text-align: center; color: #777; width:100%;'>Nu ai nicio clasă creată încă.</p>";
+        container.innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: #777;'>Nu ai nicio clasă creată încă.</p>";
         return;
     }
     
@@ -260,7 +237,7 @@ function creeazaClasa() {
     document.getElementById('nume-clasa-noua').value = "";
     document.getElementById('modal-creare-clasa').classList.add('ascuns');
     afiseazaClaseProfesor();
-    alert(`Clasa a fost creată! Cod de acces: ${cod}`);
+    alert(`Clasa a fost creată! Cod: ${cod}`);
 }
 
 function deschideModalMaterial() {
@@ -269,7 +246,7 @@ function deschideModalMaterial() {
     select.innerHTML = "";
 
     let clase = JSON.parse(localStorage.getItem('eduquest_clase_virtuale')).filter(c => c.profesor === utilizatorLogat);
-    if(clase.length === 0) { alert("Creează mai întâi o clasă!"); return; }
+    if(clase.length === 0) { alert("Creează o clasă mai întâi!"); return; }
 
     clase.forEach(c => {
         let opt = document.createElement('option');
@@ -293,12 +270,12 @@ function posteazaMaterial() {
     document.getElementById('titlu-material').value = "";
     document.getElementById('descriere-material').value = "";
     document.getElementById('modal-postare-material').classList.add('ascuns');
-    alert("Materialul a fost postat cu succes!");
+    alert("Material postat!");
 }
 
-// ==========================================
-// 5. FUNCȚIONALITĂȚI CLASE PENTRU ELEVI
-// ==========================================
+// ==========================================================================
+// 5. ZONE ELEVI (VIZUALIZARE TEME & MATERIALE)
+// ==========================================================================
 function alaturaClasaElev() {
     const cod = document.getElementById('cod-clasa-alaturare').value.trim().toUpperCase();
     if(!cod) { alert("Introdu codul clasei!"); return; }
@@ -307,11 +284,10 @@ function alaturaClasaElev() {
     let clasaGasita = toateClasele.find(c => c.id === cod);
 
     if(!clasaGasita) {
-        alert("Codul introdus nu este valid!");
+        alert("Codul nu este valid!");
         return;
     }
 
-    // Salvăm înscrierile în siguranță pe contul elevului curent folosind un prefix unic
     let cheieInscrieri = `eduquest_inscrieri_${utilizatorLogat}`;
     let inscrierileMele = localStorage.getItem(cheieInscrieri) ? JSON.parse(localStorage.getItem(cheieInscrieri)) : [];
     
@@ -325,47 +301,44 @@ function alaturaClasaElev() {
     
     document.getElementById('cod-clasa-alaturare').value = "";
     document.getElementById('modal-alaturare-clasa').classList.add('ascuns');
-    alert(`Te-ai alăturat cu succes clasei: ${clasaGasita.nume}`);
+    alert(`Te-ai alăturat clasei: ${clasaGasita.nume}`);
     deschideClaseleMeleElev();
 }
 
 function deschideClaseleMeleElev() {
     if (gridPrincipal) gridPrincipal.innerHTML = "";
     if (gridPrincipal) gridPrincipal.classList.remove('ascuns');
-    ascundeToateSubmeniurile();
+    ascundeToateSectiunile();
 
     let cheieInscrieri = `eduquest_inscrieri_${utilizatorLogat}`;
     let safeInscrieri = localStorage.getItem(cheieInscrieri);
     let clase = safeInscrieri ? JSON.parse(safeInscrieri) : [];
     
     if(clase.length === 0) {
-        gridPrincipal.innerHTML = "<p style='text-align: center; width: 100%; color: #777; margin-top:20px;'>Nu te-ai alăturat niciunei clase încă. Folosește butonul 'Clasă Virtuală' și adaugă un cod.</p>";
-        const btnAcasa = document.getElementById('btn-acasa-nou');
-        if(btnAcasa) btnAcasa.classList.remove('ascuns');
+        gridPrincipal.innerHTML = "<p style='text-align: center; width: 100%; color: #777; margin-top:20px;'>Nu faci parte din nicio clasă încă.</p>";
+        if(btnAcasaNou) btnAcasaNou.classList.remove('ascuns');
         return;
     }
     
     clase.forEach(c => {
         const card = document.createElement('div');
         card.className = "card-disciplina-nou";
-        card.style.borderColor = "#9b59b6";
+        card.style.borderColor = "var(--orange-primary)";
         card.innerHTML = `
             <div style="font-size: 40px; margin-bottom: 10px;">🏫</div>
-            <h3 style="margin: 5px 0; color: #8e44ad;">${c.nume}</h3>
+            <h3 style="margin: 5px 0; color: var(--orange-dark);">${c.nume}</h3>
             <p style="font-size: 13px; color: #777; margin: 0;">Profesor: ${c.profesor}</p>
         `;
         card.onclick = () => deschideClasaElev(c.id, c.nume);
         gridPrincipal.appendChild(card);
     });
 
-    const btnAcasa = document.getElementById('btn-acasa-nou');
-    if(btnAcasa) btnAcasa.classList.remove('ascuns');
+    if(btnAcasaNou) btnAcasaNou.classList.remove('ascuns');
 }
 
 function deschideClasaElev(clasaId, numeClasa) {
     if (gridPrincipal) gridPrincipal.classList.add('ascuns');
     document.getElementById('vizualizare-clasa-elev').classList.remove('ascuns');
-    
     document.getElementById('titlu-clasa-activa').innerText = `Materiale: ${numeClasa}`;
     
     const lista = document.getElementById('lista-materiale-elev'); 
@@ -376,7 +349,7 @@ function deschideClasaElev(clasaId, numeClasa) {
     let materiale = safeMat ? JSON.parse(safeMat).filter(m => m.clasaId === clasaId) : [];
     
     if (materiale.length === 0) {
-        lista.innerHTML = "<p style='text-align: center; color: #777; margin: 20px 0;'>Profesorul nu a postat încă lecții sau teme aici.</p>"; 
+        lista.innerHTML = "<p style='text-align: center; color: #777; margin: 20px 0;'>Nu există materiale postate aici.</p>"; 
         return;
     }
     
@@ -391,14 +364,12 @@ function deschideClasaElev(clasaId, numeClasa) {
     });
 }
 
-// ==========================================
-// 6. CONTROL GLOBAL INTERFAȚĂ ȘI NAVIGARE
-// ==========================================
+// ==========================================================================
+// 6. NAVIGARE ȘI RESETĂRI INTERFAȚĂ
+// ==========================================================================
 function resetInterfata() {
-    ascundeToateSubmeniurile();
-    
-    const btnAcasa = document.getElementById('btn-acasa-nou');
-    if(btnAcasa) btnAcasa.classList.add('ascuns');
+    ascundeToateSectiunile();
+    if(btnAcasaNou) btnAcasaNou.classList.add('ascuns');
 
     if (rolLogat === "profesor") {
         if(gridPrincipal) gridPrincipal.classList.add('ascuns');
@@ -411,22 +382,14 @@ function resetInterfata() {
     }
 }
 
-function ascundeToateSubmeniurile() {
-    document.getElementById('sub-meniuri-matematica').classList.add('ascuns');
-    document.getElementById('sub-meniuri-romana').classList.add('ascuns');
+function ascundeToateSectiunile() {
+    if(subMeniuriMatematica) subMeniuriMatematica.classList.add('ascuns');
+    if(subMeniuriRomana) subMeniuriRomana.classList.add('ascuns');
     if(quizContainer) quizContainer.classList.add('ascuns');
-    if(containerPlanta) containerPlanta.classList.add('ascuns');
+    if(exercitiuVizualContainer) exercitiuVizualContainer.classList.add('ascuns');
     document.getElementById('vizualizare-clasa-elev').classList.add('ascuns');
 }
 
-function toggleSubMath(idSub) {
-    const sub = document.getElementById(idSub);
-    if(sub) {
-        sub.style.display = (sub.style.display === 'flex') ? 'none' : 'flex';
-    }
-}
-
-// Modale Cont / Profil
 function deschideModalCont() {
     document.getElementById('modal-username').innerText = utilizatorLogat;
     document.getElementById('modal-rol').innerText = (rolLogat === "profesor") ? "Profesor Coordonator 🎓" : "Elev Explorator 🚀";
@@ -434,18 +397,4 @@ function deschideModalCont() {
 }
 function inchideModalCont() {
     document.getElementById('modal-cont').classList.add('ascuns');
-}
-
-// Mascota Bula de dialog
-function salutaMascota(text) {
-    if(bulaText) {
-        bulaText.innerText = text;
-        bulaText.classList.remove('ascuns');
-        setTimeout(() => bulaText.classList.add('ascuns'), 5000);
-    }
-}
-
-// Joc Interactiv - Șablon Placeholder 
-function initJocPlanta() {
-    salutaMascota("Trage denumirile în cercurile corespunzătoare de pe plantă! 🌱");
 }
